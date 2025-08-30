@@ -7014,7 +7014,7 @@
                     break;
 
                 case "<>":
-                    cond = value != basevalue.value;
+                    cond = valuse != basevalue.value;
                     break;
             }
         }
