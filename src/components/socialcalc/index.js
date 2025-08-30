@@ -1,18 +1,9 @@
-// Import as a side-effect to load the global
-import "./aspiring/SocialCalc.js";
+// Import the modular SocialCalc core
+// This replaces the monolithic "./aspiring/SocialCalc.js" import
+import SocialCalcFromCore from "./core/index.js";
 
-// Access the global SocialCalc that was created by the UMD module
-let SocialCalc;
-
-// Ensure SocialCalc is loaded from the global scope
-if (typeof window !== "undefined" && window.SocialCalc) {
-  SocialCalc = window.SocialCalc;
-} else if (typeof global !== "undefined" && global.SocialCalc) {
-  SocialCalc = global.SocialCalc;
-} else {
-  console.error("SocialCalc not found in global scope");
-  SocialCalc = {}; // Fallback to prevent errors
-}
+// Use the imported SocialCalc
+const SocialCalc = SocialCalcFromCore;
 
 // Export SocialCalc reference if needed elsewhere
 export { SocialCalc };
