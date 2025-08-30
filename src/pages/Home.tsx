@@ -51,6 +51,7 @@ import PWAInstallPrompt from "../components/PWAInstallPrompt";
 import { usePWA } from "../hooks/usePWA";
 import { useTheme } from "../contexts/ThemeContext";
 import { useInvoice } from "../contexts/InvoiceContext";
+import { useToast } from "../hooks/useToast";
 import InvoiceForm from "../components/InvoiceForm";
 // import WalletConnection from "../components/wallet/WalletConnection";
 import {
@@ -66,14 +67,10 @@ const Home: React.FC = () => {
   const { selectedFile, billType, store, updateSelectedFile, updateBillType } =
     useInvoice();
   const { isInstallable, isInstalled, isOnline, installApp } = usePWA();
+  const { toastState, showToast: showToastMessage, hideToast, cleanup } = useToast();
 
   const [showMenu, setShowMenu] = useState(false);
   const [device] = useState(AppGeneral.getDeviceType());
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
-  const [toastColor, setToastColor] = useState<
-    "success" | "danger" | "warning"
-  >("success");
 
   const [showSaveAsDialog, setShowSaveAsDialog] = useState(false);
   const [saveAsFileName, setSaveAsFileName] = useState("");
@@ -152,13 +149,10 @@ const Home: React.FC = () => {
         }, 100);
       }
       setShowColorModal(false);
-      setToastColor("success");
-      setShowToast(true);
+      showToastMessage("Sheet color changed successfully!", "success");
     } catch (error) {
       console.error("Error changing sheet color:", error);
-      setToastMessage("Failed to change sheet color");
-      setToastColor("danger");
-      setShowToast(true);
+      showToastMessage("Failed to change sheet color", "danger");
     }
   };
 
@@ -171,11 +165,10 @@ const Home: React.FC = () => {
       handleColorChange(formattedColor);
       setCustomColorInput("");
     } else {
-      setToastMessage(
-        "Please enter a valid hex color (e.g., #FF0000 or FF0000)"
+      showToastMessage(
+        "Please enter a valid hex color (e.g., #FF0000 or FF0000)",
+        "warning"
       );
-      setToastColor("warning");
-      setShowToast(true);
     }
   };
 
@@ -201,20 +194,16 @@ const Home: React.FC = () => {
       const file = new File(now, now, content, fileName, billType);
       await store._saveFile(file);
 
-      setToastMessage(`File "${fileName}" saved locally!`);
-      setToastColor("success");
-      setShowToast(true);
+      showToastMessage(`File "${fileName}" saved locally!`, "success");
     } catch (error) {
       console.error("Error saving file:", error);
 
       // Check if the error is due to storage quota exceeded
       if (isQuotaExceededError(error)) {
-        setToastMessage(getQuotaExceededMessage("saving files"));
+        showToastMessage(getQuotaExceededMessage("saving files"), "danger");
       } else {
-        setToastMessage("Failed to save file locally.");
+        showToastMessage("Failed to save file locally.", "danger");
       }
-      setToastColor("danger");
-      setShowToast(true);
     }
   };
 
@@ -251,9 +240,7 @@ const Home: React.FC = () => {
 
         // Check if the error is due to storage quota exceeded
         if (isQuotaExceededError(error)) {
-          setToastMessage(getQuotaExceededMessage("initializing the app"));
-          setToastColor("danger");
-          setShowToast(true);
+          showToastMessage(getQuotaExceededMessage("initializing the app"), "danger");
         }
 
         // Fallback to template initialization
@@ -337,14 +324,10 @@ const Home: React.FC = () => {
 
       // Check if the error is due to storage quota exceeded
       if (isQuotaExceededError(error)) {
-        setToastMessage(getQuotaExceededMessage("auto-saving"));
-        setToastColor("danger");
-        setShowToast(true);
+        showToastMessage(getQuotaExceededMessage("auto-saving"), "danger");
       } else {
         // For other errors during auto-save, show a less intrusive message
-        setToastMessage("Auto-save failed. Please save manually.");
-        setToastColor("warning");
-        setShowToast(true);
+        showToastMessage("Auto-save failed. Please save manually.", "warning");
       }
     }
   };
@@ -411,6 +394,13 @@ const Home: React.FC = () => {
       }
     }
   }, [isDarkMode, activeFontColor]);
+
+  // Cleanup toast hook on unmount
+  useEffect(() => {
+    return () => {
+      cleanup();
+    };
+  }, [cleanup]);
 
   const footers = DATA["home"]["App"]["footers"];
   const footersList = footers.map((footerArray) => {
@@ -575,14 +565,24 @@ const Home: React.FC = () => {
         </div>
 
         {/* Toast for save notifications */}
-        <IonToast
-          isOpen={showToast}
-          onDidDismiss={() => setShowToast(false)}
-          message={toastMessage}
-          duration={3000}
-          color={toastColor}
-          position="top"
-        />
+        {toastState.isOpen && (
+          <IonToast
+            isOpen={toastState.isOpen}
+            onDidDismiss={hideToast}
+            message={toastState.message}
+            duration={3000}
+            color={toastState.color}
+            position="top"
+            translucent={false}
+            mode="ios"
+            buttons={[
+              {
+                text: 'Dismiss',
+                role: 'cancel',
+              }
+            ]}
+          />
+        )}
 
         {/* Save As Dialog */}
         <IonAlert
@@ -626,9 +626,7 @@ const Home: React.FC = () => {
                     await executeSaveAsWithFilename(data.filename.trim());
                   }, 100);
                 } else {
-                  setToastMessage("Please enter a valid filename");
-                  setToastColor("warning");
-                  setShowToast(true);
+                  showToastMessage("Please enter a valid filename", "warning");
                   return false; // Prevent dialog from closing
                 }
               },
