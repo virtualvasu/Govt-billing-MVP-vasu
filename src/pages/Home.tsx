@@ -226,7 +226,12 @@ const Home: React.FC = () => {
         if (defaultExists) {
           const defaultFile = await store._getFile("default");
           const decodedContent = decodeURIComponent(defaultFile.content);
+          
+          // Initialize the app first, then load the file content
+          const data = DATA["home"]["App"]["msc"];
+          AppGeneral.initializeApp(JSON.stringify(data));
           AppGeneral.viewFile("default", decodedContent);
+          
           updateBillType(defaultFile.billType);
           console.log("Loaded existing default file from local storage");
         } else {
