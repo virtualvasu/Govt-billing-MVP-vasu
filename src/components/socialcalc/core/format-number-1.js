@@ -1,15 +1,9 @@
 /* eslint-disable */
-/**
- * SocialCalc Number Formatting Module
- * Extracted from the main SocialCalc.js file
- */
+// SocialCalc Number Formatting Module
+// Extracted from the main SocialCalc.js file
 
-/**
- * Universal Module Definition (UMD) wrapper for SocialCalc Number Formatting
- * @param {Object} root - Global object (window, global, or self)
- * @param {Function} factory - Module factory function
- */
-((root, factory) => {
+// UMD wrapper
+(function (root, factory) {
     if (typeof define === "function" && define.amd) {
         define([], factory);
     } else if (typeof module === "object" && module.exports) {
@@ -17,13 +11,10 @@
     } else {
         root.SocialCalcFormatNumber = factory();
     }
-})(typeof self !== "undefined" ? self : this, () => {
+})(typeof self !== "undefined" ? self : this, function () {
 
-    /**
-     * Get or initialize SocialCalc namespace
-     * @type {Object}
-     */
-    let SocialCalc;
+    // Get SocialCalc namespace
+    var SocialCalc;
     if (typeof window !== "undefined" && window.SocialCalc) {
         SocialCalc = window.SocialCalc;
     } else if (typeof global !== "undefined" && global.SocialCalc) {
@@ -32,73 +23,56 @@
         SocialCalc = {};
     }
 
-    /**
-     * SocialCalc Number Formatting Library
-     * 
-     * Part of the SocialCalc package.
-     * 
-     * (c) Copyright 2008 Socialtext, Inc.
-     * All Rights Reserved.
-     * 
-     * The contents of this file are subject to the Artistic License 2.0; you may not
-     * use this file except in compliance with the License. You may obtain a copy of 
-     * the License at http://socialcalc.org/licenses/al-20/.
-     * 
-     * Some of the other files in the SocialCalc package are licensed under
-     * different licenses. Please note the licenses of the modules you use.
-     * 
-     * Code History:
-     * 
-     * Initially coded by Dan Bricklin of Software Garden, Inc., for Socialtext, Inc.
-     * Based in part on the SocialCalc 1.1.0 code written in Perl.
-     * The SocialCalc 1.1.0 code was:
-     *    Portions (c) Copyright 2005, 2006, 2007 Software Garden, Inc.
-     *    All Rights Reserved.
-     *    Portions (c) Copyright 2007 Socialtext, Inc.
-     *    All Rights Reserved.
-     * The Perl SocialCalc started as modifications to the wikiCalc(R) program, version 1.0.
-     * wikiCalc 1.0 was written by Software Garden, Inc.
-     * Unless otherwise specified, referring to "SocialCalc" in comments refers to this
-     * JavaScript version of the code, not the SocialCalc Perl code.
-     */
 
-    // Initialize SocialCalc namespace if not already present
-    if (!SocialCalc) SocialCalc = {};
+    //
+    /*
+  // SocialCalc Number Formatting Library
+  //
+  // Part of the SocialCalc package.
+  //
+  // (c) Copyright 2008 Socialtext, Inc.
+  // All Rights Reserved.
+  //
+  // The contents of this file are subject to the Artistic License 2.0; you may not
+  // use this file except in compliance with the License. You may obtain a copy of 
+  // the License at http://socialcalc.org/licenses/al-20/.
+  //
+  // Some of the other files in the SocialCalc package are licensed under
+  // different licenses. Please note the licenses of the modules you use.
+  //
+  // Code History:
+  //
+  // Initially coded by Dan Bricklin of Software Garden, Inc., for Socialtext, Inc.
+  // Based in part on the SocialCalc 1.1.0 code written in Perl.
+  // The SocialCalc 1.1.0 code was:
+  //    Portions (c) Copyright 2005, 2006, 2007 Software Garden, Inc.
+  //    All Rights Reserved.
+  //    Portions (c) Copyright 2007 Socialtext, Inc.
+  //    All Rights Reserved.
+  // The Perl SocialCalc started as modifications to the wikiCalc(R) program, version 1.0.
+  // wikiCalc 1.0 was written by Software Garden, Inc.
+  // Unless otherwise specified, referring to "SocialCalc" in comments refers to this
+  // JavaScript version of the code, not the SocialCalc Perl code.
+  //
+  */
 
-    /**
-     * Number formatting module for SocialCalc
-     * @namespace
-     */
+    var SocialCalc;
+    if (!SocialCalc) SocialCalc = {}; // May be used with other SocialCalc libraries or standalone
+
     SocialCalc.FormatNumber = {};
 
-    /**
-     * Storage for parsed format definitions
-     * @type {Object}
-     */
-    SocialCalc.FormatNumber.format_definitions = {};
+    SocialCalc.FormatNumber.format_definitions = {}; // Parsed formats are stored here globally
 
     // Most constants that are often customized for localization are in the SocialCalc.Constants module.
     // If you use this module standalone, provide at least the "FormatNumber" values.
+    //
 
     // The following values may be customized externally for further localization of the format definitions themselves,
     // but that would make them incompatible with other uses and is discouraged.
+    //
 
-    /**
-     * Character used for number separation (thousands separator)
-     * @type {string}
-     */
     SocialCalc.FormatNumber.separatorchar = ",";
-
-    /**
-     * Character used for decimal point
-     * @type {string}
-     */
     SocialCalc.FormatNumber.decimalchar = ".";
-
-    /**
-     * Full day names
-     * @type {string[]}
-     */
     SocialCalc.FormatNumber.daynames = [
         "Sunday",
         "Monday",
@@ -108,11 +82,6 @@
         "Friday",
         "Saturday",
     ];
-
-    /**
-     * Abbreviated day names (3 characters)
-     * @type {string[]}
-     */
     SocialCalc.FormatNumber.daynames3 = [
         "Sun",
         "Mon",
@@ -122,11 +91,6 @@
         "Fri",
         "Sat",
     ];
-
-    /**
-     * Abbreviated month names (3 characters)
-     * @type {string[]}
-     */
     SocialCalc.FormatNumber.monthnames3 = [
         "Jan",
         "Feb",
@@ -141,11 +105,6 @@
         "Nov",
         "Dec",
     ];
-
-    /**
-     * Full month names
-     * @type {string[]}
-     */
     SocialCalc.FormatNumber.monthnames = [
         "January",
         "February",
@@ -161,10 +120,6 @@
         "December",
     ];
 
-    /**
-     * Allowed color names and their hex values
-     * @type {Object<string, string>}
-     */
     SocialCalc.FormatNumber.allowedcolors = {
         BLACK: "#000000",
         BLUE: "#0000FF",
@@ -176,10 +131,6 @@
         YELLOW: "#FFFF00",
     };
 
-    /**
-     * Allowed date format specifiers
-     * @type {Object<string, string>}
-     */
     SocialCalc.FormatNumber.alloweddates = {
         H: "h]",
         M: "m]",
@@ -188,10 +139,8 @@
         SS: "ss]",
     };
 
-    /**
-     * Format command constants
-     * @type {Object<string, number>}
-     */
+    // Other constants
+
     SocialCalc.FormatNumber.commands = {
         copy: 1,
         color: 2,
@@ -207,48 +156,57 @@
         style: 12,
     };
 
-    /**
-     * Date calculation constants
-     * @type {Object<string, number>}
-     */
     SocialCalc.FormatNumber.datevalues = {
         julian_offset: 2415019,
         seconds_in_a_day: 24 * 60 * 60,
         seconds_in_an_hour: 60 * 60,
     };
 
-    /**
-     * Formats a number according to the specified format string
-     * @param {number} rawvalue - The raw numeric value to format
-     * @param {string} format_string - The format specification string
-     * @param {string} [currency_char] - Optional currency character to use
-     * @returns {string} The formatted number as a string
-     * @throws {string} Throws "Format not parsed error!" if format cannot be parsed
-     */
-    SocialCalc.FormatNumber.formatNumberWithFormat = (rawvalue, format_string, currency_char) => {
-        let scc = SocialCalc.Constants;
-        let scfn = SocialCalc.FormatNumber;
+    /* *******************
+  
+   result = SocialCalc.FormatNumber.formatNumberWithFormat = function(rawvalue, format_string, currency_char)
+  
+  ************************* */
 
-        let op, operandstr, fromend, cval, operandstrlc;
-        let startval, estartval;
-        let hrs, mins, secs, ehrs, emins, esecs, ampmstr, ymd;
-        let minOK, mpos;
-        let result = "";
-        let thisformat;
-        let section, gotcomparison, compop, compval, cpos, oppos;
-        let sectioninfo;
-        let i, decimalscale, scaledvalue, strvalue, strparts, integervalue, fractionvalue;
-        let integerdigits2, integerpos, fractionpos, textcolor, textstyle, separatorchar, decimalchar;
-        let value; // working copy to change sign, etc.
-        let mspos;
+    SocialCalc.FormatNumber.formatNumberWithFormat = function (
+        rawvalue,
+        format_string,
+        currency_char
+    ) {
+        var scc = SocialCalc.Constants;
+        var scfn = SocialCalc.FormatNumber;
 
+        var op, operandstr, fromend, cval, operandstrlc;
+        var startval, estartval;
+        var hrs, mins, secs, ehrs, emins, esecs, ampmstr, ymd;
+        var minOK, mpos;
+        var result = "";
+        var thisformat;
+        var section, gotcomparison, compop, compval, cpos, oppos;
+        var sectioninfo;
+        var i,
+            decimalscale,
+            scaledvalue,
+            strvalue,
+            strparts,
+            integervalue,
+            fractionvalue;
+        var integerdigits2,
+            integerpos,
+            fractionpos,
+            textcolor,
+            textstyle,
+            separatorchar,
+            decimalchar;
+        var value; // working copy to change sign, etc.
+        var mspos;
         rawvalue = rawvalue - 0; // make sure a number
         value = rawvalue;
         if (!isFinite(value)) return "NaN";
 
-        let negativevalue = value < 0 ? 1 : 0; // determine sign, etc.
+        var negativevalue = value < 0 ? 1 : 0; // determine sign, etc.
         if (negativevalue) value = -value;
-        let zerovalue = value === 0 ? 1 : 0;
+        var zerovalue = value == 0 ? 1 : 0;
 
         currency_char = currency_char || scc.FormatNumber_DefaultCurrency;
 
@@ -276,9 +234,9 @@
                         thisformat = scfn.format_definitions[format_string];
                         section = 0;
                     }
-                    break; // if no comparison, matches on this section
+                    break; // if no comparision, matches on this section
                 }
-                if (op === scfn.commands.section) {
+                if (op == scfn.commands.section) {
                     // end of section
                     if (!gotcomparison) {
                         // no comparison, so it's a match
@@ -288,18 +246,18 @@
                     section++; // check out next one
                     continue;
                 }
-                if (op === scfn.commands.comparison) {
+                if (op == scfn.commands.comparison) {
                     // found a comparison - do we meet it?
                     i = operandstr.indexOf(":");
                     compop = operandstr.substring(0, i);
                     compval = operandstr.substring(i + 1) - 0;
                     if (
-                        (compop === "<" && rawvalue < compval) ||
-                        (compop === "<=" && rawvalue <= compval) ||
-                        (compop === "=" && rawvalue === compval) ||
-                        (compop === "<>" && rawvalue !== compval) ||
-                        (compop === ">=" && rawvalue >= compval) ||
-                        (compop === ">" && rawvalue > compval)
+                        (compop == "<" && rawvalue < compval) ||
+                        (compop == "<=" && rawvalue <= compval) ||
+                        (compop == "=" && rawvalue == compval) ||
+                        (compop == "<>" && rawvalue != compval) ||
+                        (compop == ">=" && rawvalue >= compval) ||
+                        (compop == ">" && rawvalue > compval)
                     ) {
                         // a match
                         break;
@@ -309,7 +267,7 @@
             }
         } else if (section > 0) {
             // more than one section (separated by ";")
-            if (section === 1) {
+            if (section == 1) {
                 // two sections
                 if (negativevalue) {
                     negativevalue = 0; // sign will provided by section, not automatically
@@ -317,7 +275,7 @@
                 } else {
                     section = 0; // use first for all others
                 }
-            } else if (section === 2) {
+            } else if (section == 2) {
                 // three sections
                 if (negativevalue) {
                     negativevalue = 0; // sign will provided by section, not automatically
@@ -352,13 +310,16 @@
         scaledvalue = Math.floor(value * decimalscale + 0.5);
         scaledvalue = scaledvalue / decimalscale;
 
-        if (typeof scaledvalue !== "number") return "NaN";
+        if (typeof scaledvalue != "number") return "NaN";
         if (!isFinite(scaledvalue)) return "NaN";
 
-        strvalue = `${scaledvalue}`; // convert to string (Number.toFixed doesn't do all we need)
+        strvalue = scaledvalue + ""; // convert to string (Number.toFixed doesn't do all we need)
+
+        //   strvalue = value.toFixed(sectioninfo.fractiondigits); // cut down to required number of decimal digits
+        // and convert to string
 
         if (
-            scaledvalue === 0 &&
+            scaledvalue == 0 &&
             (sectioninfo.fractiondigits || sectioninfo.integerdigits)
         ) {
             negativevalue = 0; // no "-0" unless using multiple sections or General
@@ -366,14 +327,13 @@
 
         if (strvalue.indexOf("e") >= 0) {
             // converted to scientific notation
-            return `${rawvalue}`; // Just return plain converted raw value
+            return rawvalue + ""; // Just return plain converted raw value
         }
 
         strparts = strvalue.match(/^\+{0,1}(\d*)(?:\.(\d*)){0,1}$/); // get integer and fraction parts
         if (!strparts) return "NaN"; // if not a number
-
         integervalue = strparts[1];
-        if (!integervalue || integervalue === "0") integervalue = "";
+        if (!integervalue || integervalue == "0") integervalue = "";
         fractionvalue = strparts[2];
         if (!fractionvalue) fractionvalue = "";
 
@@ -392,7 +352,6 @@
             mins = Math.floor(startval / 60);
             emins = Math.floor(estartval / 60);
             secs = startval - mins * 60;
-
             decimalscale = 1; // round appropriately depending if there is ss.0
             for (i = 0; i < sectioninfo.fractiondigits; i++) {
                 decimalscale *= 10;
@@ -401,7 +360,6 @@
             secs = secs / decimalscale;
             esecs = Math.floor(estartval * decimalscale + 0.5);
             esecs = esecs / decimalscale;
-
             if (secs >= 60) {
                 // handle round up into next second, minute, etc.
                 secs = 0;
@@ -417,7 +375,7 @@
                     }
                 }
             }
-            fractionvalue = `${secs - Math.floor(secs)}`; // for "hh:mm:ss.000"
+            fractionvalue = secs - Math.floor(secs) + ""; // for "hh:mm:ss.000"
             fractionvalue = fractionvalue.substring(2); // skip "0."
 
             ymd = SocialCalc.FormatNumber.convert_date_julian_to_gregorian(
@@ -425,66 +383,64 @@
             );
 
             minOK = 0; // says "m" can be minutes if true
-            mspos = sectioninfo.sectionstart; // m scan position in ops
-
+            var mspos = sectioninfo.sectionstart; // m scan position in ops
             for (; ; mspos++) {
                 // scan for "m" and "mm" to see if any minutes fields, and am/pm
                 op = thisformat.operators[mspos];
                 operandstr = thisformat.operands[mspos]; // get next operator and operand
                 if (!op) break; // don't go past end
-                if (op === scfn.commands.section) break;
-                if (op === scfn.commands.date) {
+                if (op == scfn.commands.section) break;
+                if (op == scfn.commands.date) {
                     if (
-                        (operandstr.toLowerCase() === "am/pm" ||
-                            operandstr.toLowerCase() === "a/p") &&
+                        (operandstr.toLowerCase() == "am/pm" ||
+                            operandstr.toLowerCase() == "a/p") &&
                         !ampmstr
                     ) {
                         if (hrs >= 12) {
                             hrs -= 12;
                             ampmstr =
-                                operandstr.toLowerCase() === "a/p"
+                                operandstr.toLowerCase() == "a/p"
                                     ? scc.s_FormatNumber_pm1
                                     : scc.s_FormatNumber_pm; // "P" : "PM";
                         } else {
                             ampmstr =
-                                operandstr.toLowerCase() === "a/p"
+                                operandstr.toLowerCase() == "a/p"
                                     ? scc.s_FormatNumber_am1
                                     : scc.s_FormatNumber_am; // "A" : "AM";
                         }
                         if (operandstr.indexOf(ampmstr) < 0)
                             ampmstr = ampmstr.toLowerCase(); // have case match case in format
                     }
-                    if (minOK && (operandstr === "m" || operandstr === "mm")) {
+                    if (minOK && (operandstr == "m" || operandstr == "mm")) {
                         thisformat.operands[mspos] += "in"; // turn into "min" or "mmin"
                     }
-                    if (operandstr.charAt(0) === "h") {
+                    if (operandstr.charAt(0) == "h") {
                         minOK = 1; // m following h or hh or [h] is minutes not months
                     } else {
                         minOK = 0;
                     }
-                } else if (op !== scfn.commands.copy) {
+                } else if (op != scfn.commands.copy) {
                     // copying chars can be between h and m
                     minOK = 0;
                 }
             }
-
             minOK = 0;
             for (--mspos; ; mspos--) {
                 // scan other way for s after m
                 op = thisformat.operators[mspos];
                 operandstr = thisformat.operands[mspos]; // get next operator and operand
                 if (!op) break; // don't go past end
-                if (op === scfn.commands.section) break;
-                if (op === scfn.commands.date) {
-                    if (minOK && (operandstr === "m" || operandstr === "mm")) {
+                if (op == scfn.commands.section) break;
+                if (op == scfn.commands.date) {
+                    if (minOK && (operandstr == "m" || operandstr == "mm")) {
                         thisformat.operands[mspos] += "in"; // turn into "min" or "mmin"
                     }
-                    if (operandstr === "ss") {
+                    if (operandstr == "ss") {
                         minOK = 1; // m before ss is minutes not months
                     } else {
                         minOK = 0;
                     }
-                } else if (op !== scfn.commands.copy) {
+                } else if (op != scfn.commands.copy) {
                     // copying chars can be between ss and m
                     minOK = 0;
                 }
@@ -509,23 +465,23 @@
             // execute format
             operandstr = thisformat.operands[oppos++]; // get next operator and operand
 
-            if (op === scfn.commands.copy) {
+            if (op == scfn.commands.copy) {
                 // put char in result
                 result += operandstr;
-            } else if (op === scfn.commands.color) {
+            } else if (op == scfn.commands.color) {
                 // set color
                 textcolor = operandstr;
-            } else if (op === scfn.commands.style) {
+            } else if (op == scfn.commands.style) {
                 // set style
                 textstyle = operandstr;
-            } else if (op === scfn.commands.integer_placeholder) {
+            } else if (op == scfn.commands.integer_placeholder) {
                 // insert number part
                 if (negativevalue) {
                     result += "-";
                     negativevalue = 0;
                 }
                 integerdigits2++;
-                if (integerdigits2 === 1) {
+                if (integerdigits2 == 1) {
                     // first one
                     if (integervalue.length > sectioninfo.integerdigits) {
                         // see if integer wider than field
@@ -538,7 +494,7 @@
                             if (sectioninfo.thousandssep) {
                                 // see if this is a separator position
                                 fromend = integervalue.length - integerpos - 1;
-                                if (fromend > 2 && fromend % 3 === 0) {
+                                if (fromend > 2 && fromend % 3 == 0) {
                                     result += separatorchar;
                                 }
                             }
@@ -550,13 +506,13 @@
                     integerdigits2 <= sectioninfo.integerdigits - integervalue.length
                 ) {
                     // field is wider than value
-                    if (operandstr === "0" || operandstr === "?") {
+                    if (operandstr == "0" || operandstr == "?") {
                         // fill with appropriate characters
-                        result += operandstr === "0" ? "0" : "&nbsp;";
+                        result += operandstr == "0" ? "0" : "&nbsp;";
                         if (sectioninfo.thousandssep) {
                             // see if this is a separator position
                             fromend = sectioninfo.integerdigits - integerdigits2;
-                            if (fromend > 2 && fromend % 3 === 0) {
+                            if (fromend > 2 && fromend % 3 == 0) {
                                 result += separatorchar;
                             }
                         }
@@ -567,52 +523,52 @@
                     if (sectioninfo.thousandssep) {
                         // see if this is a separator position
                         fromend = integervalue.length - integerpos - 1;
-                        if (fromend > 2 && fromend % 3 === 0) {
+                        if (fromend > 2 && fromend % 3 == 0) {
                             result += separatorchar;
                         }
                     }
                     integerpos++;
                 }
-            } else if (op === scfn.commands.fraction_placeholder) {
+            } else if (op == scfn.commands.fraction_placeholder) {
                 // add fraction part of number
                 if (fractionpos >= fractionvalue.length) {
-                    if (operandstr === "0" || operandstr === "?") {
-                        result += operandstr === "0" ? "0" : "&nbsp;";
+                    if (operandstr == "0" || operandstr == "?") {
+                        result += operandstr == "0" ? "0" : "&nbsp;";
                     }
                 } else {
                     result += fractionvalue.charAt(fractionpos);
                 }
                 fractionpos++;
-            } else if (op === scfn.commands.decimal) {
+            } else if (op == scfn.commands.decimal) {
                 // decimal point
                 if (negativevalue) {
                     result += "-";
                     negativevalue = 0;
                 }
                 result += decimalchar;
-            } else if (op === scfn.commands.currency) {
+            } else if (op == scfn.commands.currency) {
                 // currency symbol
                 if (negativevalue) {
                     result += "-";
                     negativevalue = 0;
                 }
                 result += operandstr;
-            } else if (op === scfn.commands.general) {
+            } else if (op == scfn.commands.general) {
                 // insert "General" conversion
 
                 // *** Cut down number of significant digits to avoid floating point artifacts:
 
-                if (value !== 0) {
+                if (value != 0) {
                     // only if non-zero
-                    let factor = Math.floor(Math.LOG10E * Math.log(value)); // get integer magnitude as a power of 10
-                    let scalingFactor = Math.pow(10, 13 - factor); // turn into scaling factor
-                    value = Math.floor(scalingFactor * value + 0.5) / scalingFactor; // scale positive value, round, undo scaling
+                    var factor = Math.floor(Math.LOG10E * Math.log(value)); // get integer magnitude as a power of 10
+                    factor = Math.pow(10, 13 - factor); // turn into scaling factor
+                    value = Math.floor(factor * value + 0.5) / factor; // scale positive value, round, undo scaling
                     if (!isFinite(value)) return "NaN";
                 }
                 if (negativevalue) {
                     result += "-";
                 }
-                strvalue = `${value}`; // convert original value to string
+                strvalue = value + ""; // convert original value to string
                 if (strvalue.indexOf("e") >= 0) {
                     // converted to scientific notation
                     result += strvalue;
@@ -620,7 +576,7 @@
                 }
                 strparts = strvalue.match(/^\+{0,1}(\d*)(?:\.(\d*)){0,1}$/); // get integer and fraction parts
                 integervalue = strparts[1];
-                if (!integervalue || integervalue === "0") integervalue = "";
+                if (!integervalue || integervalue == "0") integervalue = "";
                 fractionvalue = strparts[2];
                 if (!fractionvalue) fractionvalue = "";
                 integerpos = 0;
@@ -631,7 +587,7 @@
                         if (sectioninfo.thousandssep) {
                             // see if this is a separator position
                             fromend = integervalue.length - integerpos - 1;
-                            if (fromend > 2 && fromend % 3 === 0) {
+                            if (fromend > 2 && fromend % 3 == 0) {
                                 result += separatorchar;
                             }
                         }
@@ -645,77 +601,77 @@
                         result += fractionvalue.charAt(fractionpos);
                     }
                 }
-            } else if (op === scfn.commands.date) {
+            } else if (op == scfn.commands.date) {
                 // date placeholder
                 operandstrlc = operandstr.toLowerCase();
-                if (operandstrlc === "y" || operandstrlc === "yy") {
-                    result += `${ymd.year}`.substring(2);
-                } else if (operandstrlc === "yyyy") {
-                    result += `${ymd.year}`;
-                } else if (operandstrlc === "d") {
-                    result += `${ymd.day}`;
-                } else if (operandstrlc === "dd") {
+                if (operandstrlc == "y" || operandstrlc == "yy") {
+                    result += (ymd.year + "").substring(2);
+                } else if (operandstrlc == "yyyy") {
+                    result += ymd.year + "";
+                } else if (operandstrlc == "d") {
+                    result += ymd.day + "";
+                } else if (operandstrlc == "dd") {
                     cval = 1000 + ymd.day;
-                    result += `${cval}`.substr(2);
-                } else if (operandstrlc === "ddd") {
+                    result += (cval + "").substr(2);
+                } else if (operandstrlc == "ddd") {
                     cval = Math.floor(rawvalue + 6) % 7;
                     result += scc.s_FormatNumber_daynames3[cval];
-                } else if (operandstrlc === "dddd") {
+                } else if (operandstrlc == "dddd") {
                     cval = Math.floor(rawvalue + 6) % 7;
                     result += scc.s_FormatNumber_daynames[cval];
-                } else if (operandstrlc === "m") {
-                    result += `${ymd.month}`;
-                } else if (operandstrlc === "mm") {
+                } else if (operandstrlc == "m") {
+                    result += ymd.month + "";
+                } else if (operandstrlc == "mm") {
                     cval = 1000 + ymd.month;
-                    result += `${cval}`.substr(2);
-                } else if (operandstrlc === "mmm") {
+                    result += (cval + "").substr(2);
+                } else if (operandstrlc == "mmm") {
                     result += scc.s_FormatNumber_monthnames3[ymd.month - 1];
-                } else if (operandstrlc === "mmmm") {
+                } else if (operandstrlc == "mmmm") {
                     result += scc.s_FormatNumber_monthnames[ymd.month - 1];
-                } else if (operandstrlc === "mmmmm") {
+                } else if (operandstrlc == "mmmmm") {
                     result += scc.s_FormatNumber_monthnames[ymd.month - 1].charAt(0);
-                } else if (operandstrlc === "h") {
-                    result += `${hrs}`;
-                } else if (operandstrlc === "h]") {
-                    result += `${ehrs}`;
-                } else if (operandstrlc === "mmin") {
-                    cval = `${1000 + mins}`;
+                } else if (operandstrlc == "h") {
+                    result += hrs + "";
+                } else if (operandstrlc == "h]") {
+                    result += ehrs + "";
+                } else if (operandstrlc == "mmin") {
+                    cval = 1000 + mins + "";
                     result += cval.substr(2);
-                } else if (operandstrlc === "mm]") {
+                } else if (operandstrlc == "mm]") {
                     if (emins < 100) {
-                        cval = `${1000 + emins}`;
+                        cval = 1000 + emins + "";
                         result += cval.substr(2);
                     } else {
-                        result += `${emins}`;
+                        result += emins + "";
                     }
-                } else if (operandstrlc === "min") {
-                    result += `${mins}`;
-                } else if (operandstrlc === "m]") {
-                    result += `${emins}`;
-                } else if (operandstrlc === "hh") {
-                    cval = `${1000 + hrs}`;
+                } else if (operandstrlc == "min") {
+                    result += mins + "";
+                } else if (operandstrlc == "m]") {
+                    result += emins + "";
+                } else if (operandstrlc == "hh") {
+                    cval = 1000 + hrs + "";
                     result += cval.substr(2);
-                } else if (operandstrlc === "s") {
+                } else if (operandstrlc == "s") {
                     cval = Math.floor(secs);
-                    result += `${cval}`;
-                } else if (operandstrlc === "ss") {
-                    cval = `${1000 + Math.floor(secs)}`;
+                    result += cval + "";
+                } else if (operandstrlc == "ss") {
+                    cval = 1000 + Math.floor(secs) + "";
                     result += cval.substr(2);
-                } else if (operandstrlc === "am/pm" || operandstrlc === "a/p") {
+                } else if (operandstrlc == "am/pm" || operandstrlc == "a/p") {
                     result += ampmstr;
-                } else if (operandstrlc === "ss]") {
+                } else if (operandstrlc == "ss]") {
                     if (esecs < 100) {
-                        cval = `${1000 + Math.floor(esecs)}`;
+                        cval = 1000 + Math.floor(esecs) + "";
                         result += cval.substr(2);
                     } else {
                         cval = Math.floor(esecs);
-                        result += `${cval}`;
+                        result += cval + "";
                     }
                 }
-            } else if (op === scfn.commands.section) {
+            } else if (op == scfn.commands.section) {
                 // end of section
                 break;
-            } else if (op === scfn.commands.comparison) {
+            } else if (op == scfn.commands.comparison) {
                 // ignore
                 continue;
             } else {
@@ -724,54 +680,57 @@
         }
 
         if (textcolor) {
-            result = `<span style="color:${textcolor};">${result}</span>`;
+            result = '<span style="color:' + textcolor + ';">' + result + "</span>";
         }
         if (textstyle) {
-            result = `<span style="${textstyle};">${result}</span>`;
+            result = '<span style="' + textstyle + ';">' + result + "</span>";
         }
 
         return result;
     };
-    /**
-     * Parses a format string and fills in format definitions with the parsed information
-     * 
-     * Takes a format string (e.g., "#,##0.00_);(#,##0.00)") and fills in format_defs with the parsed info
-     * 
-     * format_defs structure:
-     * ["#,##0.0"]->{} - elements in the hash are one hash for each format
-     *    .operators->[] - array of operators from parsing the format string (each a number)
-     *    .operands->[] - array of corresponding operators (each usually a string)
-     *    .sectioninfo->[] - one hash for each section of the format
-     *       .start
-     *       .integerdigits
-     *       .fractiondigits
-     *       .commas
-     *       .percent
-     *       .thousandssep
-     *       .hasdates
-     *    .hascomparison - true if any section has [<100], etc.
-     * 
-     * @param {Object} format_defs - Object to store parsed format definitions
-     * @param {string} format_string - The format string to parse (e.g., "#,##0.00_);(#,##0.00)")
-     * @returns {void} - Modifies format_defs object in place
-     */
-    SocialCalc.FormatNumber.parse_format_string = (format_defs, format_string) => {
-        let scfn = SocialCalc.FormatNumber;
 
-        let thisformat, section, sectionfinfo;
-        let integerpart = 1; // start out in integer part
-        let lastwasinteger; // last char was an integer placeholder
-        let lastwasslash; // last char was a backslash - escaping following character
-        let lastwasasterisk; // repeat next char
-        let lastwasunderscore; // last char was _ which picks up following char for width
-        let inquote, quotestr; // processing a quoted string
-        let inbracket, bracketstr, bracketdata; // processing a bracketed string
-        let ingeneral, gpos; // checks for characters "General"
-        let ampmstr, part; // checks for characters "A/P" and "AM/PM"
-        let indate; // keeps track of date/time placeholders
-        let chpos; // character position being looked at
-        let ch; // character being looked at
-        let sectioninfo;
+    /* *******************
+  
+   SocialCalc.FormatNumber.parse_format_string(format_defs, format_string)
+  
+   Takes a format string (e.g., "#,##0.00_);(#,##0.00)") and fills in format_defs with the parsed info
+  
+   format_defs
+      ["#,##0.0"]->{} - elements in the hash are one hash for each format
+         .operators->[] - array of operators from parsing the format string (each a number)
+         .operands->[] - array of corresponding operators (each usually a string)
+         .sectioninfo->[] - one hash for each section of the format
+            .start
+            .integerdigits
+            .fractiondigits
+            .commas
+            .percent
+            .thousandssep
+            .hasdates
+         .hascomparison - true if any section has [<100], etc.
+  
+  ************************* */
+
+    SocialCalc.FormatNumber.parse_format_string = function (
+        format_defs,
+        format_string
+    ) {
+        var scfn = SocialCalc.FormatNumber;
+
+        var thisformat, section, sectionfinfo;
+        var integerpart = 1; // start out in integer part
+        var lastwasinteger; // last char was an integer placeholder
+        var lastwasslash; // last char was a backslash - escaping following character
+        var lastwasasterisk; // repeat next char
+        var lastwasunderscore; // last char was _ which picks up following char for width
+        var inquote, quotestr; // processing a quoted string
+        var inbracket, bracketstr, bracketdata; // processing a bracketed string
+        var ingeneral, gpos; // checks for characters "General"
+        var ampmstr, part; // checks for characters "A/P" and "AM/PM"
+        var indate; // keeps track of date/time placeholders
+        var chpos; // character position being looked at
+        var ch; // character being looked at
+        var sectioninfo;
 
         if (format_defs[format_string]) return; // already defined - nothing to do
 
@@ -789,9 +748,8 @@
         for (chpos = 0; chpos < format_string.length; chpos++) {
             // parse
             ch = format_string.charAt(chpos); // get next char to examine
-
             if (inquote) {
-                if (ch === '"') {
+                if (ch == '"') {
                     inquote = 0;
                     thisformat.operators.push(scfn.commands.copy);
                     thisformat.operands.push(quotestr);
@@ -800,20 +758,19 @@
                 quotestr += ch;
                 continue;
             }
-
             if (inbracket) {
-                if (ch === "]") {
+                if (ch == "]") {
                     inbracket = 0;
-                    bracketdata = SocialCalc.FormatNumber.parse_format_bracket(bracketstr);
-
-                    if (bracketdata.operator === scfn.commands.separator) {
+                    bracketdata =
+                        SocialCalc.FormatNumber.parse_format_bracket(bracketstr);
+                    if (bracketdata.operator == scfn.commands.separator) {
                         sectioninfo.thousandssep = 1; // explicit [,]
                         continue;
                     }
-                    if (bracketdata.operator === scfn.commands.date) {
+                    if (bracketdata.operator == scfn.commands.date) {
                         sectioninfo.hasdate = 1;
                     }
-                    if (bracketdata.operator === scfn.commands.comparison) {
+                    if (bracketdata.operator == scfn.commands.comparison) {
                         thisformat.hascomparison = 1;
                     }
                     thisformat.operators.push(bracketdata.operator);
@@ -823,32 +780,28 @@
                 bracketstr += ch;
                 continue;
             }
-
             if (lastwasslash) {
                 thisformat.operators.push(scfn.commands.copy);
                 thisformat.operands.push(ch);
                 lastwasslash = false;
                 continue;
             }
-
             if (lastwasasterisk) {
                 thisformat.operators.push(scfn.commands.copy);
                 thisformat.operands.push(ch + ch + ch + ch + ch); // do 5 of them since no real tabs
                 lastwasasterisk = false;
                 continue;
             }
-
             if (lastwasunderscore) {
                 thisformat.operators.push(scfn.commands.copy);
                 thisformat.operands.push("&nbsp;");
                 lastwasunderscore = false;
                 continue;
             }
-
             if (ingeneral) {
-                if ("general".charAt(ingeneral) === ch.toLowerCase()) {
+                if ("general".charAt(ingeneral) == ch.toLowerCase()) {
                     ingeneral++;
-                    if (ingeneral === 7) {
+                    if (ingeneral == 7) {
                         thisformat.operators.push(scfn.commands.general);
                         thisformat.operands.push(ch);
                         ingeneral = 0;
@@ -857,10 +810,9 @@
                 }
                 ingeneral = 0;
             }
-
             if (indate) {
                 // last char was part of a date placeholder
-                if (indate.charAt(0) === ch) {
+                if (indate.charAt(0) == ch) {
                     // another of the same char
                     indate += ch; // accumulate it
                     continue;
@@ -870,24 +822,22 @@
                 sectioninfo.hasdate = 1;
                 indate = "";
             }
-
             if (ampmstr) {
                 ampmstr += ch;
                 part = ampmstr.toLowerCase();
                 if (
-                    part !== "am/pm".substring(0, part.length) &&
-                    part !== "a/p".substring(0, part.length)
+                    part != "am/pm".substring(0, part.length) &&
+                    part != "a/p".substring(0, part.length)
                 ) {
-                    ampmstr = "";
-                } else if (part === "am/pm" || part === "a/p") {
+                    ampstr = "";
+                } else if (part == "am/pm" || part == "a/p") {
                     thisformat.operators.push(scfn.commands.date);
                     thisformat.operands.push(ampmstr);
                     ampmstr = "";
                 }
                 continue;
             }
-
-            if (ch === "#" || ch === "0" || ch === "?") {
+            if (ch == "#" || ch == "0" || ch == "?") {
                 // placeholder
                 if (integerpart) {
                     sectioninfo.integerdigits++;
@@ -904,47 +854,47 @@
                     thisformat.operators.push(scfn.commands.fraction_placeholder);
                     thisformat.operands.push(ch);
                 }
-            } else if (ch === ".") {
+            } else if (ch == ".") {
                 // decimal point
                 lastwasinteger = 0;
                 thisformat.operators.push(scfn.commands.decimal);
                 thisformat.operands.push(ch);
                 integerpart = 0;
-            } else if (ch === "$") {
+            } else if (ch == "$") {
                 // currency char
                 lastwasinteger = 0;
                 thisformat.operators.push(scfn.commands.currency);
                 thisformat.operands.push(ch);
-            } else if (ch === ",") {
+            } else if (ch == ",") {
                 if (lastwasinteger) {
                     sectioninfo.commas++;
                 } else {
                     thisformat.operators.push(scfn.commands.copy);
                     thisformat.operands.push(ch);
                 }
-            } else if (ch === "%") {
+            } else if (ch == "%") {
                 lastwasinteger = 0;
                 sectioninfo.percent++;
                 thisformat.operators.push(scfn.commands.copy);
                 thisformat.operands.push(ch);
-            } else if (ch === '"') {
+            } else if (ch == '"') {
                 lastwasinteger = 0;
                 inquote = 1;
                 quotestr = "";
-            } else if (ch === "[") {
+            } else if (ch == "[") {
                 lastwasinteger = 0;
                 inbracket = 1;
                 bracketstr = "";
-            } else if (ch === "\\") {
+            } else if (ch == "\\") {
                 lastwasslash = 1;
                 lastwasinteger = 0;
-            } else if (ch === "*") {
+            } else if (ch == "*") {
                 lastwasasterisk = 1;
                 lastwasinteger = 0;
-            } else if (ch === "_") {
+            } else if (ch == "_") {
                 lastwasunderscore = 1;
                 lastwasinteger = 0;
-            } else if (ch === ";") {
+            } else if (ch == ";") {
                 section++; // start next section
                 thisformat.sectioninfo[section] = {}; // create a new section
                 sectioninfo = thisformat.sectioninfo[section]; // get reference to info for current section
@@ -957,10 +907,10 @@
                 lastwasinteger = 0;
                 thisformat.operators.push(scfn.commands.section);
                 thisformat.operands.push(ch);
-            } else if (ch.toLowerCase() === "g") {
+            } else if (ch.toLowerCase() == "g") {
                 ingeneral = 1;
                 lastwasinteger = 0;
-            } else if (ch.toLowerCase() === "a") {
+            } else if (ch.toLowerCase() == "a") {
                 ampmstr = ch;
                 lastwasinteger = 0;
             } else if ("dmyhHs".indexOf(ch) >= 0) {
@@ -982,33 +932,37 @@
         return;
     };
 
-    /**
-     * Parses bracket contents and returns an operator and operand
-     * 
-     * Takes a bracket contents (e.g., "RED", ">10") and returns an operator and operand
-     * 
-     * @param {string} bracketstr - The contents of the bracket (without the brackets)
-     * @returns {Object} bracketdata - Object containing operator and operand
-     * @returns {number} bracketdata.operator - The command operator constant
-     * @returns {string} bracketdata.operand - The operand string for the command
-     */
-    SocialCalc.FormatNumber.parse_format_bracket = (bracketstr) => {
-        let scfn = SocialCalc.FormatNumber;
-        let scc = SocialCalc.Constants;
+    /* *******************
+  
+   bracketdata = SocialCalc.FormatNumber.parse_format_bracket(bracketstr)
+  
+   Takes a bracket contents (e.g., "RED", ">10") and returns an operator and operand
+  
+   bracketdata->{}
+      .operator
+      .operand
+  
+  ************************* */
 
-        let bracketdata = {};
-        let parts;
+    SocialCalc.FormatNumber.parse_format_bracket = function (bracketstr) {
+        var scfn = SocialCalc.FormatNumber;
+        var scc = SocialCalc.Constants;
 
-        if (bracketstr.charAt(0) === "$") {
+        var bracketdata = {};
+        var parts;
+
+        if (bracketstr.charAt(0) == "$") {
             // currency
             bracketdata.operator = scfn.commands.currency;
             parts = bracketstr.match(/^\$(.+?)(\-.+?){0,1}$/);
             if (parts) {
-                bracketdata.operand = parts[1] || scc.FormatNumber_defaultCurrency || "$";
+                bracketdata.operand =
+                    parts[1] || scc.FormatNumber_defaultCurrency || "$";
             } else {
-                bracketdata.operand = bracketstr.substring(1) || scc.FormatNumber_defaultCurrency || "$";
+                bracketdata.operand =
+                    bracketstr.substring(1) || scc.FormatNumber_defaultCurrency || "$";
             }
-        } else if (bracketstr === "?$") {
+        } else if (bracketstr == "?$") {
             bracketdata.operator = scfn.commands.currency;
             bracketdata.operand = "[?$]";
         } else if (scfn.allowedcolors[bracketstr.toUpperCase()]) {
@@ -1018,7 +972,7 @@
             // [style=...]
             bracketdata.operator = scfn.commands.style;
             bracketdata.operand = parts[1];
-        } else if (bracketstr === ",") {
+        } else if (bracketstr == ",") {
             bracketdata.operator = scfn.commands.separator;
             bracketdata.operand = bracketstr;
         } else if (scfn.alloweddates[bracketstr.toUpperCase()]) {
@@ -1028,36 +982,39 @@
             // comparison operator
             parts = bracketstr.match(/^([<>=]+)(.+)$/); // split operator and value
             bracketdata.operator = scfn.commands.comparison;
-            bracketdata.operand = `${parts[1]}:${parts[2]}`;
+            bracketdata.operand = parts[1] + ":" + parts[2];
         } else {
             // unknown bracket
             bracketdata.operator = scfn.commands.copy;
-            bracketdata.operand = `[${bracketstr}]`;
+            bracketdata.operand = "[" + bracketstr + "]";
         }
 
         return bracketdata;
     };
 
-    /**
- * Converts a Gregorian date to Julian date number
- * 
- * From: http://aa.usno.navy.mil/faq/docs/JD_Formula.html
- * Uses: Fliegel, H. F. and van Flandern, T. C. (1968). Communications of the ACM, Vol. 11, No. 10 (October, 1968).
- * Translated from the FORTRAN:
- *      I= YEAR
- *      J= MONTH
- *      K= DAY
- * C
- *      JD= K-32075+1461*(I+4800+(J-14)/12)/4+367*(J-2-(J-14)/12*12)
- *     2    /12-3*((I+4900+(J-14)/12)/100)/4
- * 
- * @param {number} year - The Gregorian year
- * @param {number} month - The Gregorian month (1-12)
- * @param {number} day - The Gregorian day of the month
- * @returns {number} The Julian date number
- */
-    SocialCalc.FormatNumber.convert_date_gregorian_to_julian = (year, month, day) => {
-        let juliandate;
+    /* *******************
+  
+   juliandate = SocialCalc.FormatNumber.convert_date_gregorian_to_julian(year, month, day)
+  
+   From: http://aa.usno.navy.mil/faq/docs/JD_Formula.html
+   Uses: Fliegel, H. F. and van Flandern, T. C. (1968). Communications of the ACM, Vol. 11, No. 10 (October, 1968).
+   Translated from the FORTRAN
+  
+        I= YEAR
+        J= MONTH
+        K= DAY
+  C
+        JD= K-32075+1461*(I+4800+(J-14)/12)/4+367*(J-2-(J-14)/12*12)
+       2    /12-3*((I+4900+(J-14)/12)/100)/4
+  
+  ************************* */
+
+    SocialCalc.FormatNumber.convert_date_gregorian_to_julian = function (
+        year,
+        month,
+        day
+    ) {
+        var juliandate;
 
         juliandate =
             day -
@@ -1081,21 +1038,25 @@
         return juliandate;
     };
 
-    /**
-     * Converts a Julian date number to Gregorian date
-     * 
-     * From: http://aa.usno.navy.mil/faq/docs/JD_Formula.html
-     * Uses: Fliegel, H. F. and van Flandern, T. C. (1968). Communications of the ACM, Vol. 11, No. 10 (October, 1968).
-     * Translated from the FORTRAN
-     * 
-     * @param {number} juliandate - The Julian date number
-     * @returns {Object} ymd - Object containing the Gregorian date components
-     * @returns {number} ymd.year - The Gregorian year
-     * @returns {number} ymd.month - The Gregorian month (1-12)
-     * @returns {number} ymd.day - The Gregorian day of the month
-     */
-    SocialCalc.FormatNumber.convert_date_julian_to_gregorian = (juliandate) => {
-        let L, N, I, J, K;
+    /* *******************
+  
+   ymd = SocialCalc.FormatNumber.convert_date_julian_to_gregorian(juliandate)
+  
+   ymd->{}
+      .year
+      .month
+      .day
+  
+   From: http://aa.usno.navy.mil/faq/docs/JD_Formula.html
+   Uses: Fliegel, H. F. and van Flandern, T. C. (1968). Communications of the ACM, Vol. 11, No. 10 (October, 1968).
+   Translated from the FORTRAN
+  
+  ************************* */
+
+    SocialCalc.FormatNumber.convert_date_julian_to_gregorian = function (
+        juliandate
+    ) {
+        var L, N, I, J, K;
 
         L = juliandate + 68569;
         N = Math.floor((4 * L) / 146097);
@@ -1111,14 +1072,7 @@
         return { year: I, month: J, day: K };
     };
 
-    /**
-     * Integer function that handles both positive and negative numbers correctly
-     * For negative numbers, returns the ceiling instead of floor to maintain proper integer behavior
-     * 
-     * @param {number} n - The number to convert to integer
-     * @returns {number} The integer part of the number
-     */
-    SocialCalc.intFunc = (n) => {
+    SocialCalc.intFunc = function (n) {
         if (n < 0) {
             return -Math.floor(-n);
         } else {
@@ -1126,52 +1080,48 @@
         }
     };
 
-    /**
-     * SocialCalc Spreadsheet Formula Library
-     * 
-     * Part of the SocialCalc package
-     * 
-     * (c) Copyright 2008 Socialtext, Inc.
-     * All Rights Reserved.
-     * 
-     * The contents of this file are subject to the Artistic License 2.0; you may not
-     * use this file except in compliance with the License. You may obtain a copy of 
-     * the License at http://socialcalc.org/licenses/al-20/.
-     * 
-     * Some of the other files in the SocialCalc package are licensed under
-     * different licenses. Please note the licenses of the modules you use.
-     * 
-     * Code History:
-     * 
-     * Initially coded by Dan Bricklin of Software Garden, Inc., for Socialtext, Inc.
-     * Based in part on the SocialCalc 1.1.0 code written in Perl.
-     * The SocialCalc 1.1.0 code was:
-     *    Portions (c) Copyright 2005, 2006, 2007 Software Garden, Inc.
-     *    All Rights Reserved.
-     *    Portions (c) Copyright 2007 Socialtext, Inc.
-     *    All Rights Reserved.
-     * The Perl SocialCalc started as modifications to the wikiCalc(R) program, version 1.0.
-     * wikiCalc 1.0 was written by Software Garden, Inc.
-     * Unless otherwise specified, referring to "SocialCalc" in comments refers to this
-     * JavaScript version of the code, not the SocialCalc Perl code.
-     */
+    //
+    /*
+  // SocialCalc Spreadsheet Formula Library
+  //
+  // Part of the SocialCalc package
+  //
+  // (c) Copyright 2008 Socialtext, Inc.
+  // All Rights Reserved.
+  //
+  // The contents of this file are subject to the Artistic License 2.0; you may not
+  // use this file except in compliance with the License. You may obtain a copy of 
+  // the License at http://socialcalc.org/licenses/al-20/.
+  //
+  // Some of the other files in the SocialCalc package are licensed under
+  // different licenses. Please note the licenses of the modules you use.
+  //
+  // Code History:
+  //
+  // Initially coded by Dan Bricklin of Software Garden, Inc., for Socialtext, Inc.
+  // Based in part on the SocialCalc 1.1.0 code written in Perl.
+  // The SocialCalc 1.1.0 code was:
+  //    Portions (c) Copyright 2005, 2006, 2007 Software Garden, Inc.
+  //    All Rights Reserved.
+  //    Portions (c) Copyright 2007 Socialtext, Inc.
+  //    All Rights Reserved.
+  // The Perl SocialCalc started as modifications to the wikiCalc(R) program, version 1.0.
+  // wikiCalc 1.0 was written by Software Garden, Inc.
+  // Unless otherwise specified, referring to "SocialCalc" in comments refers to this
+  // JavaScript version of the code, not the SocialCalc Perl code.
+  //
+  */
 
-    // Initialize SocialCalc namespace if not already present
-    // May be used with other SocialCalc libraries or standalone
+    var SocialCalc;
+    if (!SocialCalc) SocialCalc = {}; // May be used with other SocialCalc libraries or standalone
     // In any case, requires SocialCalc.Constants.
-    if (!SocialCalc) SocialCalc = {};
 
-    /**
-     * Formula parsing and evaluation module for SocialCalc
-     * @namespace
-     */
     SocialCalc.Formula = {};
 
-    /**
-     * Parse states for formula tokenization
-     * @readonly
-     * @enum {number}
-     */
+    //
+    // Formula constants for parsing:
+    //
+
     SocialCalc.Formula.ParseState = {
         num: 1,
         alpha: 2,
@@ -1184,11 +1134,6 @@
         specialvalue: 9,
     };
 
-    /**
-     * Token types for parsed formula elements
-     * @readonly
-     * @enum {number}
-     */
     SocialCalc.Formula.TokenType = {
         num: 1,
         coord: 2,
@@ -1199,11 +1144,6 @@
         space: 7,
     };
 
-    /**
-     * Character classes for formula parsing
-     * @readonly
-     * @enum {number}
-     */
     SocialCalc.Formula.CharClass = {
         num: 1,
         numstart: 2,
@@ -1217,12 +1157,6 @@
         specialstart: 10,
     };
 
-    /**
-     * Character classification table for formula parsing
-     * Maps each character to its appropriate class for parsing logic
-     * @readonly
-     * @type {Object<string, number>}
-     */
     SocialCalc.Formula.CharClassTable = {
         " ": 9,
         "!": 3,
@@ -1309,11 +1243,6 @@
         z: 5,
     };
 
-    /**
-     * Lowercase to uppercase character conversion table
-     * @readonly
-     * @type {Object<string, string>}
-     */
     SocialCalc.Formula.UpperCaseTable = {
         a: "A",
         b: "B",
@@ -1343,12 +1272,8 @@
         z: "Z",
     };
 
-    /**
-     * Special constant names that turn into error values for name lookup
-     * @readonly
-     * @type {Object<string, string>}
-     */
     SocialCalc.Formula.SpecialConstants = {
+        // names that turn into constants for name lookup
         "#NULL!": "0,e#NULL!",
         "#NUM!": "0,e#NUM!",
         "#DIV/0!": "0,e#DIV/0!",
@@ -1357,15 +1282,11 @@
         "#NAME?": "0,e#NAME?",
     };
 
-    /**
-     * Operator Precedence table
-     * 
-     * 1- !, 2- : ,, 3- M P, 4- %, 5- ^, 6- * /, 7- + -, 8- &, 9- < > = G(>=) L(<=) N(<>)
-     * Negative value means Right Associative
-     * 
-     * @readonly
-     * @type {Object<string, number>}
-     */
+    // Operator Precedence table
+    //
+    // 1- !, 2- : ,, 3- M P, 4- %, 5- ^, 6- * /, 7- + -, 8- &, 9- < > = G(>=) L(<=) N(<>),
+    // Negative value means Right Associative
+
     SocialCalc.Formula.TokenPrecedence = {
         "!": 1,
         ":": 2,
@@ -1386,11 +1307,8 @@
         N: 9,
     };
 
-    /**
-     * Convert one-character token text to input text
-     * @readonly
-     * @type {Object<string, string>}
-     */
+    // Convert one-char token text to input text:
+
     SocialCalc.Formula.TokenOpExpansion = {
         G: ">=",
         L: "<=",
@@ -1399,18 +1317,15 @@
         P: "+",
     };
 
-    /**
-     * Information about the resulting value types when doing operations on values (used by LookupResultType)
-     * 
-     * Each object entry is an object with specific types with result type info as follows:
-     * 
-     *    'type1a': '|type2a:resulta|type2b:resultb|...
-     *    Type of t* or n* matches any of those types not listed
-     *    Results may be a type or the numbers 1 or 2 specifying to return type1 or type2
-     * 
-     * @readonly
-     * @type {Object<string, Object<string, string>>}
-     */
+    //
+    // Information about the resulting value types when doing operations on values (used by LookupResultType)
+    //
+    // Each object entry is an object with specific types with result type info as follows:
+    //
+    //    'type1a': '|type2a:resulta|type2b:resultb|...
+    //    Type of t* or n* matches any of those types not listed
+    //    Results may be a type or the numbers 1 or 2 specifying to return type1 or type2
+
     SocialCalc.Formula.TypeLookupTable = {
         unaryminus: {
             "n*": "|n*:1|",
@@ -1468,50 +1383,48 @@
         },
     };
 
-    /**
-     * Parses a text string as if it was a spreadsheet formula
-     * 
-     * This uses a simple state machine run on each character in turn.
-     * States remember whether a number is being gathered, etc.
-     * The result is parseinfo which is an array with one entry for each token.
-     * 
-     * @param {string} line - The formula text to parse
-     * @returns {Object} parseinfo - Array with one entry for each token containing:
-     * @returns {string} parseinfo[].text - The characters making up the parsed token
-     * @returns {number} parseinfo[].type - The type of the token (a number from TokenType enum)
-     * @returns {string} parseinfo[].opcode - A single character version of an operator suitable for use in the precedence table and distinguishing between unary and binary + and -
-     */
-    /**
-     * Parses a text string as if it was a spreadsheet formula
-     * 
-     * This uses a simple state machine run on each character in turn.
-     * States remember whether a number is being gathered, etc.
-     * The result is parseinfo which is an array with one entry for each token.
-     * 
-     * @param {string} line - The formula text to parse
-     * @returns {Array<Object>} parseinfo - Array with one entry for each token containing:
-     * @returns {string} parseinfo[].text - The characters making up the parsed token
-     * @returns {number} parseinfo[].type - The type of the token (a number from TokenType enum)
-     * @returns {string} parseinfo[].opcode - A single character version of an operator suitable for use in the precedence table and distinguishing between unary and binary + and -
-     */
-    SocialCalc.Formula.ParseFormulaIntoTokens = (line) => {
-        let i, ch, chclass, haddecimal, last_token, last_token_type, last_token_text, t;
+    /* *******************
+  
+   parseinfo = SocialCalc.Formula.ParseFormulaIntoTokens(line)
+  
+   Parses a text string as if it was a spreadsheet formula
+  
+   This uses a simple state machine run on each character in turn.
+   States remember whether a number is being gathered, etc.
+   The result is parseinfo which is an array with one entry for each token:
+     parseinfo[i] = {
+       text: "the characters making up the parsed token",
+       type: the type of the token (a number),
+       opcode: a single character version of an operator suitable for use in the
+                    precedence table and distinguishing between unary and binary + and -.
+  
+  ************************* */
 
-        let scf = SocialCalc.Formula;
-        let scc = SocialCalc.Constants;
-        let parsestate = scf.ParseState;
-        let tokentype = scf.TokenType;
-        let charclass = scf.CharClass;
-        let charclasstable = scf.CharClassTable;
-        let uppercasetable = scf.UpperCaseTable; // much faster than toUpperCase function
-        let pushtoken = scf.ParsePushToken;
-        let coordregex = /^\$?[A-Z]{1,2}\$?[1-9]\d*$/i;
+    SocialCalc.Formula.ParseFormulaIntoTokens = function (line) {
+        var i,
+            ch,
+            chclass,
+            haddecimal,
+            last_token,
+            last_token_type,
+            last_token_text,
+            t;
 
-        let parseinfo = [];
-        let str = "";
-        let state = 0;
-        haddecimal = false;
-        let cclass;
+        var scf = SocialCalc.Formula;
+        var scc = SocialCalc.Constants;
+        var parsestate = scf.ParseState;
+        var tokentype = scf.TokenType;
+        var charclass = scf.CharClass;
+        var charclasstable = scf.CharClassTable;
+        var uppercasetable = scf.UpperCaseTable; // much faster than toUpperCase function
+        var pushtoken = scf.ParsePushToken;
+        var coordregex = /^\$?[A-Z]{1,2}\$?[1-9]\d*$/i;
+
+        var parseinfo = [];
+        var str = "";
+        var state = 0;
+        var haddecimal = false;
+        var cclass;
 
         for (i = 0; i <= line.length; i++) {
             if (i < line.length) {
@@ -1522,13 +1435,13 @@
                 cclass = charclass.eof;
             }
 
-            if (state === parsestate.num) {
-                if (cclass === charclass.num) {
+            if (state == parsestate.num) {
+                if (cclass == charclass.num) {
                     str += ch;
-                } else if (cclass === charclass.numstart && !haddecimal) {
+                } else if (cclass == charclass.numstart && !haddecimal) {
                     haddecimal = true;
                     str += ch;
-                } else if (ch === "E" || ch === "e") {
+                } else if (ch == "E" || ch == "e") {
                     str += ch;
                     haddecimal = false;
                     state = parsestate.numexp1;
@@ -1540,24 +1453,23 @@
                 }
             }
 
-            if (state === parsestate.numexp1) {
-                if (cclass === parsestate.num) {
+            if (state == parsestate.numexp1) {
+                if (cclass == parsestate.num) {
                     state = parsestate.numexp2;
                 } else if (
-                    (ch === "+" || ch === "-") &&
-                    uppercasetable[str.charAt(str.length - 1)] === "E"
+                    (ch == "+" || ch == "-") &&
+                    uppercasetable[str.charAt(str.length - 1)] == "E"
                 ) {
                     str += ch;
-                } else if (ch === "E" || ch === "e") {
-                    // Continue processing
+                } else if (ch == "E" || ch == "e") {
                 } else {
                     pushtoken(parseinfo, scc.s_parseerrexponent, tokentype.error, 0);
                     state = 0;
                 }
             }
 
-            if (state === parsestate.numexp2) {
-                if (cclass === charclass.num) {
+            if (state == parsestate.numexp2) {
+                if (cclass == charclass.num) {
                     str += ch;
                 } else {
                     // end of number - save it
@@ -1566,19 +1478,19 @@
                 }
             }
 
-            if (state === parsestate.alpha) {
-                if (cclass === charclass.num) {
+            if (state == parsestate.alpha) {
+                if (cclass == charclass.num) {
                     state = parsestate.coord;
-                } else if (cclass === charclass.alpha || ch === ".") {
+                } else if (cclass == charclass.alpha || ch == ".") {
                     // alpha may be letters, numbers, "_", or "."
                     str += ch;
-                } else if (cclass === charclass.incoord) {
+                } else if (cclass == charclass.incoord) {
                     state = parsestate.coord;
                 } else if (
-                    cclass === charclass.op ||
-                    cclass === charclass.numstart ||
-                    cclass === charclass.space ||
-                    cclass === charclass.eof
+                    cclass == charclass.op ||
+                    cclass == charclass.numstart ||
+                    cclass == charclass.space ||
+                    cclass == charclass.eof
                 ) {
                     pushtoken(parseinfo, str.toUpperCase(), tokentype.name, 0);
                     state = 0;
@@ -1588,18 +1500,18 @@
                 }
             }
 
-            if (state === parsestate.coord) {
-                if (cclass === charclass.num) {
+            if (state == parsestate.coord) {
+                if (cclass == charclass.num) {
                     str += ch;
-                } else if (cclass === charclass.incoord) {
+                } else if (cclass == charclass.incoord) {
                     str += ch;
-                } else if (cclass === charclass.alpha) {
+                } else if (cclass == charclass.alpha) {
                     state = parsestate.alphanumeric;
                 } else if (
-                    cclass === charclass.op ||
-                    cclass === charclass.numstart ||
-                    cclass === charclass.eof ||
-                    cclass === charclass.space
+                    cclass == charclass.op ||
+                    cclass == charclass.numstart ||
+                    cclass == charclass.eof ||
+                    cclass == charclass.space
                 ) {
                     if (coordregex.test(str)) {
                         t = tokentype.coord;
@@ -1614,14 +1526,14 @@
                 }
             }
 
-            if (state === parsestate.alphanumeric) {
-                if (cclass === charclass.num || cclass === charclass.alpha) {
+            if (state == parsestate.alphanumeric) {
+                if (cclass == charclass.num || cclass == charclass.alpha) {
                     str += ch;
                 } else if (
-                    cclass === charclass.op ||
-                    cclass === charclass.numstart ||
-                    cclass === charclass.space ||
-                    cclass === charclass.eof
+                    cclass == charclass.op ||
+                    cclass == charclass.numstart ||
+                    cclass == charclass.space ||
+                    cclass == charclass.eof
                 ) {
                     pushtoken(parseinfo, str.toUpperCase(), tokentype.name, 0);
                     state = 0;
@@ -1631,18 +1543,18 @@
                 }
             }
 
-            if (state === parsestate.string) {
-                if (cclass === charclass.quote) {
+            if (state == parsestate.string) {
+                if (cclass == charclass.quote) {
                     state = parsestate.stringquote; // got quote in string: is it doubled (quote in string) or by itself (end of string)?
-                } else if (cclass === charclass.eof) {
+                } else if (cclass == charclass.eof) {
                     pushtoken(parseinfo, scc.s_parseerrstring, tokentype.error, 0);
                     state = 0;
                 } else {
                     str += ch;
                 }
-            } else if (state === parsestate.stringquote) {
+            } else if (state == parsestate.stringquote) {
                 // note else if here
-                if (cclass === charclass.quote) {
+                if (cclass == charclass.quote) {
                     str += '"';
                     state = parsestate.string; // double quote: add one then continue getting string
                 } else {
@@ -1650,13 +1562,13 @@
                     pushtoken(parseinfo, str, tokentype.string, 0);
                     state = 0; // drop through to process
                 }
-            } else if (state === parsestate.specialvalue) {
+            } else if (state == parsestate.specialvalue) {
                 // special values like #REF!
-                if (str.charAt(str.length - 1) === "!") {
+                if (str.charAt(str.length - 1) == "!") {
                     // done - save value as a name
                     pushtoken(parseinfo, str, tokentype.name, 0);
                     state = 0; // drop through to process
-                } else if (cclass === charclass.eof) {
+                } else if (cclass == charclass.eof) {
                     pushtoken(parseinfo, scc.s_parseerrspecialvalue, tokentype.error, 0);
                     state = 0;
                 } else {
@@ -1664,28 +1576,28 @@
                 }
             }
 
-            if (state === 0) {
-                if (cclass === charclass.num) {
+            if (state == 0) {
+                if (cclass == charclass.num) {
                     str = ch;
                     state = parsestate.num;
-                } else if (cclass === charclass.numstart) {
+                } else if (cclass == charclass.numstart) {
                     str = ch;
                     haddecimal = true;
                     state = parsestate.num;
-                } else if (cclass === charclass.alpha || cclass === charclass.incoord) {
+                } else if (cclass == charclass.alpha || cclass == charclass.incoord) {
                     str = ch;
                     state = parsestate.alpha;
-                } else if (cclass === charclass.specialstart) {
+                } else if (cclass == charclass.specialstart) {
                     str = ch;
                     state = parsestate.specialvalue;
-                } else if (cclass === charclass.op) {
+                } else if (cclass == charclass.op) {
                     str = ch;
                     if (parseinfo.length > 0) {
                         last_token = parseinfo[parseinfo.length - 1];
                         last_token_type = last_token.type;
                         last_token_text = last_token.text;
-                        if (last_token_type === charclass.op) {
-                            if (last_token_text === "<" || last_token_text === ">") {
+                        if (last_token_type == charclass.op) {
+                            if (last_token_text == "<" || last_token_text == ">") {
                                 str = last_token_text + str;
                                 parseinfo.pop();
                                 if (parseinfo.length > 0) {
@@ -1704,37 +1616,37 @@
                     }
                     t = tokentype.op;
                     if (
-                        parseinfo.length === 0 ||
-                        (last_token_type === charclass.op &&
-                            last_token_text !== ")" &&
-                            last_token_text !== "%")
+                        parseinfo.length == 0 ||
+                        (last_token_type == charclass.op &&
+                            last_token_text != ")" &&
+                            last_token_text != "%")
                     ) {
                         // Unary operator
-                        if (str === "-") {
+                        if (str == "-") {
                             // M is unary minus
                             str = "M";
                             ch = "M";
-                        } else if (str === "+") {
+                        } else if (str == "+") {
                             // P is unary plus
                             str = "P";
                             ch = "P";
-                        } else if (str === ")" && last_token_text === "(") {
+                        } else if (str == ")" && last_token_text == "(") {
                             // null arg list OK
-                        } else if (str !== "(") {
+                        } else if (str != "(") {
                             // binary-op open-paren OK, others no
                             t = tokentype.error;
                             str = scc.s_parseerrtwoops;
                         }
                     } else if (str.length > 1) {
-                        if (str === ">=") {
+                        if (str == ">=") {
                             // G is >=
                             str = "G";
                             ch = "G";
-                        } else if (str === "<=") {
+                        } else if (str == "<=") {
                             // L is <=
                             str = "L";
                             ch = "L";
-                        } else if (str === "<>") {
+                        } else if (str == "<>") {
                             // N is <>
                             str = "N";
                             ch = "N";
@@ -1745,14 +1657,14 @@
                     }
                     pushtoken(parseinfo, str, t, ch);
                     state = 0;
-                } else if (cclass === charclass.quote) {
+                } else if (cclass == charclass.quote) {
                     // starting a string
                     str = "";
                     state = parsestate.string;
-                } else if (cclass === charclass.space) {
+                } else if (cclass == charclass.space) {
                     // store so can reconstruct spacing
                     pushtoken(parseinfo, " ", tokentype.space, 0);
-                } else if (cclass === charclass.eof) {
+                } else if (cclass == charclass.eof) {
                     // ignore -- needed to have extra loop to close out other things
                 } else {
                     // unknown class - such as unknown char
@@ -1764,40 +1676,40 @@
         return parseinfo;
     };
 
-    /**
-     * Helper function to push tokens onto the parseinfo array
-     * 
-     * @param {Array<Object>} parseinfo - Array to push token onto
-     * @param {string} ttext - Token text
-     * @param {number} ttype - Token type
-     * @param {string|number} topcode - Token opcode
-     * @returns {void}
-     */
-    SocialCalc.Formula.ParsePushToken = (parseinfo, ttext, ttype, topcode) => {
+    SocialCalc.Formula.ParsePushToken = function (
+        parseinfo,
+        ttext,
+        ttype,
+        topcode
+    ) {
         parseinfo.push({ text: ttext, type: ttype, opcode: topcode });
     };
 
-    /**
-     * Evaluates a parsed formula, returning a value, its type, and error info
-     * 
-     * @param {Array<Object>} parseinfo - Array of parsed tokens
-     * @param {Object} sheet - Spreadsheet object containing cell data
-     * @param {boolean} [allowrangereturn] - If true, can return a range (e.g., "A1:A10")
-     * @returns {Object} result - Object containing:
-     * @returns {*} result.value - The calculated value
-     * @returns {string} result.type - The value type
-     * @returns {string} result.error - Error text if any
-     */
-    SocialCalc.Formula.evaluate_parsed_formula = (parseinfo, sheet, allowrangereturn) => {
-        let result;
+    /* *******************
+  
+   result = SocialCalc.Formula.evaluate_parsed_formula(parseinfo, sheet, allowrangereturn)
+  
+   Does the calculation expressed in a parsed formula, returning a value, its type, and error info
+   returns: {value: value, type: valuetype, error: errortext}.
+  
+   If allowrangereturn is present and true, can return a range (e.g., "A1:A10" - translated from "A1|A10|")
+  
+  ************************* */
 
-        let scf = SocialCalc.Formula;
-        let tokentype = scf.TokenType;
+    SocialCalc.Formula.evaluate_parsed_formula = function (
+        parseinfo,
+        sheet,
+        allowrangereturn
+    ) {
+        var result;
 
-        let revpolish;
-        let parsestack = [];
+        var scf = SocialCalc.Formula;
+        var tokentype = scf.TokenType;
 
-        let errortext = "";
+        var revpolish;
+        var parsestack = [];
+
+        var errortext = "";
 
         revpolish = scf.ConvertInfixToPolish(parseinfo); // result is either an array or a string with error text
 
@@ -1806,69 +1718,71 @@
         return result;
     };
 
-    /**
-     * Convert infix notation to reverse polish notation
-     * 
-     * Based upon the algorithm shown in Wikipedia "Reverse Polish notation" article
-     * and then enhanced for additional spreadsheet things
-     * 
-     * @param {Array<Object>} parseinfo - Array of parsed tokens in infix notation
-     * @returns {Array<number>|string} - Array with sequence of references to tokens by number if successful, or error string if failed
-     */
-    SocialCalc.Formula.ConvertInfixToPolish = (parseinfo) => {
-        let scf = SocialCalc.Formula;
-        let scc = SocialCalc.Constants;
-        let tokentype = scf.TokenType;
-        let token_precedence = scf.TokenPrecedence;
+    //
+    // revpolish = SocialCalc.Formula.ConvertInfixToPolish(parseinfo)
+    //
+    // Convert infix to reverse polish notation
+    //
+    // Returns revpolish array with a sequence of references to tokens by number if successful.
+    // Errors return a string with the error.
+    //
+    // Based upon the algorithm shown in Wikipedia "Reverse Polish notation" article
+    // and then enhanced for additional spreadsheet things
+    //
 
-        let revpolish = [];
-        let parsestack = [];
+    SocialCalc.Formula.ConvertInfixToPolish = function (parseinfo) {
+        var scf = SocialCalc.Formula;
+        var scc = SocialCalc.Constants;
+        var tokentype = scf.TokenType;
+        var token_precedence = scf.TokenPrecedence;
 
-        let errortext = "";
+        var revpolish = [];
+        var parsestack = [];
 
-        let function_start = -1;
+        var errortext = "";
 
-        let i, pii, ttype, ttext, tprecedence, tstackprecedence;
+        var function_start = -1;
+
+        var i, pii, ttype, ttext, tprecedence, tstackprecedence;
 
         for (i = 0; i < parseinfo.length; i++) {
             pii = parseinfo[i];
             ttype = pii.type;
             ttext = pii.text;
-
             if (
-                ttype === tokentype.num ||
-                ttype === tokentype.coord ||
-                ttype === tokentype.string
+                ttype == tokentype.num ||
+                ttype == tokentype.coord ||
+                ttype == tokentype.string
             ) {
                 revpolish.push(i);
-            } else if (ttype === tokentype.name) {
+            } else if (ttype == tokentype.name) {
                 parsestack.push(i);
                 revpolish.push(function_start);
-            } else if (ttype === tokentype.space) {
+            } else if (ttype == tokentype.space) {
                 // ignore
                 continue;
-            } else if (ttext === ",") {
+            } else if (ttext == ",") {
                 while (
                     parsestack.length &&
-                    parseinfo[parsestack[parsestack.length - 1]].text !== "("
+                    parseinfo[parsestack[parsestack.length - 1]].text != "("
                 ) {
                     revpolish.push(parsestack.pop());
                 }
-                if (parsestack.length === 0) {
+                if (parsestack.length == 0) {
                     // no ( -- error
                     errortext = scc.s_parseerrmissingopenparen;
                     break;
                 }
-            } else if (ttext === "(") {
+            } else if (ttext == "(") {
                 parsestack.push(i);
-            } else if (ttext === ")") {
+            } else if (ttext == ")") {
                 while (
                     parsestack.length &&
-                    parseinfo[parsestack[parsestack.length - 1]].text !== "("
+                    parseinfo[parsestack[parsestack.length - 1]].text != "("
                 ) {
                     revpolish.push(parsestack.pop());
                 }
-                if (parsestack.length === 0) {
+                if (parsestack.length == 0) {
                     // no ( -- error
                     errortext = scc.s_parseerrcloseparennoopen;
                     break;
@@ -1876,21 +1790,21 @@
                 parsestack.pop();
                 if (
                     parsestack.length &&
-                    parseinfo[parsestack[parsestack.length - 1]].type === tokentype.name
+                    parseinfo[parsestack[parsestack.length - 1]].type == tokentype.name
                 ) {
                     revpolish.push(parsestack.pop());
                 }
-            } else if (ttype === tokentype.op) {
+            } else if (ttype == tokentype.op) {
                 if (
                     parsestack.length &&
-                    parseinfo[parsestack[parsestack.length - 1]].type === tokentype.name
+                    parseinfo[parsestack[parsestack.length - 1]].type == tokentype.name
                 ) {
                     revpolish.push(parsestack.pop());
                 }
                 while (
                     parsestack.length &&
-                    parseinfo[parsestack[parsestack.length - 1]].type === tokentype.op &&
-                    parseinfo[parsestack[parsestack.length - 1]].text !== "("
+                    parseinfo[parsestack[parsestack.length - 1]].type == tokentype.op &&
+                    parseinfo[parsestack[parsestack.length - 1]].text != "("
                 ) {
                     tprecedence = token_precedence[pii.opcode];
                     tstackprecedence =
@@ -1909,7 +1823,7 @@
                     revpolish.push(parsestack.pop());
                 }
                 parsestack.push(i);
-            } else if (ttype === tokentype.error) {
+            } else if (ttype == tokentype.error) {
                 errortext = ttext;
                 break;
             } else {
@@ -1917,9 +1831,8 @@
                 break;
             }
         }
-
         while (parsestack.length > 0) {
-            if (parseinfo[parsestack[parsestack.length - 1]].text === "(") {
+            if (parseinfo[parsestack[parsestack.length - 1]].text == "(") {
                 errortext = scc.s_parseerrmissingcloseparen;
                 break;
             }
@@ -1933,64 +1846,81 @@
         return revpolish;
     };
 
-    /**
-     * Execute reverse polish representation of formula
-     * 
-     * Operand values are objects in the operand array with a "type" and an optional "value".
-     * Type can have these values (many are type and sub-type as two or more letters):
-     *    "tw", "th", "t", "n", "nt", "coord", "range", "start", "eErrorType", "b" (blank)
-     * The value of a coord is in the form A57 or A57!sheetname
-     * The value of a range is coord|coord|number where number starts at 0 and is
-     * the offset of the next item to fetch if you are going through the range one by one
-     * The number starts as a null string ("A1|B3|")
-     * 
-     * @param {Array<Object>} parseinfo - Array of parsed tokens
-     * @param {Array<number>|string} revpolish - Reverse polish notation array or error string
-     * @param {Object} sheet - Spreadsheet object containing cell data
-     * @param {boolean} [allowrangereturn] - If true, can return a range
-     * @returns {Object} result - Object containing value, type, and error information
-     */
-    SocialCalc.Formula.EvaluatePolish = (parseinfo, revpolish, sheet, allowrangereturn) => {
-        let scf = SocialCalc.Formula;
-        let scc = SocialCalc.Constants;
-        let tokentype = scf.TokenType;
-        let lookup_result_type = scf.LookupResultType;
-        let typelookup = scf.TypeLookupTable;
-        let operand_as_number = scf.OperandAsNumber;
-        let operand_as_text = scf.OperandAsText;
-        let operand_value_and_type = scf.OperandValueAndType;
-        let operands_as_coord_on_sheet = scf.OperandsAsCoordOnSheet;
-        let format_number_for_display =
-            SocialCalc.format_number_for_display ||
-            ((v, t, f) => `${v}`);
+    //
+    // result = SocialCalc.Formula.EvaluatePolish(parseinfo, revpolish, sheet, allowrangereturn)
+    //
+    // Execute reverse polish representation of formula
+    //
+    // Operand values are objects in the operand array with a "type" and an optional "value".
+    // Type can have these values (many are type and sub-type as two or more letters):
+    //    "tw", "th", "t", "n", "nt", "coord", "range", "start", "eErrorType", "b" (blank)
+    // The value of a coord is in the form A57 or A57!sheetname
+    // The value of a range is coord|coord|number where number starts at 0 and is
+    // the offset of the next item to fetch if you are going through the range one by one
+    // The number starts as a null string ("A1|B3|")
+    //
 
-        let errortext = "";
-        let function_start = -1;
-        let missingOperandError = {
+    SocialCalc.Formula.EvaluatePolish = function (
+        parseinfo,
+        revpolish,
+        sheet,
+        allowrangereturn
+    ) {
+        var scf = SocialCalc.Formula;
+        var scc = SocialCalc.Constants;
+        var tokentype = scf.TokenType;
+        var lookup_result_type = scf.LookupResultType;
+        var typelookup = scf.TypeLookupTable;
+        var operand_as_number = scf.OperandAsNumber;
+        var operand_as_text = scf.OperandAsText;
+        var operand_value_and_type = scf.OperandValueAndType;
+        var operands_as_coord_on_sheet = scf.OperandsAsCoordOnSheet;
+        var format_number_for_display =
+            SocialCalc.format_number_for_display ||
+            function (v, t, f) {
+                return v + "";
+            };
+
+        var errortext = "";
+        var function_start = -1;
+        var missingOperandError = {
             value: "",
             type: "e#VALUE!",
             error: scc.s_parseerrmissingoperand,
         };
-        let value;
+        var value;
 
-        let operand = [];
-        let PushOperand = (t, v) => {
+        var operand = [];
+        var PushOperand = function (t, v) {
             operand.push({ type: t, value: v });
         };
 
-        let i, rii, prii, ttype, ttext, value1, value2, tostype, tostype2, resulttype, valuetype, cond, vmatch, smatch;
+        var i,
+            rii,
+            prii,
+            ttype,
+            ttext,
+            value1,
+            value2,
+            tostype,
+            tostype2,
+            resulttype,
+            valuetype,
+            cond,
+            vmatch,
+            smatch;
 
         if (!parseinfo.length || !(revpolish instanceof Array)) {
             return {
                 value: "",
                 type: "e#VALUE!",
-                error: typeof revpolish === "string" ? revpolish : "",
+                error: typeof revpolish == "string" ? revpolish : "",
             };
         }
 
         for (i = 0; i < revpolish.length; i++) {
             rii = revpolish[i];
-            if (rii === function_start) {
+            if (rii == function_start) {
                 // Remember the start of a function argument list
                 PushOperand("start", 0);
                 continue;
@@ -2000,20 +1930,22 @@
             ttype = prii.type;
             ttext = prii.text;
 
-            if (ttype === tokentype.num) {
+            if (ttype == tokentype.num) {
                 PushOperand("n", ttext - 0);
-            } else if (ttype === tokentype.coord) {
+            } else if (ttype == tokentype.coord) {
                 PushOperand("coord", ttext);
-            } else if (ttype === tokentype.string) {
+            } else if (ttype == tokentype.string) {
                 PushOperand("t", ttext);
-            } else if (ttype === tokentype.op) {
+            } else if (ttype == tokentype.op) {
                 if (operand.length <= 0) {
                     // Nothing on the stack...
                     return missingOperandError;
+                    break; // done
                 }
 
                 // Unary minus
-                if (ttext === "M") {
+
+                if (ttext == "M") {
                     value1 = operand_as_number(sheet, operand);
                     resulttype = lookup_result_type(
                         value1.type,
@@ -2024,7 +1956,7 @@
                 }
 
                 // Unary plus
-                else if (ttext === "P") {
+                else if (ttext == "P") {
                     value1 = operand_as_number(sheet, operand);
                     resulttype = lookup_result_type(
                         value1.type,
@@ -2035,7 +1967,7 @@
                 }
 
                 // Unary % - percent, left associative
-                else if (ttext === "%") {
+                else if (ttext == "%") {
                     value1 = operand_as_number(sheet, operand);
                     resulttype = lookup_result_type(
                         value1.type,
@@ -2046,7 +1978,7 @@
                 }
 
                 // & - string concatenate
-                else if (ttext === "&") {
+                else if (ttext == "&") {
                     if (operand.length <= 1) {
                         // Need at least two things on the stack...
                         return missingOperandError;
@@ -2062,7 +1994,7 @@
                 }
 
                 // : - Range constructor
-                else if (ttext === ":") {
+                else if (ttext == ":") {
                     if (operand.length <= 1) {
                         // Need at least two things on the stack...
                         return missingOperandError;
@@ -2076,7 +2008,7 @@
                 }
 
                 // ! - sheetname!coord
-                else if (ttext === "!") {
+                else if (ttext == "!") {
                     if (operand.length <= 1) {
                         // Need at least two things on the stack...
                         return missingOperandError;
@@ -2091,12 +2023,12 @@
 
                 // Comparison operators: < L = G > N (< <= = >= > <>)
                 else if (
-                    ttext === "<" ||
-                    ttext === "L" ||
-                    ttext === "=" ||
-                    ttext === "G" ||
-                    ttext === ">" ||
-                    ttext === "N"
+                    ttext == "<" ||
+                    ttext == "L" ||
+                    ttext == "=" ||
+                    ttext == "G" ||
+                    ttext == ">" ||
+                    ttext == "N"
                 ) {
                     if (operand.length <= 1) {
                         // Need at least two things on the stack...
@@ -2105,63 +2037,64 @@
                     }
                     value2 = operand_value_and_type(sheet, operand);
                     value1 = operand_value_and_type(sheet, operand);
-                    if (value1.type.charAt(0) === "n" && value2.type.charAt(0) === "n") {
+                    if (value1.type.charAt(0) == "n" && value2.type.charAt(0) == "n") {
                         // compare two numbers
                         cond = 0;
-                        if (ttext === "<") {
+                        if (ttext == "<") {
                             cond = value1.value < value2.value ? 1 : 0;
-                        } else if (ttext === "L") {
+                        } else if (ttext == "L") {
                             cond = value1.value <= value2.value ? 1 : 0;
-                        } else if (ttext === "=") {
-                            cond = value1.value === value2.value ? 1 : 0;
-                        } else if (ttext === "G") {
+                        } else if (ttext == "=") {
+                            cond = value1.value == value2.value ? 1 : 0;
+                        } else if (ttext == "G") {
                             cond = value1.value >= value2.value ? 1 : 0;
-                        } else if (ttext === ">") {
+                        } else if (ttext == ">") {
                             cond = value1.value > value2.value ? 1 : 0;
-                        } else if (ttext === "N") {
-                            cond = value1.value !== value2.value ? 1 : 0;
+                        } else if (ttext == "N") {
+                            cond = value1.value != value2.value ? 1 : 0;
                         }
                         PushOperand("nl", cond);
-                    } else if (value1.type.charAt(0) === "e") {
+                    } else if (value1.type.charAt(0) == "e") {
                         // error on left
                         PushOperand(value1.type, 0);
-                    } else if (value2.type.charAt(0) === "e") {
+                    } else if (value2.type.charAt(0) == "e") {
                         // error on right
                         PushOperand(value2.type, 0);
                     } else {
                         // text maybe mixed with numbers or blank
                         tostype = value1.type.charAt(0);
                         tostype2 = value2.type.charAt(0);
-                        if (tostype === "n") {
+                        if (tostype == "n") {
                             value1.value = format_number_for_display(value1.value, "n", "");
-                        } else if (tostype === "b") {
+                        } else if (tostype == "b") {
                             value1.value = "";
                         }
-                        if (tostype2 === "n") {
+                        if (tostype2 == "n") {
                             value2.value = format_number_for_display(value2.value, "n", "");
-                        } else if (tostype2 === "b") {
+                        } else if (tostype2 == "b") {
                             value2.value = "";
                         }
                         cond = 0;
                         value1.value = value1.value.toLowerCase(); // ignore case
                         value2.value = value2.value.toLowerCase();
-                        if (ttext === "<") {
+                        if (ttext == "<") {
                             cond = value1.value < value2.value ? 1 : 0;
-                        } else if (ttext === "L") {
+                        } else if (ttext == "L") {
                             cond = value1.value <= value2.value ? 1 : 0;
-                        } else if (ttext === "=") {
-                            cond = value1.value === value2.value ? 1 : 0;
-                        } else if (ttext === "G") {
+                        } else if (ttext == "=") {
+                            cond = value1.value == value2.value ? 1 : 0;
+                        } else if (ttext == "G") {
                             cond = value1.value >= value2.value ? 1 : 0;
-                        } else if (ttext === ">") {
+                        } else if (ttext == ">") {
                             cond = value1.value > value2.value ? 1 : 0;
-                        } else if (ttext === "N") {
-                            cond = value1.value !== value2.value ? 1 : 0;
+                        } else if (ttext == "N") {
+                            cond = value1.value != value2.value ? 1 : 0;
                         }
                         PushOperand("nl", cond);
                     }
                 }
-                // Normal infix arithmetic operators: +, -, *, /, ^
+
+                // Normal infix arithmethic operators: +, -. *, /, ^
                 else {
                     // what's left are the normal infix arithmetic operators
                     if (operand.length <= 1) {
@@ -2171,35 +2104,34 @@
                     }
                     value2 = operand_as_number(sheet, operand);
                     value1 = operand_as_number(sheet, operand);
-
-                    if (ttext === "+") {
+                    if (ttext == "+") {
                         resulttype = lookup_result_type(
                             value1.type,
                             value2.type,
                             typelookup.plus
                         );
                         PushOperand(resulttype, value1.value + value2.value);
-                    } else if (ttext === "-") {
+                    } else if (ttext == "-") {
                         resulttype = lookup_result_type(
                             value1.type,
                             value2.type,
                             typelookup.plus
                         );
                         PushOperand(resulttype, value1.value - value2.value);
-                    } else if (ttext === "*") {
+                    } else if (ttext == "*") {
                         resulttype = lookup_result_type(
                             value1.type,
                             value2.type,
                             typelookup.plus
                         );
                         PushOperand(resulttype, value1.value * value2.value);
-                    } else if (ttext === "/") {
-                        if (value2.value !== 0) {
+                    } else if (ttext == "/") {
+                        if (value2.value != 0) {
                             PushOperand("n", value1.value / value2.value); // gives plain numeric result type
                         } else {
                             PushOperand("e#DIV/0!", 0);
                         }
-                    } else if (ttext === "^") {
+                    } else if (ttext == "^") {
                         value1.value = Math.pow(value1.value, value2.value);
                         value1.type = "n"; // gives plain numeric result type
                         if (isNaN(value1.value)) {
@@ -2212,11 +2144,12 @@
             }
 
             // function or name
-            else if (ttype === tokentype.name) {
+            else if (ttype == tokentype.name) {
                 errortext = scf.CalculateFunction(ttext, operand, sheet);
                 if (errortext) break;
             } else {
-                errortext = `${scc.s_InternalError}Unknown token ${ttype} (${ttext}). `;
+                errortext =
+                    scc.s_InternalError + "Unknown token " + ttype + " (" + ttext + "). ";
                 break;
             }
         }
@@ -2226,7 +2159,7 @@
         value = operand[0] ? operand[0].value : "";
         tostype = operand[0] ? operand[0].type : "";
 
-        if (tostype === "name") {
+        if (tostype == "name") {
             // name - expand it
             value1 = SocialCalc.Formula.LookupName(sheet, value);
             value = value1.value;
@@ -2234,12 +2167,12 @@
             errortext = errortext || value1.error;
         }
 
-        if (tostype === "coord") {
+        if (tostype == "coord") {
             // the value is a coord reference, get its value and type
             value1 = operand_value_and_type(sheet, operand);
             value = value1.value;
             tostype = value1.type;
-            if (tostype === "b") {
+            if (tostype == "b") {
                 tostype = "n";
                 value = 0;
             }
@@ -2254,32 +2187,36 @@
 
         valuetype = tostype;
 
-        if (tostype.charAt(0) === "e") {
+        if (tostype.charAt(0) == "e") {
             // error value
-            errortext = errortext || tostype.substring(1) || scc.s_calcerrerrorvalueinformula;
-        } else if (tostype === "range") {
+            errortext =
+                errortext || tostype.substring(1) || scc.s_calcerrerrorvalueinformula;
+        } else if (tostype == "range") {
             vmatch = value.match(/^(.*)\|(.*)\|/);
             smatch = vmatch[1].indexOf("!");
             if (smatch >= 0) {
                 // swap sheetname
-                vmatch[1] = `${vmatch[1].substring(smatch + 1)}!${vmatch[1].substring(0, smatch).toUpperCase()}`;
+                vmatch[1] =
+                    vmatch[1].substring(smatch + 1) +
+                    "!" +
+                    vmatch[1].substring(0, smatch).toUpperCase();
             } else {
                 vmatch[1] = vmatch[1].toUpperCase();
             }
-            value = `${vmatch[1]}:${vmatch[2].toUpperCase()}`;
+            value = vmatch[1] + ":" + vmatch[2].toUpperCase();
             if (!allowrangereturn) {
-                errortext = `${scc.s_formularangeresult} ${value}`;
+                errortext = scc.s_formularangeresult + " " + value;
             }
         }
 
-        if (errortext && valuetype.charAt(0) !== "e") {
+        if (errortext && valuetype.charAt(0) != "e") {
             value = errortext;
             valuetype = "e";
         }
 
         // look for overflow
 
-        if (valuetype.charAt(0) === "n" && (isNaN(value) || !isFinite(value))) {
+        if (valuetype.charAt(0) == "n" && (isNaN(value) || !isFinite(value))) {
             value = 0;
             valuetype = "e#NUM!";
             errortext = isNaN(value)
@@ -2290,77 +2227,82 @@
         return { value: value, type: valuetype, error: errortext };
     };
 
-    /**
-     * Looks up the result type when combining two operand types in an operation
-     * 
-     * typelookup has values of the following form:
-     *    typelookup{"typespec1"} = "|typespec2A:resultA|typespec2B:resultB|..."
-     * 
-     * First type1 is looked up. If no match, then the first letter (major type) of type1 plus "*" is looked up
-     * resulttype is type1 if result is "1", type2 if result is "2", otherwise the value of result.
-     * 
-     * @param {string} type1 - First operand type
-     * @param {string} type2 - Second operand type  
-     * @param {Object} typelookup - Type lookup table for the operation
-     * @returns {string} The resulting type after the operation
-     */
-    SocialCalc.Formula.LookupResultType = (type1, type2, typelookup) => {
-        let pos1, pos2, result;
+    /*
+  #
+  # resulttype = SocialCalc.Formula.LookupResultType(type1, type2, typelookup);
+  #
+  # typelookup has values of the following form:
+  #
+  #    typelookup{"typespec1"} = "|typespec2A:resultA|typespec2B:resultB|..."
+  #
+  # First type1 is looked up. If no match, then the first letter (major type) of type1 plus "*" is looked up
+  # resulttype is type1 if result is "1", type2 if result is "2", otherwise the value of result.
+  #
+  */
 
-        let table1 = typelookup[type1];
+    SocialCalc.Formula.LookupResultType = function (type1, type2, typelookup) {
+        var pos1, pos2, result;
+
+        var table1 = typelookup[type1];
 
         if (!table1) {
-            table1 = typelookup[`${type1.charAt(0)}*`];
+            table1 = typelookup[type1.charAt(0) + "*"];
             if (!table1) {
-                return `e#VALUE! (internal error, missing LookupResultType ${type1.charAt(0)}*)`; // missing from table -- please add it
+                return (
+                    "e#VALUE! (internal error, missing LookupResultType " +
+                    type1.charAt(0) +
+                    "*)"
+                ); // missing from table -- please add it
             }
         }
-
-        pos1 = table1.indexOf(`|${type2}:`);
+        pos1 = table1.indexOf("|" + type2 + ":");
         if (pos1 >= 0) {
             pos2 = table1.indexOf("|", pos1 + 1);
             if (pos2 < 0)
-                return `e#VALUE! (internal error, incorrect LookupResultType ${table1})`;
+                return (
+                    "e#VALUE! (internal error, incorrect LookupResultType " + table1 + ")"
+                );
             result = table1.substring(pos1 + type2.length + 2, pos2);
-            if (result === "1") return type1;
-            if (result === "2") return type2;
+            if (result == "1") return type1;
+            if (result == "2") return type2;
             return result;
         }
-
-        pos1 = table1.indexOf(`|${type2.charAt(0)}*:`);
+        pos1 = table1.indexOf("|" + type2.charAt(0) + "*:");
         if (pos1 >= 0) {
             pos2 = table1.indexOf("|", pos1 + 1);
             if (pos2 < 0)
-                return `e#VALUE! (internal error, incorrect LookupResultType ${table1})`;
+                return (
+                    "e#VALUE! (internal error, incorrect LookupResultType " + table1 + ")"
+                );
             result = table1.substring(pos1 + 4, pos2);
-            if (result === "1") return type1;
-            if (result === "2") return type2;
+            if (result == "1") return type1;
+            if (result == "2") return type2;
             return result;
         }
         return "e#VALUE!";
     };
 
-    /**
-     * Returns top of stack value and type and then pops the stack
-     * 
-     * @param {Object} sheet - The spreadsheet object containing cell data
-     * @param {Array<Object>} operand - The operand stack
-     * @returns {Object} result - Object containing:
-     * @returns {*} result.value - The value from top of stack
-     * @returns {string} result.type - The type of the value
-     * @returns {string} [result.error] - Error message if bad error occurred
-     */
-    SocialCalc.Formula.TopOfStackValueAndType = (sheet, operand) => {
-        let cellvtype, cell, pos, coordsheet;
-        let scf = SocialCalc.Formula;
+    /*
+  #
+  # operandinfo = SocialCalc.Formula.TopOfStackValueAndType(sheet, operand)
+  #
+  # Returns top of stack value and type and then pops the stack.
+  # The result is {value: value, type: type, error: "only if bad error"}
+  #
+  */
 
-        let result = { type: "", value: "" };
+    SocialCalc.Formula.TopOfStackValueAndType = function (sheet, operand) {
+        var cellvtype, cell, pos, coordsheet;
+        var scf = SocialCalc.Formula;
 
-        let stacklen = operand.length;
+        var result = { type: "", value: "" };
+
+        var stacklen = operand.length;
 
         if (!stacklen) {
             // make sure something is there
-            result.error = `${SocialCalc.Constants.s_InternalError}no operand on stack`;
+            result.error =
+                SocialCalc.Constants.s_InternalError + "no operand on stack";
             return result;
         }
 
@@ -2368,42 +2310,43 @@
         result.type = operand[stacklen - 1].type;
         operand.pop(); // we have data - pop stack
 
-        if (result.type === "name") {
+        if (result.type == "name") {
             result = scf.LookupName(sheet, result.value);
         }
 
         return result;
     };
 
-    /**
-     * Uses operand_value_and_type to get top of stack and pops it.
-     * Returns numeric value and type.
-     * Text values are treated as 0 if they can't be converted somehow.
-     * 
-     * @param {Object} sheet - The spreadsheet object containing cell data
-     * @param {Array<Object>} operand - The operand stack
-     * @returns {Object} operandinfo - Object containing numeric value and type information
-     */
-    SocialCalc.Formula.OperandAsNumber = (sheet, operand) => {
-        let t, valueinfo;
-        let operandinfo = SocialCalc.Formula.OperandValueAndType(sheet, operand);
+    /*
+  #
+  # operandinfo = OperandAsNumber(sheet, operand)
+  #
+  # Uses operand_value_and_type to get top of stack and pops it.
+  # Returns numeric value and type.
+  # Text values are treated as 0 if they can't be converted somehow.
+  #
+  */
+
+    SocialCalc.Formula.OperandAsNumber = function (sheet, operand) {
+        var t, valueinfo;
+        var operandinfo = SocialCalc.Formula.OperandValueAndType(sheet, operand);
 
         t = operandinfo.type.charAt(0);
 
-        if (t === "n") {
+        if (t == "n") {
             operandinfo.value = operandinfo.value - 0;
-        } else if (t === "b") {
+        } else if (t == "b") {
             // blank cell
             operandinfo.type = "n";
             operandinfo.value = 0;
-        } else if (t === "e") {
+        } else if (t == "e") {
             // error
             operandinfo.value = 0;
         } else {
             valueinfo = SocialCalc.DetermineValueType
                 ? SocialCalc.DetermineValueType(operandinfo.value)
                 : { value: operandinfo.value - 0, type: "n" }; // if without rest of SocialCalc
-            if (valueinfo.type.charAt(0) === "n") {
+            if (valueinfo.type.charAt(0) == "n") {
                 operandinfo.value = valueinfo.value - 0;
                 operandinfo.type = valueinfo.type;
             } else {
@@ -2415,69 +2358,70 @@
         return operandinfo;
     };
 
-    /**
-     * Uses operand_value_and_type to get top of stack and pops it.
-     * Returns text value, preserving sub-type.
-     * 
-     * @param {Object} sheet - The spreadsheet object containing cell data
-     * @param {Array<Object>} operand - The operand stack
-     * @returns {Object} operandinfo - Object containing text value and type information
-     */
-    SocialCalc.Formula.OperandAsText = (sheet, operand) => {
-        let t, valueinfo;
-        let operandinfo = SocialCalc.Formula.OperandValueAndType(sheet, operand);
+    /*
+  #
+  # operandinfo = OperandAsText(sheet, operand)
+  #
+  # Uses operand_value_and_type to get top of stack and pops it.
+  # Returns text value, preserving sub-type.
+  #
+  */
+
+    SocialCalc.Formula.OperandAsText = function (sheet, operand) {
+        var t, valueinfo;
+        var operandinfo = SocialCalc.Formula.OperandValueAndType(sheet, operand);
 
         t = operandinfo.type.charAt(0);
 
-        if (t === "t") {
+        if (t == "t") {
             // any flavor of text returns as is
-        } else if (t === "n") {
+        } else if (t == "n") {
             operandinfo.value = SocialCalc.format_number_for_display
                 ? SocialCalc.format_number_for_display(
                     operandinfo.value,
                     operandinfo.type,
                     ""
                 )
-                : `${operandinfo.value}`;
+                : (operandinfo.value = operandinfo.value + "");
             operandinfo.type = "t";
-        } else if (t === "b") {
+        } else if (t == "b") {
             // blank
             operandinfo.value = "";
             operandinfo.type = "t";
-        } else if (t === "e") {
+        } else if (t == "e") {
             // error
             operandinfo.value = "";
         } else {
-            operandinfo.value = `${operandinfo.value}`;
-            operandinfo.type = "t";
+            operand.value = operandinfo.value + "";
+            operand.type = "t";
         }
 
         return operandinfo;
     };
 
-    /**
-     * Pops the top of stack and returns it, following a coord reference if necessary.
-     * Ranges are returned as if they were pushed onto the stack first coord first.
-     * Also sets type with "t", "n", "th", etc., as appropriate.
-     * 
-     * @param {Object} sheet - The spreadsheet object containing cell data
-     * @param {Array<Object>} operand - The operand stack
-     * @returns {Object} result - Object containing:
-     * @returns {*} result.value - The resolved value
-     * @returns {string} result.type - The type of the value
-     * @returns {string} [result.error] - Error message if bad error occurred
-     */
-    SocialCalc.Formula.OperandValueAndType = (sheet, operand) => {
-        let cellvtype, cell, pos, coordsheet;
-        let scf = SocialCalc.Formula;
+    /*
+  #
+  # result = SocialCalc.Formula.OperandValueAndType(sheet, operand)
+  #
+  # Pops the top of stack and returns it, following a coord reference if necessary.
+  # The result is {value: value, type: type, error: "only if bad error"}
+  # Ranges are returned as if they were pushed onto the stack first coord first
+  # Also sets type with "t", "n", "th", etc., as appropriate
+  #
+  */
 
-        let result = { type: "", value: "" };
+    SocialCalc.Formula.OperandValueAndType = function (sheet, operand) {
+        var cellvtype, cell, pos, coordsheet;
+        var scf = SocialCalc.Formula;
 
-        let stacklen = operand.length;
+        var result = { type: "", value: "" };
+
+        var stacklen = operand.length;
 
         if (!stacklen) {
             // make sure something is there
-            result.error = `${SocialCalc.Constants.s_InternalError}no operand on stack`;
+            result.error =
+                SocialCalc.Constants.s_InternalError + "no operand on stack";
             return result;
         }
 
@@ -2485,25 +2429,28 @@
         result.type = operand[stacklen - 1].type;
         operand.pop(); // we have data - pop stack
 
-        if (result.type === "name") {
+        if (result.type == "name") {
             result = scf.LookupName(sheet, result.value);
         }
 
-        if (result.type === "range") {
+        if (result.type == "range") {
             result = scf.StepThroughRangeDown(operand, result.value);
         }
 
-        if (result.type === "coord") {
+        if (result.type == "coord") {
             // value is a coord reference
             coordsheet = sheet;
             pos = result.value.indexOf("!");
-            if (pos !== -1) {
+            if (pos != -1) {
                 // sheet reference
                 coordsheet = scf.FindInSheetCache(result.value.substring(pos + 1)); // get other sheet
-                if (coordsheet === null) {
+                if (coordsheet == null) {
                     // unavailable
                     result.type = "e#REF!";
-                    result.error = `${SocialCalc.Constants.s_sheetunavailable} ${result.value.substring(pos + 1)}`;
+                    result.error =
+                        SocialCalc.Constants.s_sheetunavailable +
+                        " " +
+                        result.value.substring(pos + 1);
                     result.value = 0;
                     return result;
                 }
@@ -2523,7 +2470,7 @@
                 result.value = 0;
             }
             result.type = cellvtype || "b";
-            if (result.type === "b") {
+            if (result.type == "b") {
                 // blank
                 result.value = 0;
             }
@@ -2532,32 +2479,29 @@
         return result;
     };
 
-    /**
-     * Gets top of stack and pops it.
-     * Returns coord value. All others are treated as an error.
-     * 
-     * @param {Object} sheet - The spreadsheet object containing cell data
-     * @param {Array<Object>} operand - The operand stack
-     * @returns {Object} result - Object containing:
-     * @returns {string} result.value - The coordinate value or error message
-     * @returns {string} result.type - "coord" if valid coordinate, "e#REF!" if error
-     */
-    SocialCalc.Formula.OperandAsCoord = (sheet, operand) => {
-        let scf = SocialCalc.Formula;
+    /*
+  #
+  # operandinfo = SocialCalc.Formula.OperandAsCoord(sheet, operand)
+  #
+  # Gets top of stack and pops it.
+  # Returns coord value. All others are treated as an error.
+  #
+  */
 
-        let result = { type: "", value: "" };
+    SocialCalc.Formula.OperandAsCoord = function (sheet, operand) {
+        var scf = SocialCalc.Formula;
 
-        let stacklen = operand.length;
+        var result = { type: "", value: "" };
+
+        var stacklen = operand.length;
 
         result.value = operand[stacklen - 1].value; // get top of stack
         result.type = operand[stacklen - 1].type;
         operand.pop(); // we have data - pop stack
-
-        if (result.type === "name") {
+        if (result.type == "name") {
             result = SocialCalc.Formula.LookupName(sheet, result.value);
         }
-
-        if (result.type === "coord") {
+        if (result.type == "coord") {
             // value is a coord reference
             return result;
         } else {
@@ -2566,53 +2510,59 @@
             return result;
         }
     };
-    /**
-     * Gets 2 at top of stack and pops them, treating them as sheetname!coord-or-name.
-     * Returns stack-style coord value (coord!sheetname, or coord!sheetname|coord|) with
-     * a type of coord or range. All others are treated as an error.
-     * If sheetname not available, sets result.error.
-     * 
-     * @param {Object} sheet - The spreadsheet object containing cell data
-     * @param {Array<Object>} operand - The operand stack
-     * @returns {Object} result - Object containing:
-     * @returns {string} result.value - The coordinate or range value with sheet reference
-     * @returns {string} result.type - "coord", "range", or error type
-     * @returns {string} [result.error] - Error message if sheet unavailable
-     */
-    SocialCalc.Formula.OperandsAsCoordOnSheet = (sheet, operand) => {
-        let sheetname, othersheet, pos1, pos2;
-        let value1 = {};
-        let result = {};
-        let scf = SocialCalc.Formula;
 
-        let stacklen = operand.length;
+    /*
+  #
+  # result = SocialCalc.Formula.OperandsAsCoordOnSheet(sheet, operand)
+  #
+  # Gets 2 at top of stack and pops them, treating them as sheetname!coord-or-name.
+  # Returns stack-style coord value (coord!sheetname, or coord!sheetname|coord|) with
+  # a type of coord or range. All others are treated as an error.
+  # If sheetname not available, sets result.error.
+  #
+  */
+
+    SocialCalc.Formula.OperandsAsCoordOnSheet = function (sheet, operand) {
+        var sheetname, othersheet, pos1, pos2;
+        var value1 = {};
+        var result = {};
+        var scf = SocialCalc.Formula;
+
+        var stacklen = operand.length;
         value1.value = operand[stacklen - 1].value; // get top of stack - coord or name
         value1.type = operand[stacklen - 1].type;
         operand.pop(); // we have data - pop stack
 
         sheetname = scf.OperandAsSheetName(sheet, operand); // get sheetname as text
         othersheet = scf.FindInSheetCache(sheetname.value);
-        if (othersheet === null) {
+        if (othersheet == null) {
             // unavailable
             result.type = "e#REF!";
             result.value = 0;
-            result.error = `${SocialCalc.Constants.s_sheetunavailable} ${sheetname.value}`;
+            result.error =
+                SocialCalc.Constants.s_sheetunavailable + " " + sheetname.value;
             return result;
         }
 
-        if (value1.type === "name") {
+        if (value1.type == "name") {
             value1 = scf.LookupName(othersheet, value1.value);
         }
         result.type = value1.type;
-        if (value1.type === "coord") {
+        if (value1.type == "coord") {
             // value is a coord reference
-            result.value = `${value1.value}!${sheetname.value}`; // return in the format as used on stack
-        } else if (value1.type === "range") {
+            result.value = value1.value + "!" + sheetname.value; // return in the format as used on stack
+        } else if (value1.type == "range") {
             // value is a range reference
             pos1 = value1.value.indexOf("|");
             pos2 = value1.value.indexOf("|", pos1 + 1);
-            result.value = `${value1.value.substring(0, pos1)}!${sheetname.value}|${value1.value.substring(pos1 + 1, pos2)}|`;
-        } else if (value1.type.charAt(0) === "e") {
+            result.value =
+                value1.value.substring(0, pos1) +
+                "!" +
+                sheetname.value +
+                "|" +
+                value1.value.substring(pos1 + 1, pos2) +
+                "|";
+        } else if (value1.type.charAt(0) == "e") {
             result.value = value1.value;
         } else {
             result.error = SocialCalc.Constants.s_calcerrcellrefmissing;
@@ -2622,93 +2572,91 @@
         return result;
     };
 
-    /**
-     * Gets 2 at top of stack and pops them, treating them as coord2-or-name:coord1.
-     * Name is evaluated on sheet of coord1.
-     * Returns result with "value" of stack-style range value (coord!sheetname|coord|) and
-     * "type" of "range". All others are treated as an error.
-     * 
-     * @param {Object} sheet - The spreadsheet object containing cell data
-     * @param {Array<Object>} operand - The operand stack
-     * @returns {Object} result - Object containing:
-     * @returns {string} result.value - The range value or error message
-     * @returns {string} result.type - "range" or error type
-     * @returns {string} [result.errortext] - Error text if sheet unavailable
-     */
-    SocialCalc.Formula.OperandsAsRangeOnSheet = (sheet, operand) => {
-        let value1, othersheet, pos1, pos2;
-        let value2 = {};
-        let scf = SocialCalc.Formula;
-        let scc = SocialCalc.Constants;
+    /*
+  #
+  # result = SocialCalc.Formula.OperandsAsRangeOnSheet(sheet, operand)
+  #
+  # Gets 2 at top of stack and pops them, treating them as coord2-or-name:coord1.
+  # Name is evaluated on sheet of coord1.
+  # Returns result with "value" of stack-style range value (coord!sheetname|coord|) and
+  # "type" of "range". All others are treated as an error.
+  #
+  */
 
-        let stacklen = operand.length;
+    SocialCalc.Formula.OperandsAsRangeOnSheet = function (sheet, operand) {
+        var value1, othersheet, pos1, pos2;
+        var value2 = {};
+        var scf = SocialCalc.Formula;
+        var scc = SocialCalc.Constants;
+
+        var stacklen = operand.length;
         value2.value = operand[stacklen - 1].value; // get top of stack - coord or name for "right" side
         value2.type = operand[stacklen - 1].type;
         operand.pop(); // we have data - pop stack
 
         value1 = scf.OperandAsCoord(sheet, operand); // get "left" coord
-        if (value1.type !== "coord") {
+        if (value1.type != "coord") {
             // not a coord, which it must be
             return { value: 0, type: "e#REF!" };
         }
 
         othersheet = sheet;
         pos1 = value1.value.indexOf("!");
-        if (pos1 !== -1) {
+        if (pos1 != -1) {
             // sheet reference
             pos2 = value1.value.indexOf("|", pos1 + 1);
             if (pos2 < 0) pos2 = value1.value.length;
             othersheet = scf.FindInSheetCache(value1.value.substring(pos1 + 1, pos2)); // get other sheet
-            if (othersheet === null) {
+            if (othersheet == null) {
                 // unavailable
                 return {
                     value: 0,
                     type: "e#REF!",
-                    errortext: `${scc.s_sheetunavailable} ${value1.value.substring(pos1 + 1, pos2)}`,
+                    errortext:
+                        scc.s_sheetunavailable +
+                        " " +
+                        value1.value.substring(pos1 + 1, pos2),
                 };
             }
         }
 
-        if (value2.type === "name") {
+        if (value2.type == "name") {
             // coord:name is allowed, if name is just one cell
             value2 = scf.LookupName(othersheet, value2.value);
         }
 
-        if (value2.type === "coord") {
+        if (value2.type == "coord") {
             // value is a coord reference, so return the combined range
-            return { value: `${value1.value}|${value2.value}|`, type: "range" }; // return range in the format as used on stack
+            return { value: value1.value + "|" + value2.value + "|", type: "range" }; // return range in the format as used on stack
         } else {
             // bad form
             return { value: scc.s_calcerrcellrefmissing, type: "e#REF!" };
         }
     };
 
-    /**
-     * Gets top of stack and pops it.
-     * Returns sheetname value. All others are treated as an error.
-     * Accepts text, cell reference, and named value which is one of those two.
-     * 
-     * @param {Object} sheet - The spreadsheet object containing cell data
-     * @param {Array<Object>} operand - The operand stack
-     * @returns {Object} result - Object containing:
-     * @returns {string} result.value - The sheet name or error message
-     * @returns {string} result.type - Text type or error type
-     * @returns {string} [result.error] - Error message if sheet name missing
-     */
-    SocialCalc.Formula.OperandAsSheetName = (sheet, operand) => {
-        let nvalue, cell;
+    /*
+  #
+  # result = SocialCalc.Formula.OperandAsSheetName(sheet, operand)
+  #
+  # Gets top of stack and pops it.
+  # Returns sheetname value. All others are treated as an error.
+  # Accepts text, cell reference, and named value which is one of those two.
+  #
+  */
 
-        let scf = SocialCalc.Formula;
+    SocialCalc.Formula.OperandAsSheetName = function (sheet, operand) {
+        var nvalue, cell;
 
-        let result = { type: "", value: "" };
+        var scf = SocialCalc.Formula;
 
-        let stacklen = operand.length;
+        var result = { type: "", value: "" };
+
+        var stacklen = operand.length;
 
         result.value = operand[stacklen - 1].value; // get top of stack
         result.type = operand[stacklen - 1].type;
         operand.pop(); // we have data - pop stack
-
-        if (result.type === "name") {
+        if (result.type == "name") {
             nvalue = SocialCalc.Formula.LookupName(sheet, result.value);
             if (!nvalue.value) {
                 // not a known name - return bare name as the name value
@@ -2717,7 +2665,7 @@
             result.value = nvalue.value;
             result.type = nvalue.type;
         }
-        if (result.type === "coord") {
+        if (result.type == "coord") {
             // value is a coord reference, follow it to find sheet name
             cell = sheet.cells[SocialCalc.Formula.PlainCoord(result.value)];
             if (cell) {
@@ -2728,7 +2676,7 @@
                 result.type = "b";
             }
         }
-        if (result.type.charAt(0) === "t") {
+        if (result.type.charAt(0) == "t") {
             // value is a string which could be a sheet name
             return result;
         } else {
@@ -2738,31 +2686,27 @@
         }
     };
 
-    /**
-     * Returns value and type of a named value
-     * Names are case insensitive
-     * Names may have a definition which is a coord (A1), a range (A1:B7), or a formula (=OFFSET(A1,0,0,5,1))
-     * Note: The range must not have sheet names ("!") in them.
-     * 
-     * @param {Object} sheet - The spreadsheet object containing names and cell data
-     * @param {string} name - The name to look up
-     * @returns {Object} value - Object containing:
-     * @returns {*} value.value - The resolved value
-     * @returns {string} value.type - The type of the value
-     * @returns {string} [value.error] - Error message if circular reference or unknown name
-     */
-    SocialCalc.Formula.LookupName = (sheet, name) => {
-        let pos, specialc, parseinfo;
-        let names = sheet.names;
-        let value = {};
-        let startedwalk = false;
+    //
+    // value = SocialCalc.Formula.LookupName(sheet, name)
+    //
+    // Returns value and type of a named value
+    // Names are case insensitive
+    // Names may have a definition which is a coord (A1), a range (A1:B7), or a formula (=OFFSET(A1,0,0,5,1))
+    // Note: The range must not have sheet names ("!") in them.
+    //
+
+    SocialCalc.Formula.LookupName = function (sheet, name) {
+        var pos, specialc, parseinfo;
+        var names = sheet.names;
+        var value = {};
+        var startedwalk = false;
 
         if (names[name.toUpperCase()]) {
             // is name defined?
 
             value.value = names[name.toUpperCase()].definition; // yes
 
-            if (value.value.charAt(0) === "=") {
+            if (value.value.charAt(0) == "=") {
                 // formula
                 if (!sheet.checknamecirc) {
                     // are we possibly walking the name tree?
@@ -2772,7 +2716,8 @@
                     if (sheet.checknamecirc[name]) {
                         // circular reference
                         value.type = "e#NAME?";
-                        value.error = `${SocialCalc.Constants.s_circularnameref} "${name}".`;
+                        value.error =
+                            SocialCalc.Constants.s_circularnameref + ' "' + name + '".';
                         return value;
                     }
                 }
@@ -2788,16 +2733,20 @@
                     delete sheet.checknamecirc; // done with walk
                 }
 
-                if (value.type !== "range") {
+                if (value.type != "range") {
                     return value;
                 }
             }
 
             pos = value.value.indexOf(":");
-            if (pos !== -1) {
+            if (pos != -1) {
                 // range
                 value.type = "range";
-                value.value = `${value.value.substring(0, pos)}|${value.value.substring(pos + 1)}|`;
+                value.value =
+                    value.value.substring(0, pos) +
+                    "|" +
+                    value.value.substring(pos + 1) +
+                    "|";
                 value.value = value.value.toUpperCase();
             } else {
                 value.type = "coord";
@@ -2815,24 +2764,24 @@
         } else {
             value.value = "";
             value.type = "e#NAME?";
-            value.error = `${SocialCalc.Constants.s_calcerrunknownname} "${name}"`;
+            value.error =
+                SocialCalc.Constants.s_calcerrunknownname + ' "' + name + '"';
             return value;
         }
     };
 
-    /**
-     * Returns next coord in a range, keeping track on the operand stack
-     * Goes from upper left across and down to bottom right.
-     * 
-     * @param {Array<Object>} operand - The operand stack
-     * @param {string} rangevalue - The range value in format "coord1|coord2|sequence"
-     * @returns {Object} result - Object containing:
-     * @returns {string} result.value - The next coordinate in the range
-     * @returns {string} result.type - Always "coord"
-     */
-    SocialCalc.Formula.StepThroughRangeDown = (operand, rangevalue) => {
-        let value1, value2, sequence, pos1, pos2, sheet1, rp, c, r, count;
-        let scf = SocialCalc.Formula;
+    /*
+  #
+  # coord = SocialCalc.Formula.StepThroughRangeDown(operand, rangevalue)
+  #
+  # Returns next coord in a range, keeping track on the operand stack
+  # Goes from upper left across and down to bottom right.
+  #
+  */
+
+    SocialCalc.Formula.StepThroughRangeDown = function (operand, rangevalue) {
+        var value1, value2, sequence, pos1, pos2, sheet1, rp, c, r, count;
+        var scf = SocialCalc.Formula;
 
         pos1 = rangevalue.indexOf("|");
         pos2 = rangevalue.indexOf("|", pos1 + 1);
@@ -2841,14 +2790,14 @@
         sequence = rangevalue.substring(pos2 + 1) - 0;
 
         pos1 = value1.indexOf("!");
-        if (pos1 !== -1) {
+        if (pos1 != -1) {
             sheet1 = value1.substring(pos1);
             value1 = value1.substring(0, pos1);
         } else {
             sheet1 = "";
         }
         pos1 = value2.indexOf("!");
-        if (pos1 !== -1) {
+        if (pos1 != -1) {
             value2 = value2.substring(0, pos1);
         }
 
@@ -2859,39 +2808,38 @@
             for (c = rp.c1; c <= rp.c2; c++) {
                 count++;
                 if (count > sequence) {
-                    if (r !== rp.r2 || c !== rp.c2) {
+                    if (r != rp.r2 || c != rp.c2) {
                         // keep on stack until done
                         scf.PushOperand(
                             operand,
                             "range",
-                            `${value1}${sheet1}|${value2}|${count}`
+                            value1 + sheet1 + "|" + value2 + "|" + count
                         );
                     }
-                    return { value: `${SocialCalc.crToCoord(c, r)}${sheet1}`, type: "coord" };
+                    return { value: SocialCalc.crToCoord(c, r) + sheet1, type: "coord" };
                 }
             }
         }
     };
 
-    /**
-     * Returns sheetdata for the sheet where the range is, as well as
-     * the number of the first column in the range, the number of columns,
-     * and equivalent row information.
-     * 
-     * @param {Object} sheetdata - The spreadsheet data object
-     * @param {string} range - The range string in format "coord1|coord2|"
-     * @returns {Object|null} result - Object containing range information or null if error:
-     * @returns {Object} result.sheetdata - Sheet data object
-     * @returns {string} result.sheetname - Sheet name or empty string
-     * @returns {number} result.col1num - First column number
-     * @returns {number} result.ncols - Number of columns
-     * @returns {number} result.row1num - First row number  
-     * @returns {number} result.nrows - Number of rows
-     */
-    SocialCalc.Formula.DecodeRangeParts = (sheetdata, range) => {
-        let value1, value2, pos1, pos2, sheet1, coordsheetdata, rp;
+    /*
+  #
+  # result = SocialCalc.Formula.DecodeRangeParts(sheetdata, range)
+  #
+  # Returns sheetdata for the sheet where the range is, as well as
+  # the number of the first column in the range, the number of columns,
+  # and equivalent row information:
+  #
+  # {sheetdata: sheet, sheetname: name-or-"", col1num: n, ncols: n, row1num: n, nrows: n}
+  #
+  # If any errors, a null result is returned.
+  #
+  */
 
-        let scf = SocialCalc.Formula;
+    SocialCalc.Formula.DecodeRangeParts = function (sheetdata, range) {
+        var value1, value2, pos1, pos2, sheet1, coordsheetdata, rp;
+
+        var scf = SocialCalc.Formula;
 
         pos1 = range.indexOf("|");
         pos2 = range.indexOf("|", pos1 + 1);
@@ -2899,14 +2847,14 @@
         value2 = range.substring(pos1 + 1, pos2);
 
         pos1 = value1.indexOf("!");
-        if (pos1 !== -1) {
+        if (pos1 != -1) {
             sheet1 = value1.substring(pos1 + 1);
             value1 = value1.substring(0, pos1);
         } else {
             sheet1 = "";
         }
         pos1 = value2.indexOf("!");
-        if (pos1 !== -1) {
+        if (pos1 != -1) {
             value2 = value2.substring(0, pos1);
         }
 
@@ -2914,7 +2862,7 @@
         if (sheet1) {
             // sheet reference
             coordsheetdata = scf.FindInSheetCache(sheet1);
-            if (coordsheetdata === null) {
+            if (coordsheetdata == null) {
                 // unavailable
                 return null;
             }
@@ -2938,54 +2886,51 @@
     //
     //*********************
 
-    /**
-     * List of functions -- Define after functions are defined
-     * 
-     * SocialCalc.Formula.FunctionList["function_name"] = [function_subroutine, number_of_arguments, arg_def, func_def, func_class]
-     *   function_subroutine takes arguments (fname, operand, foperand, sheet), returns
-     *      errortext or null, pushing result on operand stack.
-     *   number_of_arguments is:
-     *      0 = no arguments
-     *      >0 = exactly that many arguments
-     *      <0 = that many arguments (abs value) or more
-     *      100 = don't check
-     * 
-     *   arg_def, if present, is the name of the element in SocialCalc.Formula.FunctionArgDefs.
-     *   func_def, if present, is a string explaining the function. If not, looked up in SocialCalc.Constants.
-     *   func_class, if present, is the comma-separated names of the elements in SocialCalc.Formula.FunctionClasses.
-     * 
-     * To add a function, just add it to this object.
-     */
+    // List of functions -- Define after functions are defined
+    //
+    // SocialCalc.Formula.FunctionList["function_name"] = [function_subroutine, number_of_arguments, arg_def, func_def, func_class]
+    //   function_subroutine takes arguments (fname, operand, foperand, sheet), returns
+    //      errortext or null, pushing result on operand stack.
+    //   number_of_arguments is:
+    //      0 = no arguments
+    //      >0 = exactly that many arguments
+    //      <0 = that many arguments (abs value) or more
+    //      100 = don't check
+    //
+    //   arg_def, if present, is the name of the element in SocialCalc.Formula.FunctionArgDefs.
+    //   func_def, if present, is a string explaining the function. If not, looked up in SocialCalc.Constants.
+    //   func_class, if present, is the comma-separated names of the elements in SocialCalc.Formula.FunctionClasses.
+    //
+    // To add a function, just add it to this object.
+
     if (!SocialCalc.Formula.FunctionList) {
         // make sure it is defined (could have been in another module)
         SocialCalc.Formula.FunctionList = {};
     }
 
-    /**
-     * FunctionClasses[classname] = {name: full-name-string, items: [sorted list of function names]};
-     * filled in by SocialCalc.Formula.FillFunctionInfo
-     */
+    // FunctionClasses[classname] = {name: full-name-string, items: [sorted list of function names]};
+    // filled in by SocialCalc.Formula.FillFunctionInfo
+
     SocialCalc.Formula.FunctionClasses = null; // start null to say needs filling in
 
-    /**
-     * FunctionArgDef[argname] = explicit-string-for-arg-list;
-     * filled in by SocialCalc.Formula.FillFunctionInfo
-     */
+    // FunctionArgDef[argname] = explicit-string-for-arg-list;
+    // filled in by SocialCalc.Formula.FillFunctionInfo
+
     SocialCalc.Formula.FunctionArgDefs = {};
 
-    /**
-     * Dispatches for function fname
-     * 
-     * @param {string} fname - The function name to calculate
-     * @param {Array<Object>} operand - The operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {string} errortext - Error message if any, empty string if successful
-     */
-    SocialCalc.Formula.CalculateFunction = (fname, operand, sheet) => {
-        let fobj, foperand, ffunc, argnum, ttext;
-        let scf = SocialCalc.Formula;
-        let ok = 1;
-        let errortext = "";
+    /*
+  #
+  # errortext = SocialCalc.Formula.CalculateFunction(fname, operand, sheet)
+  #
+  # Dispatches for function fname.
+  #
+  */
+
+    SocialCalc.Formula.CalculateFunction = function (fname, operand, sheet) {
+        var fobj, foperand, ffunc, argnum, ttext;
+        var scf = SocialCalc.Formula;
+        var ok = 1;
+        var errortext = "";
 
         fobj = scf.FunctionList[fname];
 
@@ -2994,14 +2939,14 @@
             ffunc = fobj[0];
             argnum = fobj[1];
             scf.CopyFunctionArgs(operand, foperand);
-            if (argnum !== 100) {
+            if (argnum != 100) {
                 if (argnum < 0) {
                     if (foperand.length < -argnum) {
                         errortext = scf.FunctionArgsError(fname, operand);
                         return errortext;
                     }
                 } else {
-                    if (foperand.length !== argnum) {
+                    if (foperand.length != argnum) {
                         errortext = scf.FunctionArgsError(fname, operand);
                         return errortext;
                     }
@@ -3011,45 +2956,43 @@
         } else {
             ttext = fname;
 
-            if (operand.length && operand[operand.length - 1].type === "start") {
+            if (operand.length && operand[operand.length - 1].type == "start") {
                 // no arguments - name or zero arg function
                 operand.pop();
                 scf.PushOperand(operand, "name", ttext);
             } else {
-                errortext = `${SocialCalc.Constants.s_sheetfuncunknownfunction} ${ttext}. `;
+                errortext =
+                    SocialCalc.Constants.s_sheetfuncunknownfunction + " " + ttext + ". ";
             }
         }
 
         return errortext;
     };
 
-    /**
-     * Pushes the type and value onto the operand stack
-     * 
-     * @param {Array<Object>} operand - The operand stack
-     * @param {string} t - The type to push
-     * @param {*} v - The value to push
-     * @returns {void}
-     */
-    SocialCalc.Formula.PushOperand = (operand, t, v) => {
+    //
+    // SocialCalc.Formula.PushOperand(operand, t, v)
+    //
+    // Pushes the type and value onto the operand stack
+    //
+
+    SocialCalc.Formula.PushOperand = function (operand, t, v) {
         operand.push({ type: t, value: v });
     };
 
-    /**
-     * Pops operands from operand and pushes on foperand up to function start
-     * reversing order in the process.
-     * 
-     * @param {Array<Object>} operand - The source operand stack
-     * @param {Array<Object>} foperand - The destination function operand stack
-     * @returns {void}
-     */
-    SocialCalc.Formula.CopyFunctionArgs = (operand, foperand) => {
-        let fobj, ffunc, argnum;
-        let scf = SocialCalc.Formula;
-        let ok = 1;
-        let errortext = null;
+    //
+    // SocialCalc.Formula.CopyFunctionArgs(operand, foperand)
+    //
+    // Pops operands from operand and pushes on foperand up to function start
+    // reversing order in the process.
+    //
 
-        while (operand.length > 0 && operand[operand.length - 1].type !== "start") {
+    SocialCalc.Formula.CopyFunctionArgs = function (operand, foperand) {
+        var fobj, foperand, ffunc, argnum;
+        var scf = SocialCalc.Formula;
+        var ok = 1;
+        var errortext = null;
+
+        while (operand.length > 0 && operand[operand.length - 1].type != "start") {
             // get each arg
             foperand.push(operand.pop()); // copy it
         }
@@ -3058,44 +3001,48 @@
         return;
     };
 
-    /**
-     * Pushes appropriate error on operand stack and returns errortext, including fname
-     * 
-     * @param {string} fname - The function name that caused the error
-     * @param {Array<Object>} operand - The operand stack
-     * @returns {string} errortext - The error message
-     */
-    SocialCalc.Formula.FunctionArgsError = (fname, operand) => {
-        let errortext = `${SocialCalc.Constants.s_calcerrincorrectargstofunction} ${fname}. `;
+    //
+    // errortext = SocialCalc.Formula.FunctionArgsError(fname, operand)
+    //
+    // Pushes appropriate error on operand stack and returns errortext, including fname
+    //
+
+    SocialCalc.Formula.FunctionArgsError = function (fname, operand) {
+        var errortext =
+            SocialCalc.Constants.s_calcerrincorrectargstofunction +
+            " " +
+            fname +
+            ". ";
         SocialCalc.Formula.PushOperand(operand, "e#VALUE!", errortext);
 
         return errortext;
     };
 
-    /**
-     * Pushes specified error and text on operand stack
-     * 
-     * @param {string} fname - The function name
-     * @param {Array<Object>} operand - The operand stack
-     * @param {string} errortype - The error type to push
-     * @param {string} errortext - The error text to push
-     * @returns {string} errortext - The error message
-     */
-    SocialCalc.Formula.FunctionSpecificError = (fname, operand, errortype, errortext) => {
+    //
+    // errortext = SocialCalc.Formula.FunctionSpecificError(fname, operand, errortype, errortext)
+    //
+    // Pushes specified error and text on operand stack.
+    //
+
+    SocialCalc.Formula.FunctionSpecificError = function (
+        fname,
+        operand,
+        errortype,
+        errortext
+    ) {
         SocialCalc.Formula.PushOperand(operand, errortype, errortext);
 
         return errortext;
     };
 
-    /**
-     * If v.type is an error, push it on operand stack and return true, otherwise return false
-     * 
-     * @param {Array<Object>} operand - The operand stack
-     * @param {Object} v - The value object to check
-     * @returns {boolean} haserror - True if error was found and pushed, false otherwise
-     */
-    SocialCalc.Formula.CheckForErrorValue = (operand, v) => {
-        if (v.type.charAt(0) === "e") {
+    //
+    // haserror = SocialCalc.Formula.CheckForErrorValue(operand, v)
+    //
+    // If v.type is an error, push it on operand stack and return true, otherwise return false.
+    //
+
+    SocialCalc.Formula.CheckForErrorValue = function (operand, v) {
+        if (v.type.charAt(0) == "e") {
             operand.push(v);
             return true;
         } else {
@@ -3108,17 +3055,18 @@
     // FUNCTION INFORMATION ROUTINES
     //
 
-    /**
-     * Goes through function definitions and fills out FunctionArgDefs and FunctionClasses.
-     * Execute this after any changes to SocialCalc.Constants but before UI is used.
-     * 
-     * @returns {void}
-     */
-    SocialCalc.Formula.FillFunctionInfo = () => {
-        let scf = SocialCalc.Formula;
-        let scc = SocialCalc.Constants;
+    //
+    // SocialCalc.Formula.FillFunctionInfo()
+    //
+    // Goes through function definitions and fills out FunctionArgDefs and FunctionClasses.
+    // Execute this after any changes to SocialCalc.Constants but before UI is used.
+    //
 
-        let fname, f, classes, cname, i;
+    SocialCalc.Formula.FillFunctionInfo = function () {
+        var scf = SocialCalc.Formula;
+        var scc = SocialCalc.Constants;
+
+        var fname, f, classes, cname, i;
 
         if (scf.FunctionClasses) {
             // only do once
@@ -3129,12 +3077,12 @@
             f = scf.FunctionList[fname];
             if (f[2]) {
                 // has an arg def
-                scf.FunctionArgDefs[f[2]] = scc[`s_farg_${f[2]}`] || ""; // get it from constants
+                scf.FunctionArgDefs[f[2]] = scc["s_farg_" + f[2]] || ""; // get it from constants
             }
             if (!f[3]) {
                 // no text def, see if in constants
-                if (scc[`s_fdef_${fname}`]) {
-                    scf.FunctionList[fname][3] = scc[`s_fdef_${fname}`];
+                if (scc["s_fdef_" + fname]) {
+                    scf.FunctionList[fname][3] = scc["s_fdef_" + fname];
                 }
             }
         }
@@ -3144,7 +3092,7 @@
         for (i = 0; i < scc.function_classlist.length; i++) {
             cname = scc.function_classlist[i];
             scf.FunctionClasses[cname] = {
-                name: scc[`s_fclass_${cname}`],
+                name: scc["s_fclass_" + cname],
                 items: [],
             };
         }
@@ -3162,37 +3110,38 @@
             scf.FunctionClasses[cname].items.sort();
         }
     };
-    /**
-     * Returns a string representing the arguments to function fname
-     * 
-     * @param {string} fname - The function name to get argument string for
-     * @returns {string} str - String representation of function arguments
-     */
-    SocialCalc.Formula.FunctionArgString = (fname) => {
-        let scf = SocialCalc.Formula;
-        let fdata = scf.FunctionList[fname];
-        let nargs, i, str;
 
-        let adef = fdata[2];
+    //
+    // str = SocialCalc.Formula.FunctionArgString(fname)
+    //
+    // Returns a string representing the arguments to function fname.
+    //
+
+    SocialCalc.Formula.FunctionArgString = function (fname) {
+        var scf = SocialCalc.Formula;
+        var fdata = scf.FunctionList[fname];
+        var nargs, i, str;
+
+        var adef = fdata[2];
 
         if (!adef) {
             nargs = fdata[1];
-            if (nargs === 0) {
+            if (nargs == 0) {
                 adef = " ";
             } else if (nargs > 0) {
                 str = "v1";
                 for (i = 2; i <= nargs; i++) {
-                    str += `, v${i}`;
+                    str += ", v" + i;
                 }
                 return str;
             } else if (nargs < 0) {
                 str = "v1";
                 for (i = 2; i < -nargs; i++) {
-                    str += `, v${i}`;
+                    str += ", v" + i;
                 }
-                return `${str}, ...`;
+                return str + ", ...";
             } else {
-                return `nargs: ${nargs}`;
+                return "nargs: " + nargs;
             }
         }
 
@@ -3208,69 +3157,70 @@
     // The standard function definitions follow.
     //
     // Note that some need SocialCalc.DetermineValueType to be defined.
+    //
 
-    /**
-     * Statistical Series Functions Calculator
-     * 
-     * AVERAGE(v1,c1:c2,...)
-     * COUNT(v1,c1:c2,...)
-     * COUNTA(v1,c1:c2,...)
-     * COUNTBLANK(v1,c1:c2,...)
-     * MAX(v1,c1:c2,...)
-     * MIN(v1,c1:c2,...)
-     * PRODUCT(v1,c1:c2,...)
-     * STDEV(v1,c1:c2,...)
-     * STDEVP(v1,c1:c2,...)
-     * SUM(v1,c1:c2,...)
-     * VAR(v1,c1:c2,...)
-     * VARP(v1,c1:c2,...)
-     * 
-     * Calculate all of these and then return the desired one (overhead is in accessing not calculating)
-     * If this routine is changed, check the dseries_functions, too.
-     * 
-     * @param {string} fname - The function name being calculated
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {null} Always returns null (errors handled by pushing to operand stack)
-     */
-    SocialCalc.Formula.SeriesFunctions = (fname, operand, foperand, sheet) => {
-        let value1, t, v1;
+    /*
+  #
+  # AVERAGE(v1,c1:c2,...)
+  # COUNT(v1,c1:c2,...)
+  # COUNTA(v1,c1:c2,...)
+  # COUNTBLANK(v1,c1:c2,...)
+  # MAX(v1,c1:c2,...)
+  # MIN(v1,c1:c2,...)
+  # PRODUCT(v1,c1:c2,...)
+  # STDEV(v1,c1:c2,...)
+  # STDEVP(v1,c1:c2,...)
+  # SUM(v1,c1:c2,...)
+  # VAR(v1,c1:c2,...)
+  # VARP(v1,c1:c2,...)
+  #
+  # Calculate all of these and then return the desired one (overhead is in accessing not calculating)
+  # If this routine is changed, check the dseries_functions, too.
+  #
+  */
 
-        let scf = SocialCalc.Formula;
-        let operand_value_and_type = scf.OperandValueAndType;
-        let lookup_result_type = scf.LookupResultType;
-        let typelookupplus = scf.TypeLookupTable.plus;
+    SocialCalc.Formula.SeriesFunctions = function (
+        fname,
+        operand,
+        foperand,
+        sheet
+    ) {
+        var value1, t, v1;
 
-        let PushOperand = (t, v) => {
+        var scf = SocialCalc.Formula;
+        var operand_value_and_type = scf.OperandValueAndType;
+        var lookup_result_type = scf.LookupResultType;
+        var typelookupplus = scf.TypeLookupTable.plus;
+
+        var PushOperand = function (t, v) {
             operand.push({ type: t, value: v });
         };
 
-        let sum = 0;
-        let resulttypesum = "";
-        let count = 0;
-        let counta = 0;
-        let countblank = 0;
-        let product = 1;
-        let maxval;
-        let minval;
-        let mk, sk, mk1, sk1; // For variance, etc.: M sub k, k-1, and S sub k-1
+        var sum = 0;
+        var resulttypesum = "";
+        var count = 0;
+        var counta = 0;
+        var countblank = 0;
+        var product = 1;
+        var maxval;
+        var minval;
+        var mk, sk, mk1, sk1; // For variance, etc.: M sub k, k-1, and S sub k-1
         // as per Knuth "The Art of Computer Programming" Vol. 2 3rd edition, page 232
 
         while (foperand.length > 0) {
             value1 = operand_value_and_type(sheet, foperand);
             t = value1.type.charAt(0);
-            if (t === "n") count += 1;
-            if (t !== "b") counta += 1;
-            if (t === "b") countblank += 1;
+            if (t == "n") count += 1;
+            if (t != "b") counta += 1;
+            if (t == "b") countblank += 1;
 
-            if (t === "n") {
+            if (t == "n") {
                 v1 = value1.value - 0; // get it as a number
                 sum += v1;
                 product *= v1;
-                maxval = maxval !== undefined ? (v1 > maxval ? v1 : maxval) : v1;
-                minval = minval !== undefined ? (v1 < minval ? v1 : minval) : v1;
-                if (count === 1) {
+                maxval = maxval != undefined ? (v1 > maxval ? v1 : maxval) : v1;
+                minval = minval != undefined ? (v1 < minval ? v1 : minval) : v1;
+                if (count == 1) {
                     // initialize with first values for variance used in STDEV, VAR, etc.
                     mk1 = v1;
                     sk1 = 0;
@@ -3286,7 +3236,7 @@
                     resulttypesum || value1.type,
                     typelookupplus
                 );
-            } else if (t === "e" && resulttypesum.charAt(0) !== "e") {
+            } else if (t == "e" && resulttypesum.charAt(0) != "e") {
                 resulttypesum = value1.type;
             }
         }
@@ -3366,7 +3316,7 @@
         return null;
     };
 
-    // Add statistical functions to function list
+    // Add to function list
     SocialCalc.Formula.FunctionList["AVERAGE"] = [
         SocialCalc.Formula.SeriesFunctions,
         -1,
@@ -3452,64 +3402,71 @@
         "stat",
     ];
 
-    /**
-     * Database Series Functions Calculator
-     * 
-     * DAVERAGE(databaserange, fieldname, criteriarange)
-     * DCOUNT(databaserange, fieldname, criteriarange)
-     * DCOUNTA(databaserange, fieldname, criteriarange)
-     * DGET(databaserange, fieldname, criteriarange)
-     * DMAX(databaserange, fieldname, criteriarange)
-     * DMIN(databaserange, fieldname, criteriarange)
-     * DPRODUCT(databaserange, fieldname, criteriarange)
-     * DSTDEV(databaserange, fieldname, criteriarange)
-     * DSTDEVP(databaserange, fieldname, criteriarange)
-     * DSUM(databaserange, fieldname, criteriarange)
-     * DVAR(databaserange, fieldname, criteriarange)
-     * DVARP(databaserange, fieldname, criteriarange)
-     * 
-     * Calculate all of these and then return the desired one (overhead is in accessing not calculating)
-     * If this routine is changed, check the series_functions, too.
-     * 
-     * @param {string} fname - The function name being calculated
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {void} Returns nothing (errors handled by pushing to operand stack)
-     */
-    SocialCalc.Formula.DSeriesFunctions = (fname, operand, foperand, sheet) => {
-        let value1, tostype, cr, dbrange, fieldname, criteriarange, dbinfo, criteriainfo;
-        let fieldasnum, targetcol, i, j, k, cell, criteriafieldnums;
-        let testok, criteriacr, criteria, testcol, testcr;
-        let t;
+    /*
+  #
+  # DAVERAGE(databaserange, fieldname, criteriarange)
+  # DCOUNT(databaserange, fieldname, criteriarange)
+  # DCOUNTA(databaserange, fieldname, criteriarange)
+  # DGET(databaserange, fieldname, criteriarange)
+  # DMAX(databaserange, fieldname, criteriarange)
+  # DMIN(databaserange, fieldname, criteriarange)
+  # DPRODUCT(databaserange, fieldname, criteriarange)
+  # DSTDEV(databaserange, fieldname, criteriarange)
+  # DSTDEVP(databaserange, fieldname, criteriarange)
+  # DSUM(databaserange, fieldname, criteriarange)
+  # DVAR(databaserange, fieldname, criteriarange)
+  # DVARP(databaserange, fieldname, criteriarange)
+  #
+  # Calculate all of these and then return the desired one (overhead is in accessing not calculating)
+  # If this routine is changed, check the series_functions, too.
+  #
+  */
 
-        let scf = SocialCalc.Formula;
-        let operand_value_and_type = scf.OperandValueAndType;
-        let lookup_result_type = scf.LookupResultType;
-        let typelookupplus = scf.TypeLookupTable.plus;
+    SocialCalc.Formula.DSeriesFunctions = function (
+        fname,
+        operand,
+        foperand,
+        sheet
+    ) {
+        var value1,
+            tostype,
+            cr,
+            dbrange,
+            fieldname,
+            criteriarange,
+            dbinfo,
+            criteriainfo;
+        var fieldasnum, targetcol, i, j, k, cell, criteriafieldnums;
+        var testok, criteriacr, criteria, testcol, testcr;
+        var t;
 
-        let PushOperand = (t, v) => {
+        var scf = SocialCalc.Formula;
+        var operand_value_and_type = scf.OperandValueAndType;
+        var lookup_result_type = scf.LookupResultType;
+        var typelookupplus = scf.TypeLookupTable.plus;
+
+        var PushOperand = function (t, v) {
             operand.push({ type: t, value: v });
         };
 
-        value1 = {};
+        var value1 = {};
 
-        let sum = 0;
-        let resulttypesum = "";
-        let count = 0;
-        let counta = 0;
-        let countblank = 0;
-        let product = 1;
-        let maxval;
-        let minval;
-        let mk, sk, mk1, sk1; // For variance, etc.: M sub k, k-1, and S sub k-1
+        var sum = 0;
+        var resulttypesum = "";
+        var count = 0;
+        var counta = 0;
+        var countblank = 0;
+        var product = 1;
+        var maxval;
+        var minval;
+        var mk, sk, mk1, sk1; // For variance, etc.: M sub k, k-1, and S sub k-1
         // as per Knuth "The Art of Computer Programming" Vol. 2 3rd edition, page 232
 
         dbrange = scf.TopOfStackValueAndType(sheet, foperand); // get a range
         fieldname = scf.OperandValueAndType(sheet, foperand); // get a value
         criteriarange = scf.TopOfStackValueAndType(sheet, foperand); // get a range
 
-        if (dbrange.type !== "range" || criteriarange.type !== "range") {
+        if (dbrange.type != "range" || criteriarange.type != "range") {
             return scf.FunctionArgsError(fname, operand);
         }
 
@@ -3565,7 +3522,7 @@
                     ); // where criteria is
                     cell = criteriainfo.sheetdata.GetAssuredCell(criteriacr);
                     criteria = cell.datavalue;
-                    if (typeof criteria === "string" && criteria.length === 0) continue; // blank items are OK
+                    if (typeof criteria == "string" && criteria.length == 0) continue; // blank items are OK
                     testcol = criteriafieldnums[k];
                     testcr = SocialCalc.crToCoord(testcol, dbinfo.row1num + i); // cell to check
                     cell = criteriainfo.sheetdata.GetAssuredCell(testcr);
@@ -3588,17 +3545,17 @@
             value1.value = cell.datavalue;
             value1.type = cell.valuetype;
             t = value1.type.charAt(0);
-            if (t === "n") count += 1;
-            if (t !== "b") counta += 1;
-            if (t === "b") countblank += 1;
+            if (t == "n") count += 1;
+            if (t != "b") counta += 1;
+            if (t == "b") countblank += 1;
 
-            if (t === "n") {
+            if (t == "n") {
                 v1 = value1.value - 0; // get it as a number
                 sum += v1;
                 product *= v1;
-                maxval = maxval !== undefined ? (v1 > maxval ? v1 : maxval) : v1;
-                minval = minval !== undefined ? (v1 < minval ? v1 : minval) : v1;
-                if (count === 1) {
+                maxval = maxval != undefined ? (v1 > maxval ? v1 : maxval) : v1;
+                minval = minval != undefined ? (v1 < minval ? v1 : minval) : v1;
+                if (count == 1) {
                     // initialize with first values for variance used in STDEV, VAR, etc.
                     mk1 = v1;
                     sk1 = 0;
@@ -3614,7 +3571,7 @@
                     resulttypesum || value1.type,
                     typelookupplus
                 );
-            } else if (t === "e" && resulttypesum.charAt(0) !== "e") {
+            } else if (t == "e" && resulttypesum.charAt(0) != "e") {
                 resulttypesum = value1.type;
             }
         }
@@ -3687,9 +3644,9 @@
                 break;
 
             case "DGET":
-                if (count === 1) {
+                if (count == 1) {
                     PushOperand(resulttypesum, sum);
-                } else if (count === 0) {
+                } else if (count == 0) {
                     PushOperand("e#VALUE!", 0);
                 } else {
                     PushOperand("e#NUM!", 0);
@@ -3700,7 +3657,6 @@
         return;
     };
 
-    // Add database functions to function list
     SocialCalc.Formula.FunctionList["DAVERAGE"] = [
         SocialCalc.Formula.DSeriesFunctions,
         3,
@@ -3785,22 +3741,28 @@
         "",
         "stat",
     ];
-    /**
-     * If fieldname is a number, uses it, otherwise looks up string in cells in row to find field number
-     * If not found, returns 0.
-     * 
-     * @param {Object} sheet - The spreadsheet object containing cell data
-     * @param {number} col1num - The first column number in the range
-     * @param {number} ncols - The number of columns in the range
-     * @param {number} row1num - The row number to search for field names
-     * @param {*} fieldname - The field name or number to find
-     * @param {string} fieldtype - The type of the fieldname parameter
-     * @returns {number} colnum - The column number (1-based) or 0 if not found
-     */
-    SocialCalc.Formula.FieldToColnum = (sheet, col1num, ncols, row1num, fieldname, fieldtype) => {
-        let colnum, cell, value;
 
-        if (fieldtype.charAt(0) === "n") {
+    /*
+  #
+  # colnum = SocialCalc.Formula.FieldToColnum(sheet, col1num, ncols, row1num, fieldname, fieldtype)
+  #
+  # If fieldname is a number, uses it, otherwise looks up string in cells in row to find field number
+  #
+  # If not found, returns 0.
+  #
+  */
+
+    SocialCalc.Formula.FieldToColnum = function (
+        sheet,
+        col1num,
+        ncols,
+        row1num,
+        fieldname,
+        fieldtype
+    ) {
+        var colnum, cell, value;
+
+        if (fieldtype.charAt(0) == "n") {
             // number - return it if legal
             colnum = fieldname - 0; // make sure a number
             if (colnum <= 0 || colnum > ncols) {
@@ -3809,7 +3771,7 @@
             return Math.floor(colnum);
         }
 
-        if (fieldtype.charAt(0) !== "t") {
+        if (fieldtype.charAt(0) != "t") {
             // must be text otherwise
             return 0;
         }
@@ -3822,8 +3784,8 @@
                 SocialCalc.crToCoord(col1num + colnum, row1num)
             );
             value = cell.datavalue;
-            value = `${value}`.toLowerCase(); // ignore case
-            if (value === fieldname) {
+            value = (value + "").toLowerCase(); // ignore case
+            if (value == fieldname) {
                 // match
                 return colnum + 1;
             }
@@ -3831,44 +3793,55 @@
         return 0; // looked at all and no match
     };
 
-    /**
-     * Lookup Functions: HLOOKUP, VLOOKUP, MATCH
-     * 
-     * HLOOKUP(value, range, row, [rangelookup])
-     * VLOOKUP(value, range, col, [rangelookup])
-     * MATCH(value, range, [rangelookup])
-     * 
-     * @param {string} fname - The function name (HLOOKUP, VLOOKUP, or MATCH)
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {void} Returns nothing (results pushed to operand stack)
-     */
-    SocialCalc.Formula.LookupFunctions = (fname, operand, foperand, sheet) => {
-        let lookupvalue, range, offset, rangelookup, offsetvalue, rangeinfo;
-        let c, r, cincr, rincr, previousOK, csave, rsave, cell, value, valuetype, cr;
+    /*
+  #
+  # HLOOKUP(value, range, row, [rangelookup])
+  # VLOOKUP(value, range, col, [rangelookup])
+  # MATCH(value, range, [rangelookup])
+  #
+  */
 
-        let scf = SocialCalc.Formula;
-        let operand_value_and_type = scf.OperandValueAndType;
-        let lookup_result_type = scf.LookupResultType;
-        let typelookupplus = scf.TypeLookupTable.plus;
+    SocialCalc.Formula.LookupFunctions = function (
+        fname,
+        operand,
+        foperand,
+        sheet
+    ) {
+        var lookupvalue, range, offset, rangelookup, offsetvalue, rangeinfo;
+        var c,
+            r,
+            cincr,
+            rincr,
+            previousOK,
+            csave,
+            rsave,
+            cell,
+            value,
+            valuetype,
+            cr,
+            lookupvalue;
 
-        let PushOperand = (t, v) => {
+        var scf = SocialCalc.Formula;
+        var operand_value_and_type = scf.OperandValueAndType;
+        var lookup_result_type = scf.LookupResultType;
+        var typelookupplus = scf.TypeLookupTable.plus;
+
+        var PushOperand = function (t, v) {
             operand.push({ type: t, value: v });
         };
 
         lookupvalue = operand_value_and_type(sheet, foperand);
-        if (typeof lookupvalue.value === "string") {
+        if (typeof lookupvalue.value == "string") {
             lookupvalue.value = lookupvalue.value.toLowerCase();
         }
 
         range = scf.TopOfStackValueAndType(sheet, foperand);
 
         rangelookup = 1; // default to true or 1
-        if (fname === "MATCH") {
+        if (fname == "MATCH") {
             if (foperand.length) {
                 rangelookup = scf.OperandAsNumber(sheet, foperand);
-                if (rangelookup.type.charAt(0) !== "n") {
+                if (rangelookup.type.charAt(0) != "n") {
                     PushOperand("e#VALUE!", 0);
                     return;
                 }
@@ -3880,14 +3853,14 @@
             }
         } else {
             offsetvalue = scf.OperandAsNumber(sheet, foperand);
-            if (offsetvalue.type.charAt(0) !== "n") {
+            if (offsetvalue.type.charAt(0) != "n") {
                 PushOperand("e#VALUE!", 0);
                 return;
             }
             offsetvalue = Math.floor(offsetvalue.value);
             if (foperand.length) {
                 rangelookup = scf.OperandAsNumber(sheet, foperand);
-                if (rangelookup.type.charAt(0) !== "n") {
+                if (rangelookup.type.charAt(0) != "n") {
                     PushOperand("e#VALUE!", 0);
                     return;
                 }
@@ -3899,12 +3872,12 @@
             }
         }
         lookupvalue.type = lookupvalue.type.charAt(0); // only deal with general type
-        if (lookupvalue.type === "n") {
+        if (lookupvalue.type == "n") {
             // if number, make sure a number
             lookupvalue.value = lookupvalue.value - 0;
         }
 
-        if (range.type !== "range") {
+        if (range.type != "range") {
             scf.FunctionArgsError(fname, operand);
             return 0;
         }
@@ -3919,19 +3892,19 @@
         r = 0;
         cincr = 0;
         rincr = 0;
-        if (fname === "HLOOKUP") {
+        if (fname == "HLOOKUP") {
             cincr = 1;
             if (offsetvalue > rangeinfo.nrows) {
                 PushOperand("e#REF!", 0);
                 return;
             }
-        } else if (fname === "VLOOKUP") {
+        } else if (fname == "VLOOKUP") {
             rincr = 1;
             if (offsetvalue > rangeinfo.ncols) {
                 PushOperand("e#REF!", 0);
                 return;
             }
-        } else if (fname === "MATCH") {
+        } else if (fname == "MATCH") {
             if (rangeinfo.ncols > 1) {
                 if (rangeinfo.nrows > 1) {
                     PushOperand("e#N/A", 0);
@@ -3945,7 +3918,7 @@
             scf.FunctionArgsError(fname, operand);
             return 0;
         }
-        if (offsetvalue < 1 && fname !== "MATCH") {
+        if (offsetvalue < 1 && fname != "MATCH") {
             PushOperand("e#VALUE!", 0);
             return 0;
         }
@@ -3957,13 +3930,13 @@
             cell = rangeinfo.sheetdata.GetAssuredCell(cr);
             value = cell.datavalue;
             valuetype = cell.valuetype ? cell.valuetype.charAt(0) : "b"; // only deal with general types
-            if (valuetype === "n") {
+            if (valuetype == "n") {
                 value = value - 0; // make sure number
             }
             if (rangelookup) {
                 // rangelookup type 1 or -1: look for within brackets for matches
-                if (lookupvalue.type === "n" && valuetype === "n") {
-                    if (lookupvalue.value === value) {
+                if (lookupvalue.type == "n" && valuetype == "n") {
+                    if (lookupvalue.value == value) {
                         // match
                         break;
                     }
@@ -3980,9 +3953,9 @@
                         previousOK = 2;
                         break;
                     }
-                } else if (lookupvalue.type === "t" && valuetype === "t") {
-                    value = typeof value === "string" ? value.toLowerCase() : "";
-                    if (lookupvalue.value === value) {
+                } else if (lookupvalue.type == "t" && valuetype == "t") {
+                    value = typeof value == "string" ? value.toLowerCase() : "";
+                    if (lookupvalue.value == value) {
                         // match
                         break;
                     }
@@ -4002,14 +3975,14 @@
                 }
             } else {
                 // exact value matches
-                if (lookupvalue.type === "n" && valuetype === "n") {
-                    if (lookupvalue.value === value) {
+                if (lookupvalue.type == "n" && valuetype == "n") {
+                    if (lookupvalue.value == value) {
                         // match
                         break;
                     }
-                } else if (lookupvalue.type === "t" && valuetype === "t") {
-                    value = typeof value === "string" ? value.toLowerCase() : "";
-                    if (lookupvalue.value === value) {
+                } else if (lookupvalue.type == "t" && valuetype == "t") {
+                    value = typeof value == "string" ? value.toLowerCase() : "";
+                    if (lookupvalue.value == value) {
                         // match
                         break;
                     }
@@ -4030,19 +4003,19 @@
             }
         }
 
-        if (previousOK === 2) {
+        if (previousOK == 2) {
             // back to last OK
             r = rsave;
             c = csave;
         }
 
-        if (fname === "MATCH") {
+        if (fname == "MATCH") {
             value = c + r + 1; // only one may be <> 0
             valuetype = "n";
         } else {
             cr = SocialCalc.crToCoord(
-                rangeinfo.col1num + c + (fname === "VLOOKUP" ? offsetvalue - 1 : 0),
-                rangeinfo.row1num + r + (fname === "HLOOKUP" ? offsetvalue - 1 : 0)
+                rangeinfo.col1num + c + (fname == "VLOOKUP" ? offsetvalue - 1 : 0),
+                rangeinfo.row1num + r + (fname == "HLOOKUP" ? offsetvalue - 1 : 0)
             );
             cell = rangeinfo.sheetdata.GetAssuredCell(cr);
             value = cell.datavalue;
@@ -4053,7 +4026,6 @@
         return;
     };
 
-    // Add lookup functions to function list
     SocialCalc.Formula.FunctionList["HLOOKUP"] = [
         SocialCalc.Formula.LookupFunctions,
         -3,
@@ -4076,34 +4048,34 @@
         "lookup",
     ];
 
-    /**
-     * INDEX Function
-     * 
-     * INDEX(range, rownum, colnum)
-     * 
-     * @param {string} fname - The function name (INDEX)
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {void} Returns nothing (results pushed to operand stack)
-     */
-    SocialCalc.Formula.IndexFunction = (fname, operand, foperand, sheet) => {
-        let range, sheetname, indexinfo, rowindex, colindex, result, resulttype;
+    /*
+  #
+  # INDEX(range, rownum, colnum)
+  #
+  */
 
-        let scf = SocialCalc.Formula;
+    SocialCalc.Formula.IndexFunction = function (
+        fname,
+        operand,
+        foperand,
+        sheet
+    ) {
+        var range, sheetname, indexinfo, rowindex, colindex, result, resulttype;
 
-        let PushOperand = (t, v) => {
+        var scf = SocialCalc.Formula;
+
+        var PushOperand = function (t, v) {
             operand.push({ type: t, value: v });
         };
 
         range = scf.TopOfStackValueAndType(sheet, foperand); // get range
-        if (range.type !== "range") {
+        if (range.type != "range") {
             scf.FunctionArgsError(fname, operand);
             return 0;
         }
         indexinfo = scf.DecodeRangeParts(sheet, range.value, range.type);
         if (indexinfo.sheetname) {
-            sheetname = `!${indexinfo.sheetname}`;
+            sheetname = "!" + indexinfo.sheetname;
         } else {
             sheetname = "";
         }
@@ -4114,14 +4086,14 @@
         if (foperand.length) {
             // look for row number
             rowindex = scf.OperandAsNumber(sheet, foperand);
-            if (rowindex.type.charAt(0) !== "n" || rowindex.value < 0) {
+            if (rowindex.type.charAt(0) != "n" || rowindex.value < 0) {
                 PushOperand("e#VALUE!", 0);
                 return;
             }
             if (foperand.length) {
                 // look for col number
                 colindex = scf.OperandAsNumber(sheet, foperand);
-                if (colindex.type.charAt(0) !== "n" || colindex.value < 0) {
+                if (colindex.type.charAt(0) != "n" || colindex.value < 0) {
                     PushOperand("e#VALUE!", 0);
                     return;
                 }
@@ -4131,7 +4103,7 @@
                 }
             } else {
                 // col number missing
-                if (indexinfo.nrows === 1) {
+                if (indexinfo.nrows == 1) {
                     // if only one row, then rowindex is really colindex
                     colindex.value = rowindex.value;
                     rowindex.value = 0;
@@ -4144,59 +4116,79 @@
             return;
         }
 
-        if (rowindex.value === 0) {
-            if (colindex.value === 0) {
-                if (indexinfo.nrows === 1 && indexinfo.ncols === 1) {
-                    result = `${SocialCalc.crToCoord(indexinfo.col1num, indexinfo.row1num)}${sheetname}`;
+        if (rowindex.value == 0) {
+            if (colindex.value == 0) {
+                if (indexinfo.nrows == 1 && indexinfo.ncols == 1) {
+                    result =
+                        SocialCalc.crToCoord(indexinfo.col1num, indexinfo.row1num) +
+                        sheetname;
                     resulttype = "coord";
                 } else {
-                    result = `${SocialCalc.crToCoord(indexinfo.col1num, indexinfo.row1num)}${sheetname}|${SocialCalc.crToCoord(
-                        indexinfo.col1num + indexinfo.ncols - 1,
-                        indexinfo.row1num + indexinfo.nrows - 1
-                    )}|`;
+                    result =
+                        SocialCalc.crToCoord(indexinfo.col1num, indexinfo.row1num) +
+                        sheetname +
+                        "|" +
+                        SocialCalc.crToCoord(
+                            indexinfo.col1num + indexinfo.ncols - 1,
+                            indexinfo.row1num + indexinfo.nrows - 1
+                        ) +
+                        "|";
                     resulttype = "range";
                 }
             } else {
-                if (indexinfo.nrows === 1) {
-                    result = `${SocialCalc.crToCoord(
-                        indexinfo.col1num + colindex.value - 1,
-                        indexinfo.row1num
-                    )}${sheetname}`;
+                if (indexinfo.nrows == 1) {
+                    result =
+                        SocialCalc.crToCoord(
+                            indexinfo.col1num + colindex.value - 1,
+                            indexinfo.row1num
+                        ) + sheetname;
                     resulttype = "coord";
                 } else {
-                    result = `${SocialCalc.crToCoord(
-                        indexinfo.col1num + colindex.value - 1,
-                        indexinfo.row1num
-                    )}${sheetname}|${SocialCalc.crToCoord(
-                        indexinfo.col1num + colindex.value - 1,
-                        indexinfo.row1num + indexinfo.nrows - 1
-                    )}|`;
+                    result =
+                        SocialCalc.crToCoord(
+                            indexinfo.col1num + colindex.value - 1,
+                            indexinfo.row1num
+                        ) +
+                        sheetname +
+                        "|" +
+                        SocialCalc.crToCoord(
+                            indexinfo.col1num + colindex.value - 1,
+                            indexinfo.row1num + indexinfo.nrows - 1
+                        ) +
+                        "|";
                     resulttype = "range";
                 }
             }
         } else {
-            if (colindex.value === 0) {
-                if (indexinfo.ncols === 1) {
-                    result = `${SocialCalc.crToCoord(
-                        indexinfo.col1num,
-                        indexinfo.row1num + rowindex.value - 1
-                    )}${sheetname}`;
+            if (colindex.value == 0) {
+                if (indexinfo.ncols == 1) {
+                    result =
+                        SocialCalc.crToCoord(
+                            indexinfo.col1num,
+                            indexinfo.row1num + rowindex.value - 1
+                        ) + sheetname;
                     resulttype = "coord";
                 } else {
-                    result = `${SocialCalc.crToCoord(
-                        indexinfo.col1num,
-                        indexinfo.row1num + rowindex.value - 1
-                    )}${sheetname}|${SocialCalc.crToCoord(
-                        indexinfo.col1num + indexinfo.ncols - 1,
-                        indexinfo.row1num + rowindex.value - 1
-                    )}|`;
+                    result =
+                        SocialCalc.crToCoord(
+                            indexinfo.col1num,
+                            indexinfo.row1num + rowindex.value - 1
+                        ) +
+                        sheetname +
+                        "|" +
+                        SocialCalc.crToCoord(
+                            indexinfo.col1num + indexinfo.ncols - 1,
+                            indexinfo.row1num + rowindex.value - 1
+                        ) +
+                        "|";
                     resulttype = "range";
                 }
             } else {
-                result = `${SocialCalc.crToCoord(
-                    indexinfo.col1num + colindex.value - 1,
-                    indexinfo.row1num + rowindex.value - 1
-                )}${sheetname}`;
+                result =
+                    SocialCalc.crToCoord(
+                        indexinfo.col1num + colindex.value - 1,
+                        indexinfo.row1num + rowindex.value - 1
+                    ) + sheetname;
                 resulttype = "coord";
             }
         }
@@ -4214,40 +4206,47 @@
         "lookup",
     ];
 
-    /**
-     * COUNTIF and SUMIF Functions
-     * 
-     * COUNTIF(c1:c2,"criteria")
-     * SUMIF(c1:c2,"criteria",[range2])
-     * 
-     * @param {string} fname - The function name (COUNTIF or SUMIF)
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {void} Returns nothing (results pushed to operand stack)
-     */
-    SocialCalc.Formula.CountifSumifFunctions = (fname, operand, foperand, sheet) => {
-        let range, criteria, sumrange, f2operand, result, resulttype, value1, value2;
-        let sum = 0;
-        let resulttypesum = "";
-        let count = 0;
+    /*
+  #
+  # COUNTIF(c1:c2,"criteria")
+  # SUMIF(c1:c2,"criteria",[range2])
+  #
+  */
 
-        let scf = SocialCalc.Formula;
-        let operand_value_and_type = scf.OperandValueAndType;
-        let lookup_result_type = scf.LookupResultType;
-        let typelookupplus = scf.TypeLookupTable.plus;
+    SocialCalc.Formula.CountifSumifFunctions = function (
+        fname,
+        operand,
+        foperand,
+        sheet
+    ) {
+        var range,
+            criteria,
+            sumrange,
+            f2operand,
+            result,
+            resulttype,
+            value1,
+            value2;
+        var sum = 0;
+        var resulttypesum = "";
+        var count = 0;
 
-        let PushOperand = (t, v) => {
+        var scf = SocialCalc.Formula;
+        var operand_value_and_type = scf.OperandValueAndType;
+        var lookup_result_type = scf.LookupResultType;
+        var typelookupplus = scf.TypeLookupTable.plus;
+
+        var PushOperand = function (t, v) {
             operand.push({ type: t, value: v });
         };
 
         range = scf.TopOfStackValueAndType(sheet, foperand); // get range or coord
         criteria = scf.OperandAsText(sheet, foperand); // get criteria
-        if (fname === "SUMIF") {
-            if (foperand.length === 1) {
+        if (fname == "SUMIF") {
+            if (foperand.length == 1) {
                 // three arg form of SUMIF
                 sumrange = scf.TopOfStackValueAndType(sheet, foperand);
-            } else if (foperand.length === 0) {
+            } else if (foperand.length == 0) {
                 // two arg form
                 sumrange = { value: range.value, type: range.type };
             } else {
@@ -4258,25 +4257,25 @@
             sumrange = { value: range.value, type: range.type };
         }
 
-        if (criteria.type.charAt(0) === "n") {
-            criteria.value = `${criteria.value}`; // make text
-        } else if (criteria.type.charAt(0) === "e") {
+        if (criteria.type.charAt(0) == "n") {
+            criteria.value = criteria.value + ""; // make text
+        } else if (criteria.type.charAt(0) == "e") {
             // error
             criteria.value = null;
-        } else if (criteria.type.charAt(0) === "b") {
+        } else if (criteria.type.charAt(0) == "b") {
             // blank here is undefined
             criteria.value = null;
         }
 
-        if (range.type !== "coord" && range.type !== "range") {
+        if (range.type != "coord" && range.type != "range") {
             scf.FunctionArgsError(fname, operand);
             return 0;
         }
 
         if (
-            fname === "SUMIF" &&
-            sumrange.type !== "coord" &&
-            sumrange.type !== "range"
+            fname == "SUMIF" &&
+            sumrange.type != "coord" &&
+            sumrange.type != "range"
         ) {
             scf.FunctionArgsError(fname, operand);
             return 0;
@@ -4296,7 +4295,7 @@
 
             count += 1;
 
-            if (value2.type.charAt(0) === "n") {
+            if (value2.type.charAt(0) == "n") {
                 sum += value2.value - 0;
                 resulttypesum = lookup_result_type(
                     value2.type,
@@ -4304,8 +4303,8 @@
                     typelookupplus
                 );
             } else if (
-                value2.type.charAt(0) === "e" &&
-                resulttypesum.charAt(0) !== "e"
+                value2.type.charAt(0) == "e" &&
+                resulttypesum.charAt(0) != "e"
             ) {
                 resulttypesum = value2.type;
             }
@@ -4313,16 +4312,15 @@
 
         resulttypesum = resulttypesum || "n";
 
-        if (fname === "SUMIF") {
+        if (fname == "SUMIF") {
             PushOperand(resulttypesum, sum);
-        } else if (fname === "COUNTIF") {
+        } else if (fname == "COUNTIF") {
             PushOperand("n", count);
         }
 
         return;
     };
 
-    // Add conditional functions to function list
     SocialCalc.Formula.FunctionList["COUNTIF"] = [
         SocialCalc.Formula.CountifSumifFunctions,
         2,
@@ -4337,23 +4335,19 @@
         "",
         "stat",
     ];
-    /**
-     * IF Function
-     * 
-     * IF(cond,truevalue,falsevalue)
-     * 
-     * @param {string} fname - The function name (IF)
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {null} Always returns null
-     */
-    SocialCalc.Formula.IfFunction = (fname, operand, foperand, sheet) => {
-        let cond, t;
+
+    /*
+  #
+  # IF(cond,truevalue,falsevalue)
+  #
+  */
+
+    SocialCalc.Formula.IfFunction = function (fname, operand, foperand, sheet) {
+        var cond, t;
 
         cond = SocialCalc.Formula.OperandValueAndType(sheet, foperand);
         t = cond.type.charAt(0);
-        if (t !== "n" && t !== "b") {
+        if (t != "n" && t != "b") {
             operand.push({ type: "e#VALUE!", value: 0 });
             return;
         }
@@ -4365,7 +4359,7 @@
         return null;
     };
 
-    // Add IF function to function list
+    // Add to function list
     SocialCalc.Formula.FunctionList["IF"] = [
         SocialCalc.Formula.IfFunction,
         3,
@@ -4374,24 +4368,19 @@
         "test",
     ];
 
-    /**
-     * DATE Function
-     * 
-     * DATE(year,month,day)
-     * 
-     * @param {string} fname - The function name (DATE)
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {void} Returns nothing (results pushed to operand stack)
-     */
-    SocialCalc.Formula.DateFunction = (fname, operand, foperand, sheet) => {
-        let scf = SocialCalc.Formula;
-        let result = 0;
-        let year = scf.OperandAsNumber(sheet, foperand);
-        let month = scf.OperandAsNumber(sheet, foperand);
-        let day = scf.OperandAsNumber(sheet, foperand);
-        let resulttype = scf.LookupResultType(
+    /*
+  #
+  # DATE(year,month,day)
+  #
+  */
+
+    SocialCalc.Formula.DateFunction = function (fname, operand, foperand, sheet) {
+        var scf = SocialCalc.Formula;
+        var result = 0;
+        var year = scf.OperandAsNumber(sheet, foperand);
+        var month = scf.OperandAsNumber(sheet, foperand);
+        var day = scf.OperandAsNumber(sheet, foperand);
+        var resulttype = scf.LookupResultType(
             year.type,
             month.type,
             scf.TypeLookupTable.twoargnumeric
@@ -4401,7 +4390,7 @@
             day.type,
             scf.TypeLookupTable.twoargnumeric
         );
-        if (resulttype.charAt(0) === "n") {
+        if (resulttype.charAt(0) == "n") {
             result =
                 SocialCalc.FormatNumber.convert_date_gregorian_to_julian(
                     Math.floor(year.value),
@@ -4422,24 +4411,19 @@
         "datetime",
     ];
 
-    /**
-     * TIME Function
-     * 
-     * TIME(hour,minute,second)
-     * 
-     * @param {string} fname - The function name (TIME)
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {void} Returns nothing (results pushed to operand stack)
-     */
-    SocialCalc.Formula.TimeFunction = (fname, operand, foperand, sheet) => {
-        let scf = SocialCalc.Formula;
-        let result = 0;
-        let hours = scf.OperandAsNumber(sheet, foperand);
-        let minutes = scf.OperandAsNumber(sheet, foperand);
-        let seconds = scf.OperandAsNumber(sheet, foperand);
-        let resulttype = scf.LookupResultType(
+    /*
+  #
+  # TIME(hour,minute,second)
+  #
+  */
+
+    SocialCalc.Formula.TimeFunction = function (fname, operand, foperand, sheet) {
+        var scf = SocialCalc.Formula;
+        var result = 0;
+        var hours = scf.OperandAsNumber(sheet, foperand);
+        var minutes = scf.OperandAsNumber(sheet, foperand);
+        var seconds = scf.OperandAsNumber(sheet, foperand);
+        var resulttype = scf.LookupResultType(
             hours.type,
             minutes.type,
             scf.TypeLookupTable.twoargnumeric
@@ -4449,7 +4433,7 @@
             seconds.type,
             scf.TypeLookupTable.twoargnumeric
         );
-        if (resulttype.charAt(0) === "n") {
+        if (resulttype.charAt(0) == "n") {
             result =
                 (hours.value * 60 * 60 + minutes.value * 60 + seconds.value) /
                 (24 * 60 * 60);
@@ -4467,33 +4451,28 @@
         "datetime",
     ];
 
-    /**
-     * Date/Month/Year/Weekday Functions
-     * 
-     * DAY(date)
-     * MONTH(date)
-     * YEAR(date)
-     * WEEKDAY(date, [type])
-     * 
-     * @param {string} fname - The function name (DAY, MONTH, YEAR, or WEEKDAY)
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {void} Returns nothing (results pushed to operand stack)
-     */
-    SocialCalc.Formula.DMYFunctions = (fname, operand, foperand, sheet) => {
-        let ymd, dtype, doffset;
-        let scf = SocialCalc.Formula;
-        let result = 0;
+    /*
+  #
+  # DAY(date)
+  # MONTH(date)
+  # YEAR(date)
+  # WEEKDAY(date, [type])
+  #
+  */
 
-        let datevalue = scf.OperandAsNumber(sheet, foperand);
-        let resulttype = scf.LookupResultType(
+    SocialCalc.Formula.DMYFunctions = function (fname, operand, foperand, sheet) {
+        var ymd, dtype, doffset;
+        var scf = SocialCalc.Formula;
+        var result = 0;
+
+        var datevalue = scf.OperandAsNumber(sheet, foperand);
+        var resulttype = scf.LookupResultType(
             datevalue.type,
             datevalue.type,
             scf.TypeLookupTable.oneargnumeric
         );
 
-        if (resulttype.charAt(0) === "n") {
+        if (resulttype.charAt(0) == "n") {
             ymd = SocialCalc.FormatNumber.convert_date_julian_to_gregorian(
                 Math.floor(
                     datevalue.value + SocialCalc.FormatNumber.datevalues.julian_offset
@@ -4518,7 +4497,7 @@
                         // get type if present
                         dtype = scf.OperandAsNumber(sheet, foperand);
                         if (
-                            dtype.type.charAt(0) !== "n" ||
+                            dtype.type.charAt(0) != "n" ||
                             dtype.value < 1 ||
                             dtype.value > 3
                         ) {
@@ -4575,32 +4554,27 @@
         "datetime",
     ];
 
-    /**
-     * Hour/Minute/Second Functions
-     * 
-     * HOUR(datetime)
-     * MINUTE(datetime)
-     * SECOND(datetime)
-     * 
-     * @param {string} fname - The function name (HOUR, MINUTE, or SECOND)
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {void} Returns nothing (results pushed to operand stack)
-     */
-    SocialCalc.Formula.HMSFunctions = (fname, operand, foperand, sheet) => {
-        let hours, minutes, seconds, fraction;
-        let scf = SocialCalc.Formula;
-        let result = 0;
+    /*
+  #
+  # HOUR(datetime)
+  # MINUTE(datetime)
+  # SECOND(datetime)
+  #
+  */
 
-        let datetime = scf.OperandAsNumber(sheet, foperand);
-        let resulttype = scf.LookupResultType(
+    SocialCalc.Formula.HMSFunctions = function (fname, operand, foperand, sheet) {
+        var hours, minutes, seconds, fraction;
+        var scf = SocialCalc.Formula;
+        var result = 0;
+
+        var datetime = scf.OperandAsNumber(sheet, foperand);
+        var resulttype = scf.LookupResultType(
             datetime.type,
             datetime.type,
             scf.TypeLookupTable.oneargnumeric
         );
 
-        if (resulttype.charAt(0) === "n") {
+        if (resulttype.charAt(0) == "n") {
             if (datetime.value < 0) {
                 scf.PushOperand(operand, "e#NUM!", 0); // must be non-negative
                 return;
@@ -4614,11 +4588,11 @@
             fraction -= Math.floor(fraction);
             fraction *= 60;
             seconds = Math.floor(fraction + (datetime.value >= 0 ? 0.5 : -0.5));
-            if (fname === "HOUR") {
+            if (fname == "HOUR") {
                 result = hours;
-            } else if (fname === "MINUTE") {
+            } else if (fname == "MINUTE") {
                 result = minutes;
-            } else if (fname === "SECOND") {
+            } else if (fname == "SECOND") {
                 result = seconds;
             }
         }
@@ -4649,67 +4623,67 @@
         "datetime",
     ];
 
-    /**
-     * EXACT Function
-     * 
-     * EXACT(v1,v2) - Performs exact comparison of two values
-     * 
-     * @param {string} fname - The function name (EXACT)
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {void} Returns nothing (results pushed to operand stack)
-     */
-    SocialCalc.Formula.ExactFunction = (fname, operand, foperand, sheet) => {
-        let scf = SocialCalc.Formula;
-        let result = 0;
-        let resulttype = "nl";
+    /*
+  #
+  # EXACT(v1,v2)
+  #
+  */
 
-        let value1 = scf.OperandValueAndType(sheet, foperand);
-        let v1type = value1.type.charAt(0);
-        let value2 = scf.OperandValueAndType(sheet, foperand);
-        let v2type = value2.type.charAt(0);
+    SocialCalc.Formula.ExactFunction = function (
+        fname,
+        operand,
+        foperand,
+        sheet
+    ) {
+        var scf = SocialCalc.Formula;
+        var result = 0;
+        var resulttype = "nl";
 
-        if (v1type === "t") {
-            if (v2type === "t") {
-                result = value1.value === value2.value ? 1 : 0;
-            } else if (v2type === "b") {
+        var value1 = scf.OperandValueAndType(sheet, foperand);
+        var v1type = value1.type.charAt(0);
+        var value2 = scf.OperandValueAndType(sheet, foperand);
+        var v2type = value2.type.charAt(0);
+
+        if (v1type == "t") {
+            if (v2type == "t") {
+                result = value1.value == value2.value ? 1 : 0;
+            } else if (v2type == "b") {
                 result = value1.value.length ? 0 : 1;
-            } else if (v2type === "n") {
-                result = value1.value === `${value2.value}` ? 1 : 0;
-            } else if (v2type === "e") {
+            } else if (v2type == "n") {
+                result = value1.value == value2.value + "" ? 1 : 0;
+            } else if (v2type == "e") {
                 result = value2.value;
                 resulttype = value2.type;
             } else {
                 result = 0;
             }
-        } else if (v1type === "n") {
-            if (v2type === "n") {
-                result = value1.value - 0 === value2.value - 0 ? 1 : 0;
-            } else if (v2type === "b") {
+        } else if (v1type == "n") {
+            if (v2type == "n") {
+                result = value1.value - 0 == value2.value - 0 ? 1 : 0;
+            } else if (v2type == "b") {
                 result = 0;
-            } else if (v2type === "t") {
-                result = `${value1.value}` === value2.value ? 1 : 0;
-            } else if (v2type === "e") {
+            } else if (v2type == "t") {
+                result = value1.value + "" == value2.value ? 1 : 0;
+            } else if (v2type == "e") {
                 result = value2.value;
                 resulttype = value2.type;
             } else {
                 result = 0;
             }
-        } else if (v1type === "b") {
-            if (v2type === "t") {
+        } else if (v1type == "b") {
+            if (v2type == "t") {
                 result = value2.value.length ? 0 : 1;
-            } else if (v2type === "b") {
+            } else if (v2type == "b") {
                 result = 1;
-            } else if (v2type === "n") {
+            } else if (v2type == "n") {
                 result = 0;
-            } else if (v2type === "e") {
+            } else if (v2type == "e") {
                 result = value2.value;
                 resulttype = value2.type;
             } else {
                 result = 0;
             }
-        } else if (v1type === "e") {
+        } else if (v1type == "e") {
             result = value1.value;
             resulttype = value1.type;
         }
@@ -4726,14 +4700,28 @@
         "text",
     ];
 
-    /**
-     * String Functions Argument List
-     * 
-     * ArgList has an array for each function, one entry for each possible arg (up to max).
-     * Min args are specified in SocialCalc.Formula.FunctionList.
-     * If array element is 1 then it's a text argument, if it's 0 then it's numeric, if -1 then just get whatever's there
-     * Text values are manipulated as UTF-8, converting from and back to byte strings
-     */
+    /*
+  #
+  # FIND(key,string,[start])
+  # LEFT(string,[length])
+  # LEN(string)
+  # LOWER(string)
+  # MID(string,start,length)
+  # PROPER(string)
+  # REPLACE(string,start,length,new)
+  # REPT(string,count)
+  # RIGHT(string,[length])
+  # SUBSTITUTE(string,old,new,[which])
+  # TRIM(string)
+  # UPPER(string)
+  #
+  */
+
+    // SocialCalc.Formula.ArgList has an array for each function, one entry for each possible arg (up to max).
+    // Min args are specified in SocialCalc.Formula.FunctionList.
+    // If array element is 1 then it's a text argument, if it's 0 then it's numeric, if -1 then just get whatever's there
+    // Text values are manipulated as UTF-8, converting from and back to byte strings
+
     SocialCalc.Formula.ArgList = {
         FIND: [1, 1, 0],
         LEFT: [1, 0],
@@ -4749,38 +4737,21 @@
         UPPER: [1],
     };
 
-    /**
-     * String Functions
-     * 
-     * FIND(key,string,[start])
-     * LEFT(string,[length])
-     * LEN(string)
-     * LOWER(string)
-     * MID(string,start,length)
-     * PROPER(string)
-     * REPLACE(string,start,length,new)
-     * REPT(string,count)
-     * RIGHT(string,[length])
-     * SUBSTITUTE(string,old,new,[which])
-     * TRIM(string)
-     * UPPER(string)
-     * 
-     * @param {string} fname - The function name
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {void} Returns nothing (results pushed to operand stack)
-     */
-    SocialCalc.Formula.StringFunctions = (fname, operand, foperand, sheet) => {
-        let i, value, offset, len, start, count;
-        let scf = SocialCalc.Formula;
-        let result = 0;
-        let resulttype = "e#VALUE!";
+    SocialCalc.Formula.StringFunctions = function (
+        fname,
+        operand,
+        foperand,
+        sheet
+    ) {
+        var i, value, offset, len, start, count;
+        var scf = SocialCalc.Formula;
+        var result = 0;
+        var resulttype = "e#VALUE!";
 
-        let numargs = foperand.length;
-        let argdef = scf.ArgList[fname];
-        let operand_value = [];
-        let operand_type = [];
+        var numargs = foperand.length;
+        var argdef = scf.ArgList[fname];
+        var operand_value = [];
+        var operand_type = [];
 
         for (i = 1; i <= numargs; i++) {
             // go through each arg, get value and type, and check for errors
@@ -4789,16 +4760,16 @@
                 scf.FunctionArgsError(fname, operand);
                 return;
             }
-            if (argdef[i - 1] === 0) {
+            if (argdef[i - 1] == 0) {
                 value = scf.OperandAsNumber(sheet, foperand);
-            } else if (argdef[i - 1] === 1) {
+            } else if (argdef[i - 1] == 1) {
                 value = scf.OperandAsText(sheet, foperand);
-            } else if (argdef[i - 1] === -1) {
+            } else if (argdef[i - 1] == -1) {
                 value = scf.OperandValueAndType(sheet, foperand);
             }
             operand_value[i] = value.value;
             operand_type[i] = value.type;
-            if (value.type.charAt(0) === "e") {
+            if (value.type.charAt(0) == "e") {
                 scf.PushOperand(operand, value.type, result);
                 return;
             }
@@ -4852,7 +4823,7 @@
                 break;
 
             case "PROPER":
-                result = operand_value[1].replace(/\b\w+\b/g, (word) => {
+                result = operand_value[1].replace(/\b\w+\b/g, function (word) {
                     return word.substring(0, 1).toUpperCase() + word.substring(1);
                 }); // uppercase first character of words (see JavaScript, Flanagan, 5th edition, page 704)
                 resulttype = "t";
@@ -4864,7 +4835,10 @@
                 if (len < 0 || start < 1) {
                     result = "Bad arguments";
                 } else {
-                    result = `${operand_value[1].substring(0, start - 1)}${operand_value[4]}${operand_value[1].substring(start - 1 + len)}`;
+                    result =
+                        operand_value[1].substring(0, start - 1) +
+                        operand_value[4] +
+                        operand_value[1].substring(start - 1 + len);
                     resulttype = "t";
                 }
                 break;
@@ -4893,10 +4867,9 @@
                 break;
 
             case "SUBSTITUTE":
-                let fulltext = operand_value[1];
-                let oldtext = operand_value[2];
-                let newtext = operand_value[3];
-                let which;
+                fulltext = operand_value[1];
+                oldtext = operand_value[2];
+                newtext = operand_value[3];
                 if (operand_value[4] != null) {
                     which = operand_value[4] - 0;
                     if (which <= 0) {
@@ -4907,16 +4880,16 @@
                     which = 0;
                 }
                 count = 0;
-                let oldpos = 0;
+                oldpos = 0;
                 result = "";
                 while (true) {
-                    let pos = fulltext.indexOf(oldtext, oldpos);
+                    pos = fulltext.indexOf(oldtext, oldpos);
                     if (pos >= 0) {
                         count++; //!!!!!! old test just in case: if (count>1000) {alert(pos); break;}
                         result += fulltext.substring(oldpos, pos);
-                        if (which === 0) {
+                        if (which == 0) {
                             result += newtext; // substitute
-                        } else if (which === count) {
+                        } else if (which == count) {
                             result += newtext + fulltext.substring(pos + oldtext.length);
                             break;
                         } else {
@@ -4950,7 +4923,6 @@
         return;
     };
 
-    // Add string functions to function list
     SocialCalc.Formula.FunctionList["FIND"] = [
         SocialCalc.Formula.StringFunctions,
         -2,
@@ -5035,63 +5007,61 @@
         "",
         "text",
     ];
-    /**
-     * IS Functions - Type checking functions
-     * 
-     * ISBLANK(value)
-     * ISERR(value)
-     * ISERROR(value)
-     * ISLOGICAL(value)
-     * ISNA(value)
-     * ISNONTEXT(value)
-     * ISNUMBER(value)
-     * ISTEXT(value)
-     * 
-     * @param {string} fname - The function name (ISBLANK, ISERR, etc.)
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {void} Returns nothing (results pushed to operand stack)
-     */
-    SocialCalc.Formula.IsFunctions = (fname, operand, foperand, sheet) => {
-        let scf = SocialCalc.Formula;
-        let result = 0;
-        let resulttype = "nl";
 
-        let value = scf.OperandValueAndType(sheet, foperand);
-        let t = value.type.charAt(0);
+    /*
+  #
+  # is_functions:
+  #
+  # ISBLANK(value)
+  # ISERR(value)
+  # ISERROR(value)
+  # ISLOGICAL(value)
+  # ISNA(value)
+  # ISNONTEXT(value)
+  # ISNUMBER(value)
+  # ISTEXT(value)
+  #
+  */
+
+    SocialCalc.Formula.IsFunctions = function (fname, operand, foperand, sheet) {
+        var scf = SocialCalc.Formula;
+        var result = 0;
+        var resulttype = "nl";
+
+        var value = scf.OperandValueAndType(sheet, foperand);
+        var t = value.type.charAt(0);
 
         switch (fname) {
             case "ISBLANK":
-                result = value.type === "b" ? 1 : 0;
+                result = value.type == "b" ? 1 : 0;
                 break;
 
             case "ISERR":
-                result = t === "e" ? (value.type === "e#N/A" ? 0 : 1) : 0;
+                result = t == "e" ? (value.type == "e#N/A" ? 0 : 1) : 0;
                 break;
 
             case "ISERROR":
-                result = t === "e" ? 1 : 0;
+                result = t == "e" ? 1 : 0;
                 break;
 
             case "ISLOGICAL":
-                result = value.type === "nl" ? 1 : 0;
+                result = value.type == "nl" ? 1 : 0;
                 break;
 
             case "ISNA":
-                result = value.type === "e#N/A" ? 1 : 0;
+                result = value.type == "e#N/A" ? 1 : 0;
                 break;
 
             case "ISNONTEXT":
-                result = t === "t" ? 0 : 1;
+                result = t == "t" ? 0 : 1;
                 break;
 
             case "ISNUMBER":
-                result = t === "n" ? 1 : 0;
+                result = t == "n" ? 1 : 0;
                 break;
 
             case "ISTEXT":
-                result = t === "t" ? 1 : 0;
+                result = t == "t" ? 1 : 0;
                 break;
         }
 
@@ -5100,7 +5070,6 @@
         return;
     };
 
-    // Add IS functions to function list
     SocialCalc.Formula.FunctionList["ISBLANK"] = [
         SocialCalc.Formula.IsFunctions,
         1,
@@ -5158,56 +5127,53 @@
         "test",
     ];
 
-    /**
-     * Number/Text/Value Functions
-     * 
-     * N(value) - Converts value to number
-     * T(value) - Converts value to text
-     * VALUE(value) - Parses text as numeric value
-     * 
-     * @param {string} fname - The function name (N, T, or VALUE)
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {void} Returns nothing (results pushed to operand stack)
-     */
-    SocialCalc.Formula.NTVFunctions = (fname, operand, foperand, sheet) => {
-        let scf = SocialCalc.Formula;
-        let result = 0;
-        let resulttype = "e#VALUE!";
+    /*
+  #
+  # ntv_functions:
+  #
+  # N(value)
+  # T(value)
+  # VALUE(value)
+  #
+  */
 
-        let value = scf.OperandValueAndType(sheet, foperand);
-        let t = value.type.charAt(0);
+    SocialCalc.Formula.NTVFunctions = function (fname, operand, foperand, sheet) {
+        var scf = SocialCalc.Formula;
+        var result = 0;
+        var resulttype = "e#VALUE!";
+
+        var value = scf.OperandValueAndType(sheet, foperand);
+        var t = value.type.charAt(0);
 
         switch (fname) {
             case "N":
-                result = t === "n" ? value.value - 0 : 0;
+                result = t == "n" ? value.value - 0 : 0;
                 resulttype = "n";
                 break;
 
             case "T":
-                result = t === "t" ? `${value.value}` : "";
+                result = t == "t" ? value.value + "" : "";
                 resulttype = "t";
                 break;
 
             case "VALUE":
-                if (t === "n" || t === "b") {
+                if (t == "n" || t == "b") {
                     result = value.value || 0;
                     resulttype = "n";
-                } else if (t === "t") {
-                    let parsedValue = SocialCalc.DetermineValueType(value.value);
-                    if (parsedValue.type.charAt(0) !== "n") {
+                } else if (t == "t") {
+                    value = SocialCalc.DetermineValueType(value.value);
+                    if (value.type.charAt(0) != "n") {
                         result = 0;
                         resulttype = "e#VALUE!";
                     } else {
-                        result = parsedValue.value - 0;
+                        result = value.value - 0;
                         resulttype = "n";
                     }
                 }
                 break;
         }
 
-        if (t === "e") {
+        if (t == "e") {
             // error trumps
             resulttype = value.type;
         }
@@ -5239,38 +5205,38 @@
         "text",
     ];
 
-    /**
-     * Single Argument Math Functions
-     * 
-     * ABS(value) - Absolute value
-     * ACOS(value) - Arc cosine
-     * ASIN(value) - Arc sine
-     * ATAN(value) - Arc tangent
-     * COS(value) - Cosine
-     * DEGREES(value) - Convert radians to degrees
-     * EVEN(value) - Round up to nearest even integer
-     * EXP(value) - e raised to the power of value
-     * FACT(value) - Factorial
-     * INT(value) - Integer part (floor)
-     * LN(value) - Natural logarithm
-     * LOG10(value) - Base 10 logarithm
-     * ODD(value) - Round up to nearest odd integer
-     * RADIANS(value) - Convert degrees to radians
-     * SIN(value) - Sine
-     * SQRT(value) - Square root
-     * TAN(value) - Tangent
-     * 
-     * @param {string} fname - The function name
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {null} Always returns null
-     */
-    SocialCalc.Formula.Math1Functions = (fname, operand, foperand, sheet) => {
-        let v1, value, f;
-        let result = {};
+    /*
+  #
+  # ABS(value)
+  # ACOS(value)
+  # ASIN(value)
+  # ATAN(value)
+  # COS(value)
+  # DEGREES(value)
+  # EVEN(value)
+  # EXP(value)
+  # FACT(value)
+  # INT(value)
+  # LN(value)
+  # LOG10(value)
+  # ODD(value)
+  # RADIANS(value)
+  # SIN(value)
+  # SQRT(value)
+  # TAN(value)
+  #
+  */
 
-        let scf = SocialCalc.Formula;
+    SocialCalc.Formula.Math1Functions = function (
+        fname,
+        operand,
+        foperand,
+        sheet
+    ) {
+        var v1, value, f;
+        var result = {};
+
+        var scf = SocialCalc.Formula;
 
         v1 = scf.OperandAsNumber(sheet, foperand);
         value = v1.value;
@@ -5280,7 +5246,7 @@
             scf.TypeLookupTable.oneargnumeric
         );
 
-        if (result.type === "n") {
+        if (result.type == "n") {
             switch (fname) {
                 case "ABS":
                     value = Math.abs(value);
@@ -5316,7 +5282,7 @@
 
                 case "EVEN":
                     value = value < 0 ? -value : value;
-                    if (value !== Math.floor(value)) {
+                    if (value != Math.floor(value)) {
                         value = Math.floor(value + 1) + (Math.floor(value + 1) % 2);
                     } else {
                         // integer
@@ -5360,7 +5326,7 @@
 
                 case "ODD":
                     value = value < 0 ? -value : value;
-                    if (value !== Math.floor(value)) {
+                    if (value != Math.floor(value)) {
                         value = Math.floor(value + 1) + (1 - (Math.floor(value + 1) % 2));
                     } else {
                         // integer
@@ -5386,7 +5352,7 @@
                     break;
 
                 case "TAN":
-                    if (Math.cos(value) !== 0) {
+                    if (Math.cos(value) != 0) {
                         value = Math.tan(value);
                     } else {
                         result.type = "e#NUM!";
@@ -5401,7 +5367,7 @@
         return null;
     };
 
-    // Add single argument math functions to function list
+    // Add to function list
     SocialCalc.Formula.FunctionList["ABS"] = [
         SocialCalc.Formula.Math1Functions,
         1,
@@ -5522,25 +5488,25 @@
         "math",
     ];
 
-    /**
-     * Two Argument Math Functions
-     * 
-     * ATAN2(x, y) - Arc tangent of y/x
-     * MOD(a, b) - Modulo operation (remainder)
-     * POWER(a, b) - a raised to the power of b
-     * TRUNC(value, precision) - Truncate to specified decimal places
-     * 
-     * @param {string} fname - The function name
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {null} Always returns null
-     */
-    SocialCalc.Formula.Math2Functions = (fname, operand, foperand, sheet) => {
-        let xval, yval, value, quotient, decimalscale, i;
-        let result = {};
+    /*
+  #
+  # ATAN2(x, y)
+  # MOD(a, b)
+  # POWER(a, b)
+  # TRUNC(value, precision)
+  #
+  */
 
-        let scf = SocialCalc.Formula;
+    SocialCalc.Formula.Math2Functions = function (
+        fname,
+        operand,
+        foperand,
+        sheet
+    ) {
+        var xval, yval, value, quotient, decimalscale, i;
+        var result = {};
+
+        var scf = SocialCalc.Formula;
 
         xval = scf.OperandAsNumber(sheet, foperand);
         yval = scf.OperandAsNumber(sheet, foperand);
@@ -5551,10 +5517,10 @@
             scf.TypeLookupTable.twoargnumeric
         );
 
-        if (result.type === "n") {
+        if (result.type == "n") {
             switch (fname) {
                 case "ATAN2":
-                    if (xval.value === 0 && yval.value === 0) {
+                    if (xval.value == 0 && yval.value == 0) {
                         result.type = "e#DIV/0!";
                     } else {
                         result.value = Math.atan2(yval.value, xval.value);
@@ -5570,7 +5536,7 @@
                     break;
 
                 case "MOD": // en.wikipedia.org/wiki/Modulo_operation, etc.
-                    if (yval.value === 0) {
+                    if (yval.value == 0) {
                         result.type = "e#DIV/0!";
                     } else {
                         quotient = xval.value / yval.value;
@@ -5606,7 +5572,8 @@
 
         return null;
     };
-    // Add two-argument math functions to function list
+
+    // Add to function list
     SocialCalc.Formula.FunctionList["ATAN2"] = [
         SocialCalc.Formula.Math2Functions,
         2,
@@ -5636,22 +5603,17 @@
         "math",
     ];
 
-    /**
-     * LOG Function
-     * 
-     * LOG(value,[base]) - Logarithm with optional base (default: natural log)
-     * 
-     * @param {string} fname - The function name (LOG)
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {void} Returns nothing (results pushed to operand stack)
-     */
-    SocialCalc.Formula.LogFunction = (fname, operand, foperand, sheet) => {
-        let value, value2;
-        let result = {};
+    /*
+  #
+  # LOG(value,[base])
+  #
+  */
 
-        let scf = SocialCalc.Formula;
+    SocialCalc.Formula.LogFunction = function (fname, operand, foperand, sheet) {
+        var value, value2;
+        var result = {};
+
+        var scf = SocialCalc.Formula;
 
         result.value = 0;
 
@@ -5661,10 +5623,9 @@
             value.type,
             scf.TypeLookupTable.oneargnumeric
         );
-
-        if (foperand.length === 1) {
+        if (foperand.length == 1) {
             value2 = scf.OperandAsNumber(sheet, foperand);
-            if (value2.type.charAt(0) !== "n" || value2.value <= 0) {
+            if (value2.type.charAt(0) != "n" || value2.value <= 0) {
                 scf.FunctionSpecificError(
                     fname,
                     operand,
@@ -5673,14 +5634,14 @@
                 );
                 return 0;
             }
-        } else if (foperand.length !== 0) {
+        } else if (foperand.length != 0) {
             scf.FunctionArgsError(fname, operand);
             return 0;
         } else {
             value2 = { value: Math.E, type: "n" };
         }
 
-        if (result.type === "n") {
+        if (result.type == "n") {
             if (value.value <= 0) {
                 scf.FunctionSpecificError(
                     fname,
@@ -5706,34 +5667,34 @@
         "math",
     ];
 
-    /**
-     * ROUND Function
-     * 
-     * ROUND(value,[precision]) - Round number to specified decimal places
-     * 
-     * @param {string} fname - The function name (ROUND)
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {void} Returns nothing (results pushed to operand stack)
-     */
-    SocialCalc.Formula.RoundFunction = (fname, operand, foperand, sheet) => {
-        let value2, decimalscale, scaledvalue, i;
+    /*
+  #
+  # ROUND(value,[precision])
+  #
+  */
 
-        let scf = SocialCalc.Formula;
-        let result = 0;
-        let resulttype = "e#VALUE!";
+    SocialCalc.Formula.RoundFunction = function (
+        fname,
+        operand,
+        foperand,
+        sheet
+    ) {
+        var value2, decimalscale, scaledvalue, i;
 
-        let value = scf.OperandValueAndType(sheet, foperand);
-        resulttype = scf.LookupResultType(
+        var scf = SocialCalc.Formula;
+        var result = 0;
+        var resulttype = "e#VALUE!";
+
+        var value = scf.OperandValueAndType(sheet, foperand);
+        var resulttype = scf.LookupResultType(
             value.type,
             value.type,
             scf.TypeLookupTable.oneargnumeric
         );
 
-        if (foperand.length === 1) {
+        if (foperand.length == 1) {
             value2 = scf.OperandValueAndType(sheet, foperand);
-            if (value2.type.charAt(0) !== "n") {
+            if (value2.type.charAt(0) != "n") {
                 scf.FunctionSpecificError(
                     fname,
                     operand,
@@ -5742,16 +5703,16 @@
                 );
                 return 0;
             }
-        } else if (foperand.length !== 0) {
+        } else if (foperand.length != 0) {
             scf.FunctionArgsError(fname, operand);
             return 0;
         } else {
             value2 = { value: 0, type: "n" }; // if no second arg, assume 0 for simple round
         }
 
-        if (resulttype === "n") {
+        if (resulttype == "n") {
             value2.value = value2.value - 0;
-            if (value2.value === 0) {
+            if (value2.value == 0) {
                 result = Math.round(value.value);
             } else if (value2.value > 0) {
                 decimalscale = 1; // cut down to required number of decimal digits
@@ -5785,45 +5746,45 @@
         "math",
     ];
 
-    /**
-     * AND/OR Functions
-     * 
-     * AND(v1,c1:c2,...) - Returns true if all arguments are true
-     * OR(v1,c1:c2,...) - Returns true if any argument is true
-     * 
-     * @param {string} fname - The function name (AND or OR)
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {void} Returns nothing (results pushed to operand stack)
-     */
-    SocialCalc.Formula.AndOrFunctions = (fname, operand, foperand, sheet) => {
-        let value1, result;
+    /*
+  #
+  # AND(v1,c1:c2,...)
+  # OR(v1,c1:c2,...)
+  #
+  */
 
-        let scf = SocialCalc.Formula;
-        let resulttype = "";
+    SocialCalc.Formula.AndOrFunctions = function (
+        fname,
+        operand,
+        foperand,
+        sheet
+    ) {
+        var value1, result;
 
-        if (fname === "AND") {
+        var scf = SocialCalc.Formula;
+        var resulttype = "";
+
+        if (fname == "AND") {
             result = 1;
-        } else if (fname === "OR") {
+        } else if (fname == "OR") {
             result = 0;
         }
 
         while (foperand.length) {
             value1 = scf.OperandValueAndType(sheet, foperand);
-            if (value1.type.charAt(0) === "n") {
+            if (value1.type.charAt(0) == "n") {
                 value1.value = value1.value - 0;
-                if (fname === "AND") {
-                    result = value1.value !== 0 ? result : 0;
-                } else if (fname === "OR") {
-                    result = value1.value !== 0 ? 1 : result;
+                if (fname == "AND") {
+                    result = value1.value != 0 ? result : 0;
+                } else if (fname == "OR") {
+                    result = value1.value != 0 ? 1 : result;
                 }
                 resulttype = scf.LookupResultType(
                     value1.type,
                     resulttype || "nl",
                     scf.TypeLookupTable.propagateerror
                 );
-            } else if (value1.type.charAt(0) === "e" && resulttype.charAt(0) !== "e") {
+            } else if (value1.type.charAt(0) == "e" && resulttype.charAt(0) != "e") {
                 resulttype = value1.type;
             }
         }
@@ -5852,31 +5813,26 @@
         "test",
     ];
 
-    /**
-     * NOT Function
-     * 
-     * NOT(value) - Returns logical opposite of value
-     * 
-     * @param {string} fname - The function name (NOT)
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {void} Returns nothing (results pushed to operand stack)
-     */
-    SocialCalc.Formula.NotFunction = (fname, operand, foperand, sheet) => {
-        let result = 0;
-        let scf = SocialCalc.Formula;
-        let value = scf.OperandValueAndType(sheet, foperand);
-        let resulttype = scf.LookupResultType(
+    /*
+  #
+  # NOT(value)
+  #
+  */
+
+    SocialCalc.Formula.NotFunction = function (fname, operand, foperand, sheet) {
+        var result = 0;
+        var scf = SocialCalc.Formula;
+        var value = scf.OperandValueAndType(sheet, foperand);
+        var resulttype = scf.LookupResultType(
             value.type,
             value.type,
             scf.TypeLookupTable.propagateerror
         );
 
-        if (value.type.charAt(0) === "n" || value.type === "b") {
-            result = value.value - 0 !== 0 ? 0 : 1; // do the "not" operation
+        if (value.type.charAt(0) == "n" || value.type == "b") {
+            result = value.value - 0 != 0 ? 0 : 1; // do the "not" operation
             resulttype = "nl";
-        } else if (value.type.charAt(0) === "t") {
+        } else if (value.type.charAt(0) == "t") {
             resulttype = "e#VALUE!";
         }
 
@@ -5893,25 +5849,25 @@
         "test",
     ];
 
-    /**
-     * CHOOSE Function
-     * 
-     * CHOOSE(index,value1,value2,...) - Returns value at specified index position
-     * 
-     * @param {string} fname - The function name (CHOOSE)
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {void} Returns nothing (results pushed to operand stack)
-     */
-    SocialCalc.Formula.ChooseFunction = (fname, operand, foperand, sheet) => {
-        let resulttype, count, value1;
-        let result = 0;
-        let scf = SocialCalc.Formula;
+    /*
+  #
+  # CHOOSE(index,value1,value2,...)
+  #
+  */
 
-        let cindex = scf.OperandAsNumber(sheet, foperand);
+    SocialCalc.Formula.ChooseFunction = function (
+        fname,
+        operand,
+        foperand,
+        sheet
+    ) {
+        var resulttype, count, value1;
+        var result = 0;
+        var scf = SocialCalc.Formula;
 
-        if (cindex.type.charAt(0) !== "n") {
+        var cindex = scf.OperandAsNumber(sheet, foperand);
+
+        if (cindex.type.charAt(0) != "n") {
             cindex.value = 0;
         }
         cindex.value = Math.floor(cindex.value);
@@ -5920,7 +5876,7 @@
         while (foperand.length) {
             value1 = scf.TopOfStackValueAndType(sheet, foperand);
             count += 1;
-            if (cindex.value === count) {
+            if (cindex.value == count) {
                 result = value1.value;
                 resulttype = value1.type;
                 break;
@@ -5944,33 +5900,33 @@
         "lookup",
     ];
 
-    /**
-     * COLUMNS/ROWS Functions
-     * 
-     * COLUMNS(c1:c2) - Returns number of columns in range
-     * ROWS(c1:c2) - Returns number of rows in range
-     * 
-     * @param {string} fname - The function name (COLUMNS or ROWS)
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {void} Returns nothing (results pushed to operand stack)
-     */
-    SocialCalc.Formula.ColumnsRowsFunctions = (fname, operand, foperand, sheet) => {
-        let resulttype, rangeinfo;
-        let result = 0;
-        let scf = SocialCalc.Formula;
+    /*
+  #
+  # COLUMNS(c1:c2)
+  # ROWS(c1:c2)
+  #
+  */
 
-        let value1 = scf.TopOfStackValueAndType(sheet, foperand);
+    SocialCalc.Formula.ColumnsRowsFunctions = function (
+        fname,
+        operand,
+        foperand,
+        sheet
+    ) {
+        var resulttype, rangeinfo;
+        var result = 0;
+        var scf = SocialCalc.Formula;
 
-        if (value1.type === "coord") {
+        var value1 = scf.TopOfStackValueAndType(sheet, foperand);
+
+        if (value1.type == "coord") {
             result = 1;
             resulttype = "n";
-        } else if (value1.type === "range") {
+        } else if (value1.type == "range") {
             rangeinfo = scf.DecodeRangeParts(sheet, value1.value);
-            if (fname === "COLUMNS") {
+            if (fname == "COLUMNS") {
                 result = rangeinfo.ncols;
-            } else if (fname === "ROWS") {
+            } else if (fname == "ROWS") {
                 result = rangeinfo.nrows;
             }
             resulttype = "n";
@@ -5998,25 +5954,26 @@
         "",
         "lookup",
     ];
-    /**
-     * Zero Argument Functions
-     * 
-     * FALSE() - Returns the logical value FALSE
-     * NA() - Returns the #N/A error value  
-     * NOW() - Returns the current date and time
-     * PI() - Returns the value of π (pi)
-     * TODAY() - Returns the current date
-     * TRUE() - Returns the logical value TRUE
-     * 
-     * @param {string} fname - The function name
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack (unused for zero-arg functions)
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {null} Always returns null
-     */
-    SocialCalc.Formula.ZeroArgFunctions = (fname, operand, foperand, sheet) => {
-        let startval, tzoffset, start_1_1_1970, seconds_in_a_day, nowdays;
-        let result = { value: 0 };
+
+    /*
+  #
+  # FALSE()
+  # NA()
+  # NOW()
+  # PI()
+  # TODAY()
+  # TRUE()
+  #
+  */
+
+    SocialCalc.Formula.ZeroArgFunctions = function (
+        fname,
+        operand,
+        foperand,
+        sheet
+    ) {
+        var startval, tzoffset, start_1_1_1970, seconds_in_a_day, nowdays;
+        var result = { value: 0 };
 
         switch (fname) {
             case "FALSE":
@@ -6034,7 +5991,8 @@
                 startval = startval.getTime() / 1000; // convert to seconds
                 start_1_1_1970 = 25569; // Day number of 1/1/1970 starting with 1/1/1900 as 1
                 seconds_in_a_day = 24 * 60 * 60;
-                nowdays = start_1_1_1970 + startval / seconds_in_a_day - tzoffset / (24 * 60);
+                nowdays =
+                    start_1_1_1970 + startval / seconds_in_a_day - tzoffset / (24 * 60);
                 result.value = nowdays;
                 result.type = "ndt";
                 SocialCalc.Formula.FreshnessInfo.volatile.NOW = true; // remember
@@ -6051,7 +6009,8 @@
                 startval = startval.getTime() / 1000; // convert to seconds
                 start_1_1_1970 = 25569; // Day number of 1/1/1970 starting with 1/1/1900 as 1
                 seconds_in_a_day = 24 * 60 * 60;
-                nowdays = start_1_1_1970 + startval / seconds_in_a_day - tzoffset / (24 * 60);
+                nowdays =
+                    start_1_1_1970 + startval / seconds_in_a_day - tzoffset / (24 * 60);
                 result.value = Math.floor(nowdays);
                 result.type = "nd";
                 SocialCalc.Formula.FreshnessInfo.volatile.TODAY = true; // remember
@@ -6068,7 +6027,7 @@
         return null;
     };
 
-    // Add zero-argument functions to function list
+    // Add to function list
     SocialCalc.Formula.FunctionList["FALSE"] = [
         SocialCalc.Formula.ZeroArgFunctions,
         0,
@@ -6116,28 +6075,23 @@
     // * * * * * FINANCIAL FUNCTIONS * * * * *
     //
 
-    /**
-     * DDB Function - Double Declining Balance Depreciation
-     * 
-     * DDB(cost,salvage,lifetime,period,[method])
-     * 
-     * Depreciation, method defaults to 2 for double-declining balance
-     * See: http://en.wikipedia.org/wiki/Depreciation
-     * 
-     * @param {string} fname - The function name (DDB)
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {void} Returns nothing (results pushed to operand stack)
-     */
-    SocialCalc.Formula.DDBFunction = (fname, operand, foperand, sheet) => {
-        let method, depreciation, accumulateddepreciation, i;
-        let scf = SocialCalc.Formula;
+    /*
+  #
+  # DDB(cost,salvage,lifetime,period,[method])
+  #
+  # Depreciation, method defaults to 2 for double-declining balance
+  # See: http://en.wikipedia.org/wiki/Depreciation
+  #
+  */
 
-        let cost = scf.OperandAsNumber(sheet, foperand);
-        let salvage = scf.OperandAsNumber(sheet, foperand);
-        let lifetime = scf.OperandAsNumber(sheet, foperand);
-        let period = scf.OperandAsNumber(sheet, foperand);
+    SocialCalc.Formula.DDBFunction = function (fname, operand, foperand, sheet) {
+        var method, depreciation, accumulateddepreciation, i;
+        var scf = SocialCalc.Formula;
+
+        var cost = scf.OperandAsNumber(sheet, foperand);
+        var salvage = scf.OperandAsNumber(sheet, foperand);
+        var lifetime = scf.OperandAsNumber(sheet, foperand);
+        var period = scf.OperandAsNumber(sheet, foperand);
 
         if (scf.CheckForErrorValue(operand, cost)) return;
         if (scf.CheckForErrorValue(operand, salvage)) return;
@@ -6158,7 +6112,7 @@
         if (foperand.length > 0) {
             method = scf.OperandAsNumber(sheet, foperand);
         }
-        if (foperand.length !== 0) {
+        if (foperand.length != 0) {
             scf.FunctionArgsError(fname, operand);
             return 0;
         }
@@ -6192,27 +6146,22 @@
         "financial",
     ];
 
-    /**
-     * SLN Function - Straight Line Depreciation
-     * 
-     * SLN(cost,salvage,lifetime)
-     * 
-     * Depreciation for each period by straight-line method
-     * See: http://en.wikipedia.org/wiki/Depreciation
-     * 
-     * @param {string} fname - The function name (SLN)
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {void} Returns nothing (results pushed to operand stack)
-     */
-    SocialCalc.Formula.SLNFunction = (fname, operand, foperand, sheet) => {
-        let depreciation;
-        let scf = SocialCalc.Formula;
+    /*
+  #
+  # SLN(cost,salvage,lifetime)
+  #
+  # Depreciation for each period by straight-line method
+  # See: http://en.wikipedia.org/wiki/Depreciation
+  #
+  */
 
-        let cost = scf.OperandAsNumber(sheet, foperand);
-        let salvage = scf.OperandAsNumber(sheet, foperand);
-        let lifetime = scf.OperandAsNumber(sheet, foperand);
+    SocialCalc.Formula.SLNFunction = function (fname, operand, foperand, sheet) {
+        var depreciation;
+        var scf = SocialCalc.Formula;
+
+        var cost = scf.OperandAsNumber(sheet, foperand);
+        var salvage = scf.OperandAsNumber(sheet, foperand);
+        var lifetime = scf.OperandAsNumber(sheet, foperand);
 
         if (scf.CheckForErrorValue(operand, cost)) return;
         if (scf.CheckForErrorValue(operand, salvage)) return;
@@ -6243,27 +6192,22 @@
         "financial",
     ];
 
-    /**
-     * SYD Function - Sum of Year's Digits Depreciation
-     * 
-     * SYD(cost,salvage,lifetime,period)
-     * 
-     * Depreciation by Sum of Year's Digits method
-     * 
-     * @param {string} fname - The function name (SYD)
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {void} Returns nothing (results pushed to operand stack)
-     */
-    SocialCalc.Formula.SYDFunction = (fname, operand, foperand, sheet) => {
-        let depreciation, sumperiods;
-        let scf = SocialCalc.Formula;
+    /*
+  #
+  # SYD(cost,salvage,lifetime,period)
+  #
+  # Depreciation by Sum of Year's Digits method
+  #
+  */
 
-        let cost = scf.OperandAsNumber(sheet, foperand);
-        let salvage = scf.OperandAsNumber(sheet, foperand);
-        let lifetime = scf.OperandAsNumber(sheet, foperand);
-        let period = scf.OperandAsNumber(sheet, foperand);
+    SocialCalc.Formula.SYDFunction = function (fname, operand, foperand, sheet) {
+        var depreciation, sumperiods;
+        var scf = SocialCalc.Formula;
+
+        var cost = scf.OperandAsNumber(sheet, foperand);
+        var salvage = scf.OperandAsNumber(sheet, foperand);
+        var lifetime = scf.OperandAsNumber(sheet, foperand);
+        var period = scf.OperandAsNumber(sheet, foperand);
 
         if (scf.CheckForErrorValue(operand, cost)) return;
         if (scf.CheckForErrorValue(operand, salvage)) return;
@@ -6293,38 +6237,50 @@
         "financial",
     ];
 
-    /**
-     * Interest Functions - Time Value of Money Calculations
-     * 
-     * FV(rate, n, payment, [pv, [paytype]])
-     * NPER(rate, payment, pv, [fv, [paytype]])
-     * PMT(rate, n, pv, [fv, [paytype]])
-     * PV(rate, n, payment, [fv, [paytype]])
-     * RATE(n, payment, pv, [fv, [paytype, [guess]]])
-     * 
-     * Following the Open Document Format formula specification:
-     * 
-     *    PV = - Fv - (Payment * Nper) [if rate equals 0]
-     *    Pv*(1+Rate)^Nper + Payment * (1 + Rate*PaymentType) * ( (1+Rate)^nper -1)/Rate + Fv = 0
-     * 
-     * For each function, the formulas are solved for the appropriate value (transformed using basic algebra).
-     * 
-     * @param {string} fname - The function name (FV, NPER, PMT, PV, or RATE)
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {void} Returns nothing (results pushed to operand stack)
-     */
-    SocialCalc.Formula.InterestFunctions = (fname, operand, foperand, sheet) => {
-        let resulttype, result, dval, evalue, fval;
-        let pv, fv, rate, n, payment, paytype, guess, part1, part2, part3, part4, part5;
-        let olddelta, maxloop, tries, deltaepsilon, oldrate, m;
+    /*
+  #
+  # FV(rate, n, payment, [pv, [paytype]])
+  # NPER(rate, payment, pv, [fv, [paytype]])
+  # PMT(rate, n, pv, [fv, [paytype]])
+  # PV(rate, n, payment, [fv, [paytype]])
+  # RATE(n, payment, pv, [fv, [paytype, [guess]]])
+  #
+  # Following the Open Document Format formula specification:
+  #
+  #    PV = - Fv - (Payment * Nper) [if rate equals 0]
+  #    Pv*(1+Rate)^Nper + Payment * (1 + Rate*PaymentType) * ( (1+Rate)^nper -1)/Rate + Fv = 0
+  #
+  # For each function, the formulas are solved for the appropriate value (transformed using
+  # basic algebra).
+  #
+  */
 
-        let scf = SocialCalc.Formula;
+    SocialCalc.Formula.InterestFunctions = function (
+        fname,
+        operand,
+        foperand,
+        sheet
+    ) {
+        var resulttype, result, dval, evalue, fval;
+        var pv,
+            fv,
+            rate,
+            n,
+            payment,
+            paytype,
+            guess,
+            part1,
+            part2,
+            part3,
+            part4,
+            part5;
+        var olddelta, maxloop, tries, deltaepsilon, rate, oldrate, m;
 
-        let aval = scf.OperandAsNumber(sheet, foperand);
-        let bval = scf.OperandAsNumber(sheet, foperand);
-        let cval = scf.OperandAsNumber(sheet, foperand);
+        var scf = SocialCalc.Formula;
+
+        var aval = scf.OperandAsNumber(sheet, foperand);
+        var bval = scf.OperandAsNumber(sheet, foperand);
+        var cval = scf.OperandAsNumber(sheet, foperand);
 
         resulttype = scf.LookupResultType(
             aval.type,
@@ -6354,7 +6310,7 @@
                 );
                 if (foperand.length) {
                     // optional arguments
-                    if (fname !== "RATE") {
+                    if (fname != "RATE") {
                         // only rate has 6 possible args
                         scf.FunctionArgsError(fname, operand);
                         return 0;
@@ -6369,7 +6325,7 @@
             }
         }
 
-        if (resulttype === "n") {
+        if (resulttype == "n") {
             switch (fname) {
                 case "FV": // FV(rate, n, payment, [pv, [paytype]])
                     rate = aval.value;
@@ -6377,7 +6333,7 @@
                     payment = cval.value;
                     pv = dval != null ? dval.value : 0; // get value if present, or use default
                     paytype = evalue != null ? (evalue.value ? 1 : 0) : 0;
-                    if (rate === 0) {
+                    if (rate == 0) {
                         // simple calculation if no interest
                         fv = -pv - payment * n;
                     } else {
@@ -6397,9 +6353,9 @@
                     pv = cval.value;
                     fv = dval != null ? dval.value : 0;
                     paytype = evalue != null ? (evalue.value ? 1 : 0) : 0;
-                    if (rate === 0) {
+                    if (rate == 0) {
                         // simple calculation if no interest
-                        if (payment === 0) {
+                        if (payment == 0) {
                             scf.PushOperand(operand, "e#NUM!", 0);
                             return;
                         }
@@ -6407,7 +6363,7 @@
                     } else {
                         part1 = (payment * (1 + rate * paytype)) / rate;
                         part2 = pv + part1;
-                        if (part2 === 0 || rate <= -1) {
+                        if (part2 == 0 || rate <= -1) {
                             scf.PushOperand(operand, "e#NUM!", 0);
                             return;
                         }
@@ -6430,10 +6386,10 @@
                     pv = cval.value;
                     fv = dval != null ? dval.value : 0;
                     paytype = evalue != null ? (evalue.value ? 1 : 0) : 0;
-                    if (n === 0) {
+                    if (n == 0) {
                         scf.PushOperand(operand, "e#NUM!", 0);
                         return;
-                    } else if (rate === 0) {
+                    } else if (rate == 0) {
                         // simple calculation if no interest
                         payment = (fv - pv) / n;
                     } else {
@@ -6450,11 +6406,11 @@
                     n = bval.value;
                     payment = cval.value;
                     fv = dval != null ? dval.value : 0;
-                    paytype = evalue != null ? (evalue.value ? 1 : 0) : 0;
-                    if (rate === -1) {
+                    paytype = evalue != null ? (eval.value ? 1 : 0) : 0;
+                    if (rate == -1) {
                         scf.PushOperand(operand, "e#DIV/0!", 0);
                         return;
-                    } else if (rate === 0) {
+                    } else if (rate == 0) {
                         // simple calculation if no interest
                         pv = -fv - payment * n;
                     } else {
@@ -6481,10 +6437,10 @@
 
                     maxloop = 100;
                     tries = 0;
-                    let delta = 1;
-                    let epsilon = 0.0000001; // this is close enough
+                    delta = 1;
+                    epsilon = 0.0000001; // this is close enough
                     rate = guess || 0.00000001; // zero is not allowed
-                    while ((delta >= 0 ? delta : -delta) > epsilon && rate !== oldrate) {
+                    while ((delta >= 0 ? delta : -delta) > epsilon && rate != oldrate) {
                         delta =
                             fv +
                             pv * Math.pow(1 + rate, n) +
@@ -6518,7 +6474,7 @@
 
         return;
     };
-    // Add financial interest functions to function list
+
     SocialCalc.Formula.FunctionList["FV"] = [
         SocialCalc.Formula.InterestFunctions,
         -3,
@@ -6555,23 +6511,18 @@
         "financial",
     ];
 
-    /**
-     * NPV Function - Net Present Value
-     * 
-     * NPV(rate,v1,v2,c1:c2,...)
-     * 
-     * @param {string} fname - The function name (NPV)
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {void} Returns nothing (results pushed to operand stack)
-     */
-    SocialCalc.Formula.NPVFunction = (fname, operand, foperand, sheet) => {
-        let resulttypenpv, sum, factor, value1;
+    /*
+  #
+  # NPV(rate,v1,v2,c1:c2,...)
+  #
+  */
 
-        let scf = SocialCalc.Formula;
+    SocialCalc.Formula.NPVFunction = function (fname, operand, foperand, sheet) {
+        var resulttypenpv, rate, sum, factor, value1;
 
-        let rate = scf.OperandAsNumber(sheet, foperand);
+        var scf = SocialCalc.Formula;
+
+        var rate = scf.OperandAsNumber(sheet, foperand);
         if (scf.CheckForErrorValue(operand, rate)) return;
 
         sum = 0;
@@ -6580,9 +6531,9 @@
 
         while (foperand.length) {
             value1 = scf.OperandValueAndType(sheet, foperand);
-            if (value1.type.charAt(0) === "n") {
+            if (value1.type.charAt(0) == "n") {
                 factor *= 1 + rate.value;
-                if (factor === 0) {
+                if (factor == 0) {
                     scf.PushOperand(operand, "e#DIV/0!", 0);
                     return;
                 }
@@ -6593,15 +6544,15 @@
                     scf.TypeLookupTable.plus
                 );
             } else if (
-                value1.type.charAt(0) === "e" &&
-                resulttypenpv.charAt(0) !== "e"
+                value1.type.charAt(0) == "e" &&
+                resulttypenpv.charAt(0) != "e"
             ) {
                 resulttypenpv = value1.type;
                 break;
             }
         }
 
-        if (resulttypenpv.charAt(0) === "n") {
+        if (resulttypenpv.charAt(0) == "n") {
             resulttypenpv = "n$";
         }
 
@@ -6618,32 +6569,38 @@
         "financial",
     ];
 
-    /**
-     * IRR Function - Internal Rate of Return
-     * 
-     * IRR(c1:c2,[guess])
-     * 
-     * @param {string} fname - The function name (IRR)
-     * @param {Array<Object>} operand - The main operand stack
-     * @param {Array<Object>} foperand - The function operand stack
-     * @param {Object} sheet - The spreadsheet object
-     * @returns {void} Returns nothing (results pushed to operand stack)
-     */
-    SocialCalc.Formula.IRRFunction = (fname, operand, foperand, sheet) => {
-        let value1, guess, oldsum, maxloop, tries, epsilon, rate, oldrate, m, sum, factor, i;
-        let rangeoperand = [];
-        let cashflows = [];
+    /*
+  #
+  # IRR(c1:c2,[guess])
+  #
+  */
 
-        let scf = SocialCalc.Formula;
+    SocialCalc.Formula.IRRFunction = function (fname, operand, foperand, sheet) {
+        var value1,
+            guess,
+            oldsum,
+            maxloop,
+            tries,
+            epsilon,
+            rate,
+            oldrate,
+            m,
+            sum,
+            factor,
+            i;
+        var rangeoperand = [];
+        var cashflows = [];
+
+        var scf = SocialCalc.Formula;
 
         rangeoperand.push(foperand.pop()); // first operand is a range
 
         while (rangeoperand.length) {
             // get values from range so we can do iterative approximations
             value1 = scf.OperandValueAndType(sheet, rangeoperand);
-            if (value1.type.charAt(0) === "n") {
+            if (value1.type.charAt(0) == "n") {
                 cashflows.push(value1.value);
-            } else if (value1.type.charAt(0) === "e") {
+            } else if (value1.type.charAt(0) == "e") {
                 scf.PushOperand(operand, "e#VALUE!", 0);
                 return;
             }
@@ -6659,7 +6616,7 @@
         if (foperand.length) {
             // guess is provided
             guess = scf.OperandAsNumber(sheet, foperand);
-            if (guess.type.charAt(0) !== "n" && guess.type.charAt(0) !== "b") {
+            if (guess.type.charAt(0) != "n" && guess.type.charAt(0) != "b") {
                 scf.PushOperand(operand, "e#VALUE!", 0);
                 return;
             }
@@ -6681,12 +6638,12 @@
         rate = guess.value;
         sum = 1;
 
-        while ((sum >= 0 ? sum : -sum) > epsilon && rate !== oldrate) {
+        while ((sum >= 0 ? sum : -sum) > epsilon && rate != oldrate) {
             sum = 0;
             factor = 1;
             for (i = 0; i < cashflows.length; i++) {
                 factor *= 1 + rate;
-                if (factor === 0) {
+                if (factor == 0) {
                     scf.PushOperand(operand, "e#DIV/0!", 0);
                     return;
                 }
@@ -6729,11 +6686,6 @@
     // SHEET CACHE
     //
 
-    /**
-     * Sheet Cache Object
-     * 
-     * Manages caching of external spreadsheet data for cross-sheet references
-     */
     SocialCalc.Formula.SheetCache = {
         // Sheet data: Attributes are each sheet in the cache with values of an object with:
         //
@@ -6760,23 +6712,21 @@
         loadsheet: null, // (deprecated - use SocialCalc.RecalcInfo.LoadSheet)
     };
 
-    /**
-     * Find sheet in cache or queue for loading
-     * 
-     * Returns a SocialCalc.Sheet object corresponding to string sheetname
-     * or null if the sheet is not available or in error.
-     * 
-     * Each sheet is loaded only once and then stored in a cache.
-     * Loading is handled elsewhere, e.g., in the recalc loop.
-     * 
-     * @param {string} sheetname - Name of the sheet to find
-     * @returns {Object|null} Sheet object or null if not found/available
-     */
-    SocialCalc.Formula.FindInSheetCache = (sheetname) => {
-        let str;
-        let sfsc = SocialCalc.Formula.SheetCache;
+    //
+    // othersheet = SocialCalc.Formula.FindInSheetCache(sheetname)
+    //
+    // Returns a SocialCalc.Sheet object corresponding to string sheetname
+    // or null if the sheet is not available or in error.
+    //
+    // Each sheet is loaded only once and then stored in a cache.
+    // Loading is handled elsewhere, e.g., in the recalc loop.
+    //
 
-        let nsheetname = SocialCalc.Formula.NormalizeSheetName(sheetname); // normalize different versions
+    SocialCalc.Formula.FindInSheetCache = function (sheetname) {
+        var str;
+        var sfsc = SocialCalc.Formula.SheetCache;
+
+        var nsheetname = SocialCalc.Formula.NormalizeSheetName(sheetname); // normalize different versions
 
         if (sfsc.sheets[nsheetname]) {
             // a sheet by that name is in the cache already
@@ -6793,21 +6743,18 @@
         return null; // return not found
     };
 
-    /**
-     * Add sheet to cache
-     * 
-     * Adds a new sheet to the sheet cache.
-     * Returns the sheet object filled out with the str (a saved sheet).
-     * 
-     * @param {string} sheetname - Name of the sheet to add
-     * @param {string} str - Serialized sheet data
-     * @returns {Object|null} New sheet object or null
-     */
-    SocialCalc.Formula.AddSheetToCache = (sheetname, str) => {
-        let newsheet = null;
-        let sfsc = SocialCalc.Formula.SheetCache;
-        let sfscc = sfsc.constants;
-        let newsheetname = SocialCalc.Formula.NormalizeSheetName(sheetname);
+    //
+    // newsheet = SocialCalc.Formula.AddSheetToCache(sheetname, str)
+    //
+    // Adds a new sheet to the sheet cache.
+    // Returns the sheet object filled out with the str (a saved sheet).
+    //
+
+    SocialCalc.Formula.AddSheetToCache = function (sheetname, str) {
+        var newsheet = null;
+        var sfsc = SocialCalc.Formula.SheetCache;
+        var sfscc = sfsc.constants;
+        var newsheetname = SocialCalc.Formula.NormalizeSheetName(sheetname);
 
         if (str) {
             newsheet = new SocialCalc.Sheet();
@@ -6825,13 +6772,11 @@
         return newsheet;
     };
 
-    /**
-     * Normalize sheet name for consistent caching
-     * 
-     * @param {string} sheetname - Raw sheet name
-     * @returns {string} Normalized sheet name
-     */
-    SocialCalc.Formula.NormalizeSheetName = (sheetname) => {
+    //
+    // nsheet = SocialCalc.Formula.NormalizeSheetName(sheetname)
+    //
+
+    SocialCalc.Formula.NormalizeSheetName = function (sheetname) {
         if (SocialCalc.Callbacks.NormalizeSheetName) {
             return SocialCalc.Callbacks.NormalizeSheetName(sheetname);
         } else {
@@ -6843,11 +6788,6 @@
     // REMOTE FUNCTION INFO
     //
 
-    /**
-     * Remote Function Information Object
-     * 
-     * Manages remote function call state for server-side calculations
-     */
     SocialCalc.Formula.RemoteFunctionInfo = {
         // Waiting for server:
         // If waiting for an XHR response from the server, this is set to some non-blank status text
@@ -6866,11 +6806,6 @@
     // For example, it may be used to display a message like:
     // "Dependent on sheet 'FOO' which was updated more recently than this printout"
 
-    /**
-     * Freshness Information Object
-     * 
-     * Tracks dependencies and volatile functions for cache invalidation
-     */
     SocialCalc.Formula.FreshnessInfo = {
         // For each external sheet referenced successfully an attribute of that name with value true.
 
@@ -6885,13 +6820,8 @@
         recalc_completed: false,
     };
 
-    /**
-     * Reset freshness information
-     * 
-     * @returns {void}
-     */
-    SocialCalc.Formula.FreshnessInfoReset = () => {
-        let scffi = SocialCalc.Formula.FreshnessInfo;
+    SocialCalc.Formula.FreshnessInfoReset = function () {
+        var scffi = SocialCalc.Formula.FreshnessInfo;
 
         scffi.sheets = {};
         scffi.volatile = {};
@@ -6902,28 +6832,27 @@
     // MISC ROUTINES
     //
 
-    /**
-     * Remove dollar signs from coordinate
-     * 
-     * @param {string} coord - Coordinate with possible $ signs
-     * @returns {string} coord without any $'s
-     */
-    SocialCalc.Formula.PlainCoord = (coord) => {
-        if (coord.indexOf("$") === -1) return coord;
+    //
+    // result = SocialCalc.Formula.PlainCoord(coord)
+    //
+    // Returns: coord without any $'s
+    //
+
+    SocialCalc.Formula.PlainCoord = function (coord) {
+        if (coord.indexOf("$") == -1) return coord;
 
         return coord.replace(/\$/g, ""); // remove any $'s
     };
 
-    /**
-     * Order range parts for consistent processing
-     * 
-     * @param {string} coord1 - First coordinate
-     * @param {string} coord2 - Second coordinate
-     * @returns {Object} {c1: col, r1: row, c2: col, r2: row} with c1/r1 upper left
-     */
-    SocialCalc.Formula.OrderRangeParts = (coord1, coord2) => {
-        let cr1, cr2;
-        let result = {};
+    //
+    // result = SocialCalc.Formula.OrderRangeParts(coord1, coord2)
+    //
+    // Returns: {c1: col, r1: row, c2: col, r2 = row} with c1/r1 upper left
+    //
+
+    SocialCalc.Formula.OrderRangeParts = function (coord1, coord2) {
+        var cr1, cr2;
+        var result = {};
 
         cr1 = SocialCalc.coordToCr(coord1);
         cr2 = SocialCalc.coordToCr(coord2);
@@ -6945,33 +6874,31 @@
         return result;
     };
 
-    /**
-     * Test if value meets criteria
-     * 
-     * Determines whether a value/type meets the criteria.
-     * A criteria can be a numeric value, text beginning with <, <=, =, >=, >, <>, text by itself is start of text to match.
-     * Used by a variety of functions, including the "D" functions (DSUM, etc.).
-     * 
-     * @param {*} value - Value to test
-     * @param {string} type - Type of the value
-     * @param {*} criteria - Criteria to test against
-     * @returns {boolean} true or false
-     */
-    SocialCalc.Formula.TestCriteria = (value, type, criteria) => {
-        let comparitor, basestring, basevalue, cond, testvalue;
+    //
+    // cond = SocialCalc.Formula.TestCriteria(value, type, criteria)
+    //
+    // Determines whether a value/type meets the criteria.
+    // A criteria can be a numeric value, text beginning with <, <=, =, >=, >, <>, text by itself is start of text to match.
+    // Used by a variety of functions, including the "D" functions (DSUM, etc.).
+    //
+    // Returns true or false
+    //
+
+    SocialCalc.Formula.TestCriteria = function (value, type, criteria) {
+        var comparitor, basestring, basevalue, cond, testvalue;
 
         if (criteria == null) {
             // undefined (e.g., error value) is always false
             return false;
         }
 
-        criteria = `${criteria}`;
+        criteria = criteria + "";
         comparitor = criteria.charAt(0); // look for comparitor
-        if (comparitor === "=" || comparitor === "<" || comparitor === ">") {
+        if (comparitor == "=" || comparitor == "<" || comparitor == ">") {
             basestring = criteria.substring(1);
         } else {
             comparitor = criteria.substring(0, 2);
-            if (comparitor === "<=" || comparitor === "<>" || comparitor === ">=") {
+            if (comparitor == "<=" || comparitor == "<>" || comparitor == ">=") {
                 basestring = criteria.substring(2);
             } else {
                 comparitor = "none";
@@ -6982,18 +6909,18 @@
         basevalue = SocialCalc.DetermineValueType(basestring); // get type of value being compared
         if (!basevalue.type) {
             // no criteria base value given
-            if (comparitor === "none") {
+            if (comparitor == "none") {
                 // blank criteria matches nothing
                 return false;
             }
-            if (type.charAt(0) === "b") {
+            if (type.charAt(0) == "b") {
                 // comparing to empty cell
-                if (comparitor === "=") {
+                if (comparitor == "=") {
                     // empty equals empty
                     return true;
                 }
             } else {
-                if (comparitor === "<>") {
+                if (comparitor == "<>") {
                     // "something" does not equal empty
                     return true;
                 }
@@ -7003,17 +6930,17 @@
 
         cond = false;
 
-        if (basevalue.type.charAt(0) === "n" && type.charAt(0) === "t") {
+        if (basevalue.type.charAt(0) == "n" && type.charAt(0) == "t") {
             // criteria is number, but value is text
             testvalue = SocialCalc.DetermineValueType(value);
-            if (testvalue.type.charAt(0) === "n") {
+            if (testvalue.type.charAt(0) == "n") {
                 // could be number - make it one
                 value = testvalue.value;
                 type = testvalue.type;
             }
         }
 
-        if (type.charAt(0) === "n" && basevalue.type.charAt(0) === "n") {
+        if (type.charAt(0) == "n" && basevalue.type.charAt(0) == "n") {
             // compare two numbers
             value = value - 0; // make sure numbers
             basevalue.value = basevalue.value - 0;
@@ -7028,7 +6955,7 @@
 
                 case "=":
                 case "none":
-                    cond = value === basevalue.value;
+                    cond = value == basevalue.value;
                     break;
 
                 case ">=":
@@ -7040,21 +6967,21 @@
                     break;
 
                 case "<>":
-                    cond = value !== basevalue.value;
+                    cond = value != basevalue.value;
                     break;
             }
-        } else if (type.charAt(0) === "e") {
+        } else if (type.charAt(0) == "e") {
             // error on left
             cond = false;
-        } else if (basevalue.type.charAt(0) === "e") {
+        } else if (basevalue.type.charAt(0) == "e") {
             // error on right
             cond = false;
         } else {
             // text, maybe mixed with number or blank
-            if (type.charAt(0) === "n") {
+            if (type.charAt(0) == "n") {
                 value = SocialCalc.format_number_for_display(value, "n", "");
             }
-            if (basevalue.type.charAt(0) === "n") {
+            if (basevalue.type.charAt(0) == "n") {
                 return false; // if number and didn't match already, isn't a match
             }
 
@@ -7071,11 +6998,11 @@
                     break;
 
                 case "=":
-                    cond = value === basevalue.value;
+                    cond = value == basevalue.value;
                     break;
 
                 case "none":
-                    cond = value.substring(0, basevalue.value.length) === basevalue.value;
+                    cond = value.substring(0, basevalue.value.length) == basevalue.value;
                     break;
 
                 case ">=":
@@ -7087,13 +7014,14 @@
                     break;
 
                 case "<>":
-                    cond = value !== basevalue.value;
+                    cond = valuse != basevalue.value;
                     break;
             }
         }
 
         return cond;
     };
+
 
     // Make sure SocialCalc is available globally
     if (typeof window !== "undefined") {
@@ -7104,4 +7032,3 @@
 
     return SocialCalc;
 });
-
