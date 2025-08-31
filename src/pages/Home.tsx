@@ -218,7 +218,7 @@ const Home: React.FC = () => {
           
           // Initialize the app first, then load the file content
           const data = DATA["home"]["App"]["msc"];
-          AppGeneral.initializeApp(JSON.stringify(data));
+          await AppGeneral.initializeApp(JSON.stringify(data));
           AppGeneral.viewFile("default", decodedContent);
           
           updateBillType(defaultFile.billType);
@@ -226,7 +226,7 @@ const Home: React.FC = () => {
         } else {
           // If no default file exists, initialize with template data and save it
           const data = DATA["home"]["App"]["msc"];
-          AppGeneral.initializeApp(JSON.stringify(data));
+          await AppGeneral.initializeApp(JSON.stringify(data));
 
           // Save the initial template as the default file
           const initialContent = encodeURIComponent(JSON.stringify(data));
@@ -357,7 +357,18 @@ const Home: React.FC = () => {
   }, [selectedFile, billType, autoSaveTimer]);
 
   useEffect(() => {
-    activateFooter(billType);
+    // Delay activateFooter until workbook is ready
+    const tryActivateFooter = () => {
+      try {
+        activateFooter(billType);
+      } catch (error) {
+        console.warn("Failed to activate footer, retrying...", error);
+        setTimeout(tryActivateFooter, 200);
+      }
+    };
+    
+    // Give some time for workbook initialization
+    setTimeout(tryActivateFooter, 100);
   }, [billType]);
 
   // Effect to handle font color in dark mode

@@ -1,4 +1,6 @@
 // Sheet management and data functions
+import { isWorkbookControlReady } from './init.js';
+
 let SocialCalc;
 
 // Ensure SocialCalc is loaded from the global scope
@@ -13,6 +15,12 @@ if (typeof window !== "undefined" && window.SocialCalc) {
 
 export function activateFooterButton(index) {
   if (index === SocialCalc.oldBtnActive) return;
+  
+  if (!isWorkbookControlReady()) {
+    console.error("WorkBook control not properly initialized. Cannot activate footer button.");
+    return;
+  }
+  
   var control = SocialCalc.GetCurrentWorkBookControl();
 
   var sheets = [];
@@ -20,6 +28,34 @@ export function activateFooterButton(index) {
     //console.log(key);
     sheets.push(key);
   }
+  
+  // Sort sheets to ensure consistent ordering
+  sheets.sort();
+  
+  // Map the index - if index is 0-4 (billType), convert to 1-5 (footer index)
+  // If index is already 1-5 (footer index), use as is
+  let adjustedIndex = index;
+  if (index >= 0 && index <= 4) {
+    adjustedIndex = index + 1; // Convert 0-4 to 1-5
+  }
+  
+  if (!sheets[adjustedIndex - 1]) {
+    console.error(`Sheet at adjusted index ${adjustedIndex} (original: ${index}) not found. Available sheets:`, sheets);
+    console.log(`Attempted to access sheets[${adjustedIndex - 1}] but only ${sheets.length} sheets available`);
+    
+    // Try to map to available sheet - if index is out of bounds, use the last available sheet
+    if (sheets.length > 0) {
+      const fallbackIndex = Math.min(adjustedIndex - 1, sheets.length - 1);
+      console.log(`Using fallback sheet at index ${fallbackIndex}: ${sheets[fallbackIndex]}`);
+      var targetSheet = sheets[fallbackIndex];
+    } else {
+      console.error("No sheets available");
+      return;
+    }
+  } else {
+    var targetSheet = sheets[adjustedIndex - 1];
+  }
+  
   var spreadsheet = control.workbook.spreadsheet;
   var ele = document.getElementById(spreadsheet.formulabarDiv.id);
   if (ele) {
@@ -28,33 +64,39 @@ export function activateFooterButton(index) {
     input.style.display = "none";
     spreadsheet.editor.state = "start";
   }
-  SocialCalc.WorkBookControlActivateSheet(sheets[index - 1]);
+  SocialCalc.WorkBookControlActivateSheet(targetSheet);
 
   SocialCalc.oldBtnActive = index;
 }
 
 export function viewFile(filename, data) {
+  if (!isWorkbookControlReady()) {
+    console.error("WorkBook control not properly initialized. Cannot view file.");
+    return;
+  }
+
+  const control = SocialCalc.GetCurrentWorkBookControl();
+  
   SocialCalc.WorkBookControlInsertWorkbook(data);
 
-  SocialCalc.GetCurrentWorkBookControl().workbook.spreadsheet.editor.state =
-    "start";
+  control.workbook.spreadsheet.editor.state = "start";
 
-  SocialCalc.GetCurrentWorkBookControl().workbook.spreadsheet.ExecuteCommand(
-    "redisplay",
-    ""
-  );
+  control.workbook.spreadsheet.ExecuteCommand("redisplay", "");
 
   window.setTimeout(function () {
-    SocialCalc.ScrollRelativeBoth(
-      SocialCalc.GetCurrentWorkBookControl().workbook.spreadsheet.editor,
-      1,
-      0
-    );
-    SocialCalc.ScrollRelativeBoth(
-      SocialCalc.GetCurrentWorkBookControl().workbook.spreadsheet.editor,
-      -1,
-      0
-    );
+    if (isWorkbookControlReady()) {
+      const currentControl = SocialCalc.GetCurrentWorkBookControl();
+      SocialCalc.ScrollRelativeBoth(
+        currentControl.workbook.spreadsheet.editor,
+        1,
+        0
+      );
+      SocialCalc.ScrollRelativeBoth(
+        currentControl.workbook.spreadsheet.editor,
+        -1,
+        0
+      );
+    }
   }, 1000);
 }
 
